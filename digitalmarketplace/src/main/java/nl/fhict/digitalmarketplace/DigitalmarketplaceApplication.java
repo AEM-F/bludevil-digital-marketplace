@@ -70,7 +70,7 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
         }
 
         LOG.info("Saving default genres");
-        genreRepository.saveAll(genres)
+        genreRepository.saveAll(genres);
 
         //test-to-remove
 //         LocalDate testLocalDate = LocalDate.now();
