@@ -1,0 +1,14 @@
+before_script:
+    - echo "Start CI"
+build:
+    stage: build
+    script:
+        - cd digitalmarketplace
+        - ./gradlew assemble  
+test:
+    stage: test
+    script:
+        - cd digitalmarketplace
+        - ./gradlew test
+after_script:
+  - echo "End CI"
