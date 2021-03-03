@@ -14,7 +14,8 @@ import javax.validation.constraints.PositiveOrZero;
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type", visible = true)
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type",visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = VideoGame.class, name = "videogame"),
         @JsonSubTypes.Type(value = SoftwareProduct.class, name = "softwareproduct")
@@ -42,6 +43,8 @@ public abstract class Product {
     @NotBlank
     private String systemRequirements;
     private Boolean isActive=true;
+    @Transient
+    @JsonProperty("type")
     private String type;
 
     public Product(){}

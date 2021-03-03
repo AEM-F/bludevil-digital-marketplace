@@ -20,6 +20,11 @@ public class SoftwareProduct extends Product{
     }
 
     @Override
+    public String getType() {
+        return "softwareproduct";
+    }
+
+    @Override
     public String toString() {
         return "SoftwareProduct{"+super.toString() + "}";
     }

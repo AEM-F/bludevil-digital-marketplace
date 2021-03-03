@@ -1,5 +1,7 @@
 package nl.fhict.digitalmarketplace.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +13,7 @@ import java.util.List;
 public class VideoGame extends Product{
     private String releaseDate;
     @Valid
-    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.REMOVE)
+    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.DETACH, fetch= FetchType.EAGER)
     @JoinTable(name = "PRODUCT_GENRE", joinColumns = {@JoinColumn(name = "product_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
     private List<Genre> genres;
 
@@ -44,6 +46,11 @@ public class VideoGame extends Product{
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    @Override
+    public String getType() {
+        return "videogame";
     }
 
     @Override

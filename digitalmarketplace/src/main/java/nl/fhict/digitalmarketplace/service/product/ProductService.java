@@ -69,19 +69,22 @@ public class ProductService implements IProductService{
         if(id>0){
             Product foundProduct = productRepository.getById(id);
             if(foundProduct != null){
-                LOG.info("Validating product platform: "+productToUpdate.getProductPlatform().toString());
-                ProductPlatform productPlatform = productPlatformRepository.getById(productToUpdate.getProductPlatform().getId());
-                if(productPlatform != null){
-                    if(productPlatform.getName().equals(productToUpdate.getProductPlatform().getName())){
-                        LOG.info("Updating the found product: "+foundProduct.toString());
-                        productToUpdate.setId(foundProduct.getId());
-                        productRepository.save(productToUpdate);
-                        LOG.info("Finished updating the product");
-                        return foundProduct;
+                if(foundProduct.getType().equals(productToUpdate.getType())){
+                    ProductPlatform productPlatform = productPlatformRepository.getById(productToUpdate.getProductPlatform().getId());
+                    if(productPlatform != null){
+                        LOG.info("Validating product platform: "+productToUpdate.getProductPlatform().toString());
+                        if(productPlatform.getName().equals(productToUpdate.getProductPlatform().getName())){
+                            LOG.info("Updating the found product: "+foundProduct.toString());
+                            productToUpdate.setId(foundProduct.getId());
+                            Product updatedProduct = productRepository.save(productToUpdate);
+                            LOG.info("Finished updating the product");
+                            return updatedProduct;
+                        }
+                        throw new InvalidInputException("The given platform name does not match with the platform id");
                     }
-                    throw new InvalidInputException("The given platform name does not match with the platform id");
+                    throw new ResourceNotFoundException("No platform was found the given id");
                 }
-                throw new ResourceNotFoundException("No platform was found the given id");
+                throw new InvalidInputException("The product type cannot be different");
             }
             throw new ResourceNotFoundException("No product was found with the given id");
         }

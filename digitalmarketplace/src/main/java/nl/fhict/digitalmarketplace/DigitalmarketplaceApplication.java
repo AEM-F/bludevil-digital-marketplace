@@ -78,8 +78,10 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
 //         String testDate = formatter.format(testLocalDate);
 //        ProductPlatform testPlatform1 = new ProductPlatform(1, "origin");
 //        Genre testGenre = new Genre(1, "action");
+//        Genre testGenre2 = new Genre(2, "shooter");
 //        List<Genre> genress = new ArrayList<>();
 //        genress.add(testGenre);
+//        genress.add(testGenre2);
 //        Product product1 = new VideoGame("Antem", testPlatform1, 0, 39.99, "Cool game", "smh/inapp", "On Windows", true, testDate, genress );
 //        productRepository.save(product1);
 //
