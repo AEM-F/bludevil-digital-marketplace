@@ -1,5 +1,6 @@
 package nl.fhict.digitalmarketplace.model.product;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -13,7 +14,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type")
+        property = "type", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = VideoGame.class, name = "videogame"),
         @JsonSubTypes.Type(value = SoftwareProduct.class, name = "softwareproduct")
@@ -41,6 +42,7 @@ public abstract class Product {
     @NotBlank
     private String systemRequirements;
     private Boolean isActive=true;
+    private String type;
 
     public Product(){}
 
@@ -137,6 +139,16 @@ public abstract class Product {
 
     public void setSystemRequirements(String systemRequirements) {
         this.systemRequirements = systemRequirements;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    @Transient
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
