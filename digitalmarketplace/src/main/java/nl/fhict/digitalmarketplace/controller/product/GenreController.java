@@ -3,10 +3,11 @@ package nl.fhict.digitalmarketplace.controller.product;
 import nl.fhict.digitalmarketplace.customException.ExistingResourceException;
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
+import nl.fhict.digitalmarketplace.model.product.Genre;
 import nl.fhict.digitalmarketplace.model.product.ProductPlatform;
 import nl.fhict.digitalmarketplace.model.response.MessageDTO;
 import nl.fhict.digitalmarketplace.model.response.PaginationResponse;
-import nl.fhict.digitalmarketplace.service.product.IProductPlatformService;
+import nl.fhict.digitalmarketplace.service.product.IGenreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,45 +21,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/productPlatforms/")
-public class ProductPlatformController {
+@RequestMapping(path = "api/genres")
+public class GenreController {
 
-    private Logger LOG = LoggerFactory.getLogger(ProductPlatformController.class);
-    private IProductPlatformService platformService;
+    private Logger LOG = LoggerFactory.getLogger(GenreController.class);
+    private IGenreService genreService;
 
     @Autowired
-    public ProductPlatformController(IProductPlatformService platformService) {
-        this.platformService = platformService;
-    }
-
-    @RequestMapping(path = "{id}",method = RequestMethod.GET)
-    public ResponseEntity getPlatformById(@PathVariable(name = "id") Integer id){
-        ProductPlatform returnedPlatform = null;
-        try {
-            returnedPlatform = platformService.getPlatformById(id);
-        }
-        catch (InvalidInputException e){
-            LOG.error(e.getMessage());
-            MessageDTO msg = new MessageDTO();
-            msg.setMessage(e.getMessage());
-            msg.setType("ERROR");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
-        }
-        catch (ResourceNotFoundException e){
-            LOG.error(e.getMessage());
-            MessageDTO msg = new MessageDTO();
-            msg.setMessage(e.getMessage());
-            msg.setType("ERROR");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
-        }
-        return ResponseEntity.ok(returnedPlatform);
+    public GenreController(IGenreService genreService) {
+        this.genreService = genreService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity getAllPlatforms(){
-        List<ProductPlatform> returnedPlatforms = new ArrayList<>();
+    public ResponseEntity getAllGenres(){
         try {
-            returnedPlatforms = platformService.getAllPlatforms();
+            List<Genre> genres = new ArrayList<>();
+            genres = genreService.getAllGenres();
+            return ResponseEntity.ok(genres);
         }
         catch (ResourceNotFoundException e){
             LOG.error(e.getMessage());
@@ -67,18 +46,15 @@ public class ProductPlatformController {
             msg.setType("ERROR");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         }
-
-        return ResponseEntity.ok(returnedPlatforms);
     }
-
-    @RequestMapping(path = "pageable/{page}/{size}", method = RequestMethod.GET)
-    public ResponseEntity getPlatforms(@PathVariable(name = "page") int page,@PathVariable(name = "size") int size){
+    @RequestMapping(path = {"/pageable"})
+    public ResponseEntity getGenres(@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "5") int size){
         try {
-            Page<ProductPlatform> platforms = platformService.getPlatforms(page, size);
-            PaginationResponse<ProductPlatform> paginationResponse = new PaginationResponse<ProductPlatform>(platforms.getContent(), platforms.getTotalPages(), platforms.getNumber()+1,platforms.getSize());
+            Page<Genre> genres = genreService.getGenres(page, size);
+            PaginationResponse<Genre> paginationResponse = new PaginationResponse<Genre>(genres.getContent(), genres.getTotalPages(), genres.getNumber()+1,genres.getSize());
             return ResponseEntity.ok(paginationResponse);
         }
-        catch (InvalidInputException | NumberFormatException e){
+        catch (InvalidInputException e){
             LOG.error(e.getMessage());
             MessageDTO msg = new MessageDTO();
             msg.setMessage(e.getMessage());
@@ -94,26 +70,34 @@ public class ProductPlatformController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createPlatform(@RequestBody ProductPlatform platform){
+    @RequestMapping(path = {"/{id}"}, method = RequestMethod.GET)
+    public ResponseEntity getGenreById(@PathVariable(name = "id") Integer id){
+        Genre returnedGenre = null;
         try {
-            ProductPlatform createdPlatform = platformService.createProductPlatform(platform);
-            return ResponseEntity.ok(createdPlatform);
+            returnedGenre = genreService.getById(id);
         }
-        catch (ExistingResourceException e){
+        catch (InvalidInputException e){
             LOG.error(e.getMessage());
             MessageDTO msg = new MessageDTO();
             msg.setMessage(e.getMessage());
             msg.setType("ERROR");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
         }
+        catch (ResourceNotFoundException e){
+            LOG.error(e.getMessage());
+            MessageDTO msg = new MessageDTO();
+            msg.setMessage(e.getMessage());
+            msg.setType("ERROR");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+        }
+        return ResponseEntity.ok(returnedGenre);
     }
 
-    @RequestMapping(path = "{id}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updatePlatform(@RequestBody ProductPlatform platform,@PathVariable Integer id){
+    @RequestMapping(path = "/{id}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateGenre(@RequestBody Genre genre,@PathVariable(name = "id") Integer id){
         try {
-            ProductPlatform updatedPlatform = platformService.updatePlatform(platform, id);
-            return ResponseEntity.ok(updatedPlatform);
+            Genre updatedGenre = genreService.updateGenre(genre, id);
+            return ResponseEntity.ok(updatedGenre);
         }
         catch (ExistingResourceException e){
             LOG.error(e.getMessage());
@@ -138,4 +122,18 @@ public class ProductPlatformController {
         }
     }
 
+    @RequestMapping(path = {"/{id}"}, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createGenre(@RequestBody Genre genre){
+        try {
+            Genre createGenre = genreService.createGenre(genre);
+            return ResponseEntity.ok(createGenre);
+        }
+        catch (ExistingResourceException e){
+            LOG.error(e.getMessage());
+            MessageDTO msg = new MessageDTO();
+            msg.setMessage(e.getMessage());
+            msg.setType("ERROR");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+        }
+    }
 }
