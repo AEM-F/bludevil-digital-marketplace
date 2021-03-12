@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Entity
+@Table(name = "Genres")
 public class Genre {
 
     @Id
@@ -13,6 +14,7 @@ public class Genre {
     @Column(name = "genre_id")
     private Integer id;
     @NotBlank
+    @Column(name = "genre_name")
     private String genreName;
 
     public Genre(@Positive Integer id,@NotBlank String genreName) {

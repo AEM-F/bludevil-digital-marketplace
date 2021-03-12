@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Entity
+@Table(name = "ProductPlatforms")
 public class ProductPlatform {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +13,7 @@ public class ProductPlatform {
     @Positive
     private Integer id;
     @NotBlank
+    @Column(name = "platform_name")
     private String name;
 
     public ProductPlatform(Integer id, String name) {

@@ -3,9 +3,11 @@ package nl.fhict.digitalmarketplace.controller.product;
 import nl.fhict.digitalmarketplace.customException.ExistingResourceException;
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
+import nl.fhict.digitalmarketplace.model.enums.RetrievalMode;
 import nl.fhict.digitalmarketplace.model.product.ProductPlatform;
 import nl.fhict.digitalmarketplace.model.response.MessageDTO;
 import nl.fhict.digitalmarketplace.model.response.PaginationResponse;
+import nl.fhict.digitalmarketplace.service.enums.StringToRetrievalEnumConverter;
 import nl.fhict.digitalmarketplace.service.product.IProductPlatformService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +18,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/productPlatforms/")
+@RequestMapping(path = "api/productPlatforms")
 public class ProductPlatformController {
 
     private Logger LOG = LoggerFactory.getLogger(ProductPlatformController.class);
@@ -31,7 +32,7 @@ public class ProductPlatformController {
         this.platformService = platformService;
     }
 
-    @RequestMapping(path = "{id}",method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}",method = RequestMethod.GET)
     public ResponseEntity getPlatformById(@PathVariable(name = "id") Integer id){
         ProductPlatform returnedPlatform = null;
         try {
@@ -55,30 +56,27 @@ public class ProductPlatformController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity getAllPlatforms(){
-        List<ProductPlatform> returnedPlatforms = new ArrayList<>();
+    public ResponseEntity getPlatforms(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(name = "retrieval", defaultValue = "PAGE") String mode){
         try {
-            returnedPlatforms = platformService.getAllPlatforms();
+            StringToRetrievalEnumConverter enumConverter = new StringToRetrievalEnumConverter();
+            RetrievalMode retrievalMode = enumConverter.convert(mode);
+            if(retrievalMode != null){
+                switch (retrievalMode){
+                    case ALL:{
+                        List<ProductPlatform> returnedPlatforms;
+                        returnedPlatforms = platformService.getAllPlatforms();
+                        return ResponseEntity.ok(returnedPlatforms);
+                    }
+                    case PAGE:{
+                        Page<ProductPlatform> platforms = platformService.getPlatforms(page, size);
+                        PaginationResponse<ProductPlatform> paginationResponse = new PaginationResponse<ProductPlatform>(platforms.getContent(), platforms.getTotalPages(), platforms.getNumber()+1,platforms.getSize());
+                        return ResponseEntity.ok(paginationResponse);
+                    }
+                }
+            }
+            throw new InvalidInputException("Conversion failed, the given retrieval mode is invalid");
         }
-        catch (ResourceNotFoundException e){
-            LOG.error(e.getMessage());
-            MessageDTO msg = new MessageDTO();
-            msg.setMessage(e.getMessage());
-            msg.setType("ERROR");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
-        }
-
-        return ResponseEntity.ok(returnedPlatforms);
-    }
-
-    @RequestMapping(path = "pageable/{page}/{size}", method = RequestMethod.GET)
-    public ResponseEntity getPlatforms(@PathVariable(name = "page") int page,@PathVariable(name = "size") int size){
-        try {
-            Page<ProductPlatform> platforms = platformService.getPlatforms(page, size);
-            PaginationResponse<ProductPlatform> paginationResponse = new PaginationResponse<ProductPlatform>(platforms.getContent(), platforms.getTotalPages(), platforms.getNumber()+1,platforms.getSize());
-            return ResponseEntity.ok(paginationResponse);
-        }
-        catch (InvalidInputException | NumberFormatException e){
+        catch (InvalidInputException e){
             LOG.error(e.getMessage());
             MessageDTO msg = new MessageDTO();
             msg.setMessage(e.getMessage());
@@ -109,7 +107,7 @@ public class ProductPlatformController {
         }
     }
 
-    @RequestMapping(path = "{id}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/{id}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updatePlatform(@RequestBody ProductPlatform platform,@PathVariable Integer id){
         try {
             ProductPlatform updatedPlatform = platformService.updatePlatform(platform, id);

@@ -33,14 +33,26 @@ public class ProductControllerTest extends AbstractTest{
     public void setUp(){
         super.setUp();
         ProductPlatform testPlatform1 = new ProductPlatform(1, "origin");
+
         Genre testGenre = new Genre(1, "action");
         List<Genre> genres = new ArrayList<>();
         genres.add(testGenre);
+
         LocalDate testLocalDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String testDate = formatter.format(testLocalDate);
-        Product product1 = new VideoGame("Antem", testPlatform1, 0, 39.99, "Cool game", "smh/inapp", "On Windows", true, testDate, genres );
-        //Product firstProduct = new Product("Anthem", testPlatform1, 0, 39.99, "Cool game", "somewhere/inMyApp", true);
+
+        VideoGame product1 = new VideoGame();
+        product1.setName("Antem");
+        product1.setProductPlatform(testPlatform1);
+        product1.setQuantity(0);
+        product1.setPrice(39.99);
+        product1.setDescription("Cool game");
+        product1.setSystemRequirements("On windows");
+        product1.setActive(true);
+        product1.setReleaseDate(testDate);
+        product1.setGenres(genres);
+
         productRepository.save(product1);
         testProduct = product1;
     }
@@ -66,11 +78,16 @@ public class ProductControllerTest extends AbstractTest{
     @Test
     public void addProductTest() throws Exception{
         //arrange
-        String uri = "http://localhost:8080/api/products/";
+        String uri = "http://localhost:8080/api/products";
         ProductPlatform productPlatform = new ProductPlatform(2, "steam");
-        Product productToMatch = new VideoGame(2,"Valheim",productPlatform,0,16.00,"new game", "i/am/somewhere","On Pc", true, ((VideoGame)testProduct).getReleaseDate(), ((VideoGame)testProduct).getGenres());
+        Product productToMatch = testProduct;
+        productToMatch.setProductPlatform(productPlatform);
+        productToMatch.setId(2);
+        productToMatch.setName("Valheim");
         String toMatchJson = super.mapToJson(productToMatch);
-        Product productToInsert = new VideoGame("Valheim",productPlatform,0,16.00,"new game", "i/am/somewhere","On Pc", true, ((VideoGame)testProduct).getReleaseDate(), ((VideoGame)testProduct).getGenres() );
+
+        Product productToInsert = productToMatch;
+        productToInsert.setId(null);
         String inputJson = super.mapToJson(productToInsert);
         //act
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
@@ -101,7 +118,9 @@ public class ProductControllerTest extends AbstractTest{
     public void updateProductTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/products/1";
-        Product productToUpdate = new VideoGame("The Forest",testProduct.getProductPlatform(),0,16.00,"new game", "i/am/somewhere","On Pc", true, ((VideoGame)testProduct).getReleaseDate(), ((VideoGame)testProduct).getGenres() );
+        Product productToUpdate = testProduct;
+        productToUpdate.setName("The forest");
+        productToUpdate.setPrice(16.00);
         //act
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(super.mapToJson(productToUpdate))).andReturn();
         //assert
