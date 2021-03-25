@@ -16,10 +16,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findAllByProductPlatform_NameAndPrice(String platformName, double price, Pageable pageable);
     Page<Product> findAllByNameIsContainingIgnoreCase(String productName, Pageable pageable);
     Product getById(Integer id);
-//    @Modifying
-//    @Query("update Product p set p.isActive = 'false' where p.id = :productId")
-//    void deleteById(@Param("productId") Integer id);
-    void deleteById(Integer id);
+    @Modifying
+    @Query("update Product p set p.isActive = 'false' where p.id = :productId")
+    void deleteById(@Param("productId") Integer id);
+//    void deleteById(Integer id);
     Product save(Product product);
     long count();
     long countAllByProductPlatform_Name(String platformName);

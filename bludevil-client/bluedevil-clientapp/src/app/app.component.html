@@ -1,0 +1,68 @@
+<!-- Wrapper -->
+<div class="wrapper">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" [class.active]="isSideNavOpen">
+
+    <!-- close sidebar menu -->
+    <div class="dismiss" (click)="onSideNavClose()">
+      <i class="fa fa-arrow-left"></i>
+    </div>
+
+    <div class="logo">
+      <img src="../assets/images/bludevil_logo.png" alt="BluDevilLogo">
+    </div>
+
+    <ul class="list-unstyled menu-elements">
+      <li>
+        <a class="nav-link nav-item" href="#"
+           routerLinkActive="active nav-item-active"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLink=""><i class="fa fa-home"></i> Home</a>
+      </li>
+      <li>
+        <a class="nav-link nav-item" href="#"
+           routerLinkActive="active nav-item-active"
+           [routerLink]="['products']"><i class="fa fa-tags"></i> Catalog</a>
+      </li>
+      <li>
+        <a class="nav-link nav-item" href="#"><i class="fa fa-file"></i> Orders</a>
+      </li>
+      <li>
+        <a class="nav-link nav-item" href="#"><i class="fa fa-cog"></i> Account Settings</a>
+      </li>
+      <li>
+        <a href="#productSection" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
+          <i class="fa fa-tasks"></i>Manage Products
+        </a>
+        <ul class="collapse list-unstyled nav-list-holder" id="productSection">
+          <li>
+            <a class="nav-link nav-item" href="#"><i class="fa fa-list"></i> View all</a>
+          </li>
+          <li>
+            <a class="nav-link nav-item" href="#"><i class="fa fa-plus"></i> Create</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <!-- End sidebar -->
+
+  <!-- Dark overlay -->
+  <div class="overlay" (click)="onSideNavClose()" [class.active]="isSideNavOpen"></div>
+
+  <div class="navbar-top">
+    <!--    <div class="logo-tiny">-->
+    <!--      <img src="../assets/images/bludevil_logo.png" alt="BluDevilLogo">-->
+    <!--    </div>-->
+    <button type="button" class="btn-nav-custom" (click)="onSideNavOpen()">
+      <i class="fa fa-align-left"></i>Menu
+    </button>
+  </div>
+  <!-- Content -->
+  <div class="component-holder">
+    <router-outlet></router-outlet>
+  </div>
+  <!-- End content -->
+  <app-scroll-to-top></app-scroll-to-top>
+</div>

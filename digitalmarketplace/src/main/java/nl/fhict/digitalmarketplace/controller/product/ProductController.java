@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(path = "/api/products")
 public class ProductController {
@@ -84,7 +84,7 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getProducts(@RequestParam(name = "page", defaultValue = "1") int page,
-                                      @RequestParam(name = "size", defaultValue = "5") int size,
+                                      @RequestParam(name = "size", defaultValue = "10") int size,
                                       @RequestParam(name = "price", required = false) String price){
         try {
             if(price != null){
@@ -119,7 +119,7 @@ public class ProductController {
     @RequestMapping(path = {"/platform/{name}"}, method = RequestMethod.GET)
     public ResponseEntity getProductsByPlatform(@PathVariable(name = "name") String platformName,
                                                 @RequestParam(name = "page", defaultValue = "1") int page,
-                                                @RequestParam(name = "size", defaultValue = "5") int size,
+                                                @RequestParam(name = "size", defaultValue = "10") int size,
                                                 @RequestParam(name = "price", required = false) String price){
         try {
             platformService.getPlatformByName(platformName);
@@ -153,7 +153,7 @@ public class ProductController {
 
     @RequestMapping(path = {"/search/{name}"}, method = RequestMethod.GET)
     public ResponseEntity getProductByName(@PathVariable(name = "name") String productName,@RequestParam(name = "page", defaultValue = "1") int page,
-                                           @RequestParam(name = "size", defaultValue = "5") int size){
+                                           @RequestParam(name = "size", defaultValue = "10") int size){
         try {
             LOG.info("Attempting to get products by name: "+productName);
             Page<Product> products = productService.getProductsByName(page, size,productName);

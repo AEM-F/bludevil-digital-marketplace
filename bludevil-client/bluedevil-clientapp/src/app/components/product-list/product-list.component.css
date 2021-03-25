@@ -1,0 +1,222 @@
+.card-holder{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+}
+
+.property-card {
+  margin-top: 10px;
+  min-height:18em;
+  width:14em;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.property-card:hover{
+  box-shadow:  15px 15px 27px #1a1a1a, -15px -15px 27px #0037a5;
+}
+
+
+/* Top Half of card, image. */
+
+.property-image {
+  height:8em;
+  width:14em;
+  padding:1em 2em;
+  position:Absolute;
+  top:0;
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+
+/* Bottom Card Section */
+
+.property-description {
+  border-top: 1px solid rgba(0,0,0,.225);
+  background: rgb(52, 58, 64);
+  background: linear-gradient(180deg, rgba(34,38,42,1) 28%, rgb(52, 58, 64) 100%);
+  height:10em;
+  width:14em;
+  position:absolute;
+  bottom:0em;
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  padding: 0.5em 1em;
+  text-align:center;
+}
+
+.property-info-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.property-price{
+  padding: 2px;
+  width: 80px;
+  border-radius: 5px;
+  border: 1px solid #0037a5;
+  color: #0066ff;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.property-platform{
+  color: #e7e7e7;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.10);
+  background-color:rgba(0,0,0,.03);
+  padding: 5px;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+}
+
+/* Icons */
+
+.property-name {
+  width:90%;
+  min-height:25px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.10);
+  background-color:rgba(0,0,0,.03);
+  position:absolute;
+  bottom:1em;
+  left:1em;
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  text-align: center;
+  font-family: 'Audiowide', cursive;
+  margin: 0;
+  color: #e7e7e7;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  font-size: 0.8rem;
+  word-wrap: break-word;
+}
+
+
+/* Property Cards Hover States */
+
+.property-card:hover .property-description
+{
+  height:0em;
+  padding:0px 1em;
+}
+.property-card:hover .property-image
+{
+  height:18em;
+}
+
+.property-card:hover .property-name
+{
+  background-color: #212529;
+  border: 1px solid #0037a5;
+}
+
+/* Optional may use*/
+
+/*.property-image-title*/
+/*{*/
+/*text-align:center;*/
+/*position:Relative;*/
+/*top:30%;*/
+/*opacity:0;*/
+/*transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;*/
+/*color:black;*/
+/*font-size:1.2em;*/
+/*}*/
+
+/*.property-card:hover .property-image-title*/
+/*{*/
+/*opacity:1;*/
+/*}*/
+
+/**Filters**/
+
+.filter-outer-container{
+  margin-top: 15px;
+  min-width: 300px;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #212529;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-inner-container{
+  width: 100%;
+}
+
+.filter-inner-container.show{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-outer-container .btn-filter{
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #212529;
+  color: #e7e7e7;
+  width: 100%;
+}
+
+.filter-outer-container .btn-filter:hover{
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  box-shadow: 0 1px 6px 0 #02266b;
+}
+
+/**End of filters**/
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  .card-holder{
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .property-card{
+    margin-left: 10px;
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+}
+
+/* Large Devices, Wide Screens(optional ftm) */
+@media only screen and (min-width : 1200px) {
+  .component-holder{
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "searchArea ."
+                          "filterArea productsArea";
+  }
+
+  .filter-outer-container{
+    grid-area: filterArea;
+    margin-top: 0;
+    justify-content: flex-start;
+    min-width: 100%;
+    min-height: 300px;
+    position: sticky;
+    top:50px;
+  }
+  .card-holder{
+    grid-area: productsArea;
+  }
+}

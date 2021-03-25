@@ -1,0 +1,50 @@
+/**Platform Filter**/
+.btn-filter{
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #212529;
+  color: #e7e7e7;
+  width: 100%;
+}
+
+.btn-filter:hover{
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  box-shadow: 0 1px 6px 0 #02266b;
+}
+
+.platform-collapse.show{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  color: #e7e7e7;
+  border: 1px solid rgba(253, 253, 253, 0.05);
+}
+
+.platform-collapse.show a{
+  text-decoration: none;
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid rgba(253, 253, 253, 0.03);
+  border-radius: 5px;
+  background-color: rgba(253, 253, 253, 0.03);
+  color: #e7e7e7;
+  transition: 0.3s;
+}
+
+.platform-collapse.show a:hover,
+.platform-collapse.show a.active{
+  background-color: #212529;
+  color: #0066ff;
+}
+/**End of platform filter**/
+
+@media only screen and (min-width : 1200px){
+  .btn-filter-main{
+    width: 250px;
+  }
+}

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(path = "api/genres")
 public class GenreController {
@@ -33,7 +34,9 @@ public class GenreController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity getGenres(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(name = "retrieval", defaultValue = "PAGE") String mode){
+    public ResponseEntity getGenres(@RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "5") int size,
+                                    @RequestParam(name = "retrieval", defaultValue = "PAGE") String mode){
         try {
             StringToRetrievalEnumConverter enumConverter = new StringToRetrievalEnumConverter();
             RetrievalMode retrievalMode = enumConverter.convert(mode);

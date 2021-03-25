@@ -1,0 +1,27 @@
+<button class="btn-filter btn-filter-main"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsePlatforms"
+        aria-expanded="false"
+        aria-controls="collapsePlatforms"><i class="fa fa-arrow-down"></i> Platforms</button>
+<div class="collapse platform-collapse" id="collapsePlatforms">
+  <div *ngIf="isLoadingPlatforms && !error" class="loader-wrapper animate-opacity">
+    <div class="loader">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    Loading...
+  </div>
+  <a [routerLink]="['/products']"
+     [queryParams]="{platform: productPlatform.name}"
+     routerLinkActive="active"
+     *ngFor="let productPlatform of platforms">{{productPlatform.name | firstToUpper}}</a>
+  <a [routerLink]="['/products']"> All</a>
+</div>
+<div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
+  <h4>An error occurred:</h4>
+  <p>{{error}}</p>
+  <button class="btn btn-danger" (click)="onHandleError()">Okay</button>
+</div>
+

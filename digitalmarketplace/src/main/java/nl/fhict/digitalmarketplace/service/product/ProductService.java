@@ -32,7 +32,6 @@ public class ProductService implements IProductService{
         this.productRepository = productRepository;
         this.productPlatformRepository = productPlatformRepository;
     }
-
     @Override
     public Product getProductById(Integer id) throws InvalidInputException, ResourceNotFoundException {
         LOG.info("Validating the given id: "+id);
@@ -48,6 +47,12 @@ public class ProductService implements IProductService{
         throw new InvalidInputException("The given id is not valid");
     }
 
+    /**
+     * Saves the given product to the DB. ☻
+     * @param product the product which should be added to the DB.
+     * @throws InvalidInputException if the operation fails to validate the input.
+     * @throws ResourceNotFoundException if the resource does not exist.
+     */
     @Override
     public Product createProduct(@Valid Product product) throws InvalidInputException, ResourceNotFoundException {
         LOG.info("Validating product platform: "+product.getProductPlatform().toString());

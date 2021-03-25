@@ -20,7 +20,6 @@ import javax.validation.constraints.PositiveOrZero;
         @JsonSubTypes.Type(value = VideoGame.class, name = "videogame"),
         @JsonSubTypes.Type(value = SoftwareProduct.class, name = "softwareproduct")
 })
-@Table(name = "Products")
 public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

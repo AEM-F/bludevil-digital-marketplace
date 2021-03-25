@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
 @Entity
-@Table(name = "CdKeys")
 public class CdKey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
