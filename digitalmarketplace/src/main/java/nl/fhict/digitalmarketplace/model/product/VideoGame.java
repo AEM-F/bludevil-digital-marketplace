@@ -1,42 +1,28 @@
 package nl.fhict.digitalmarketplace.model.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Entity
 public class VideoGame extends Product{
+    @Column(name = "product_releaseDate")
     private String releaseDate;
-    @Valid
     @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.DETACH, fetch= FetchType.EAGER)
-    @JoinTable(name = "PRODUCT_GENRE", joinColumns = {@JoinColumn(name = "product_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
+    @JoinTable(name = "Product_Genres", joinColumns = {@JoinColumn(name = "product_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
     private List<Genre> genres;
 
     public VideoGame() {
-    }
-
-    public VideoGame(@NotBlank String name, @Valid ProductPlatform productPlatform, @PositiveOrZero Integer quantity, @PositiveOrZero double price, @NotBlank String description, @NotBlank String imageUrl, @NotBlank String systemRequirements, Boolean isActive, String releaseDate, @Valid List<Genre> genres) {
-        super(name, productPlatform, quantity, price, description, imageUrl, systemRequirements, isActive);
-        this.releaseDate = releaseDate;
-        this.genres = genres;
-    }
-
-    public VideoGame(@Positive Integer id, @NotBlank String name, @Valid ProductPlatform productPlatform, @PositiveOrZero Integer quantity, @PositiveOrZero double price, @NotBlank String description, @NotBlank String imageUrl, @NotBlank String systemRequirements, Boolean isActive, String releaseDate, @Valid List<Genre> genres) {
-        super(id, name, productPlatform, quantity, price, description, imageUrl, systemRequirements, isActive);
-        this.releaseDate = releaseDate;
-        this.genres = genres;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(@NotBlank String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -44,7 +30,7 @@ public class VideoGame extends Product{
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(@Valid List<Genre> genres) {
         this.genres = genres;
     }
 

@@ -1,9 +1,9 @@
 package nl.fhict.digitalmarketplace.service.product;
 
+import nl.fhict.digitalmarketplace.DigitalmarketplaceApplication;
 import nl.fhict.digitalmarketplace.customException.ExistingResourceException;
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
-import nl.fhict.digitalmarketplace.model.product.Product;
 import nl.fhict.digitalmarketplace.model.product.ProductPlatform;
 import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import org.slf4j.Logger;
@@ -111,5 +111,17 @@ public class ProductPlatformService implements IProductPlatformService {
             return platforms;
         }
         throw new ResourceNotFoundException("The are no platforms");
+    }
+
+    @Override
+    public ProductPlatform getPlatformByName(String name) throws InvalidInputException, ResourceNotFoundException {
+        if (!DigitalmarketplaceApplication.isNullOrEmpty(name)){
+            ProductPlatform foundPlatform = productPlatformRepository.getProductPlatformByName(name);
+            if (foundPlatform != null){
+                return foundPlatform;
+            }
+            throw new ResourceNotFoundException("No platform were found with the given name");
+        }
+        throw new InvalidInputException("Platform name cannot be empty");
     }
 }

@@ -17,4 +17,5 @@ public interface IProductPlatformService {
     ProductPlatform updatePlatform(@Valid ProductPlatform productPlatform, Integer id) throws InvalidInputException, ResourceNotFoundException, ExistingResourceException;
     Page<ProductPlatform> getPlatforms(int page, int size) throws InvalidInputException, ResourceNotFoundException;
     List<ProductPlatform> getAllPlatforms() throws ResourceNotFoundException;
+    ProductPlatform getPlatformByName(String name) throws InvalidInputException, ResourceNotFoundException;
 }

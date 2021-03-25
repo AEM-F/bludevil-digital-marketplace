@@ -1,0 +1,209 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jura&display=swap');
+/**Scrollbar style**/
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #02368f #212529;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #212529;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #02368f;
+  border-radius: 20px;
+  border: 3px solid #212529;
+}
+
+/**End of scrollbar style**/
+
+html{
+  height: 100%;
+  background-color: #212529;
+}
+body{
+  margin: 0;
+  height: 100%;
+  background: url("assets/images/waves2.png") no-repeat center center fixed,linear-gradient(
+    180deg,
+    rgba(1,41,77,1) 0%,
+    rgba(0,46,85,1) 12%,
+    rgba(0,42,77,1) 22%,
+    rgb(2, 44, 96) 35%,
+    rgb(3, 43, 91) 48%,
+    rgba(0,0,0,0) 100%
+  );
+  background-size: cover;
+}
+
+.component-holder{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+/**Start of loader**/
+
+.loader-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-shadow:  5px 5px 10px #1a1a1a, -5px -5px 10px #0037a5;
+  border-radius: 5px;
+  padding: .25rem 1.25rem;
+  font-family: 'Jura', sans-serif;
+  background-color: #212529;
+  border: 1px solid #0037a5;
+  color: #e7e7e7;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.loader {
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  display: flex;
+  padding: 5px;
+  box-shadow: 0px 40px 60px -20px rgba(22, 22, 22, 0.4);
+}
+
+.loader span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: #043dd6;
+  border-radius: 50%;
+  margin: 0 5px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.loader span:nth-child(2) {
+  background: #03208f;
+}
+
+.loader span:nth-child(3) {
+  background: #e0e0e0;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+}
+
+.loader span:not(:last-child) {
+  animation: animate_loader_last 1.5s linear infinite;
+}
+
+@keyframes animate_loader_last {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(30px);
+  }
+}
+
+.loader span:last-child {
+  animation: animate_loader_jump 1.5s ease-in-out infinite;
+}
+
+@keyframes animate_loader_jump {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(5px, -10px);
+  }
+  20% {
+    transform: translate(10px, 10px);
+  }
+  30% {
+    transform: translate(15px, -30px);
+  }
+  70% {
+    transform: translate(-65px, -30px);
+  }
+  80% {
+    transform: translate(-65px, 10px);
+  }
+  90% {
+    transform: translate(-60px, -10px);
+  }
+  100% {
+    transform: translate(-55px, 0);
+  }
+}
+
+/**End of loader**/
+
+/** General error **/
+
+.general-error-container{
+  margin-top: 15px;
+  background: #212529;
+  color: #e7e7e7;
+  align-self: center;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.3s;
+}
+
+.general-error-container:hover{
+  box-shadow:  1px 1px 10px #16191c;
+}
+
+
+.general-error-container h4{
+  font-weight: bold;
+  background-color: rgba(253, 253, 253, 0.03);
+  padding: 5px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.general-error-container:hover h4{
+  text-shadow: -1px -1px 10px #920101,1px 1px 10px #920101;
+}
+
+.general-error-container .btn.btn-danger{
+  background-color: #212529;
+  border: 1px solid #920101;
+  color: #920101;
+  transition: 0.3s;
+}
+
+.general-error-container .btn.btn-danger:hover{
+  background-color: #920101;
+  color: #e7e7e7;
+}
+
+/**End of general error**/
+
+.animate-opacity{
+  animation:opac 0.8s
+}
+@keyframes opac
+{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@media only screen and (min-width : 1200px){
+  .component-holder{
+    align-items: flex-start;
+  }
+}

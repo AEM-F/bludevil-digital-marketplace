@@ -24,24 +24,23 @@ public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    @Positive
     private Integer id;
-    @NotBlank
+    @Column(name = "product_name")
     private String name;
     @ManyToOne
     @JoinColumn(name = "platform_id")
-    @Valid
     private ProductPlatform productPlatform;
-    @PositiveOrZero
+    @Column(name = "product_qty")
     private Integer quantity;
-    @PositiveOrZero
+    @Column(name = "product_price")
     private double price;
-    @NotBlank
+    @Column(name = "product_description")
     private String description;
-    @NotBlank
+    @Column(name = "product_imageUrl")
     private String imageUrl;
-    @NotBlank
+    @Column(name = "product_systemReq")
     private String systemRequirements;
+    @Column(name = "product_isActive")
     private Boolean isActive=true;
     @Transient
     @JsonProperty("type")
@@ -49,34 +48,11 @@ public abstract class Product {
 
     public Product(){}
 
-    public Product(@NotBlank String name, @Valid ProductPlatform productPlatform, @PositiveOrZero Integer quantity, @PositiveOrZero double price, @NotBlank String description, @NotBlank String imageUrl, @NotBlank String systemRequirements, Boolean isActive) {
-        this.name = name;
-        this.productPlatform = productPlatform;
-        this.quantity = quantity;
-        this.price = price;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.systemRequirements = systemRequirements;
-        this.isActive = isActive;
-    }
-
-    public Product(@Positive Integer id, @NotBlank String name, @Valid ProductPlatform productPlatform, @PositiveOrZero Integer quantity, @PositiveOrZero double price, @NotBlank String description, @NotBlank String imageUrl, @NotBlank String systemRequirements, Boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.productPlatform = productPlatform;
-        this.quantity = quantity;
-        this.price = price;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.systemRequirements = systemRequirements;
-        this.isActive = isActive;
-    }
-
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(@Positive Integer id) {
         this.id = id;
     }
 
@@ -84,7 +60,7 @@ public abstract class Product {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotBlank String name) {
         this.name = name;
     }
 
@@ -92,7 +68,7 @@ public abstract class Product {
         return productPlatform;
     }
 
-    public void setProductPlatform(ProductPlatform productPlatform) {
+    public void setProductPlatform(@Valid ProductPlatform productPlatform) {
         this.productPlatform = productPlatform;
     }
 
@@ -100,7 +76,7 @@ public abstract class Product {
         return this.quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(@PositiveOrZero Integer quantity) {
             this.quantity = quantity;
     }
 
@@ -108,7 +84,7 @@ public abstract class Product {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(@PositiveOrZero double price) {
         this.price = price;
     }
 
@@ -116,7 +92,7 @@ public abstract class Product {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NotBlank String description) {
         this.description = description;
     }
 
@@ -124,7 +100,7 @@ public abstract class Product {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(@NotBlank String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -140,7 +116,7 @@ public abstract class Product {
         return systemRequirements;
     }
 
-    public void setSystemRequirements(String systemRequirements) {
+    public void setSystemRequirements(@NotBlank String systemRequirements) {
         this.systemRequirements = systemRequirements;
     }
 

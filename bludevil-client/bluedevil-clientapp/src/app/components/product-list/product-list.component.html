@@ -1,0 +1,54 @@
+<div class="component-holder">
+  <app-search-product></app-search-product>
+  <div class="filter-outer-container">
+    <button class="btn-filter"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseFilters"
+            aria-expanded="false"
+            aria-controls="collapseFilters"><i class="fa fa-filter"></i> Filters</button>
+    <div class="filter-inner-container collapse" id="collapseFilters">
+      <button class="btn-filter"
+              (click)="onClearFilters()"><i class="fa fa-undo"></i> Clear All</button>
+      <app-product-platform-menu></app-product-platform-menu>
+    </div>
+  </div>
+  <div class="card-holder">
+    <div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
+      <h4>An error occurred:</h4>
+      <p>{{error}}</p>
+      <button class="btn btn-danger" (click)="onHandleError()">Okay</button>
+    </div>
+    <div *ngIf="isLoadingProducts && !error" class="loader-wrapper animate-opacity">
+      <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      Loading...
+    </div>
+    <div
+      class="property-card animate-opacity"
+      *ngFor="let product of products">
+      <a href="#">
+        <div
+          class="property-image"
+          [style.background-image]="'url('+product.imageUrl+')'">
+          <div class="property-image-title">
+            <!-- Optional <h5>Additional info</h5> may use later  -->
+            <!--         <h5>Additional info</h5>-->
+          </div>
+        </div>
+      </a>
+      <div class="property-description">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <p class="property-platform">{{product.productPlatform.name | firstToUpper}}</p>
+          <p class="property-price">{{product.price | currency: 'EUR'}}</p>
+        </div>
+      </div>
+      <div class="property-name">
+        {{product.name}}
+      </div>
+    </div>
+  </div>
+</div>

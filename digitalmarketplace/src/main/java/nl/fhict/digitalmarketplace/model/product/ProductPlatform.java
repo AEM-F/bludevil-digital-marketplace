@@ -12,6 +12,7 @@ public class ProductPlatform {
     @Positive
     private Integer id;
     @NotBlank
+    @Column(name = "platform_name")
     private String name;
 
     public ProductPlatform(Integer id, String name) {

@@ -13,9 +13,11 @@ public class CdKey {
     @Positive
     private Integer id;
     @NotBlank
+    @Column(name = "cdKey_sequence")
     private String sequence;
     @Positive
     private Integer productId;
+    @Column(name = "cdKey_isUsed")
     private Boolean isUsed=false;
 
     public CdKey(Integer id, String sequence, Integer productId) {
