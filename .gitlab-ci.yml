@@ -9,6 +9,6 @@ test:
     stage: test
     script:
         - cd digitalmarketplace
-        - ./gradlew clean test --info
+        - ./gradlew clean test
 after_script:
   - echo "End CI"
