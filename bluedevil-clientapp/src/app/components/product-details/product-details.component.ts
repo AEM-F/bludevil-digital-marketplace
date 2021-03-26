@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductDetailsComponent implements OnInit {
 
+  productState = true;
   constructor() { }
 
   ngOnInit(): void {

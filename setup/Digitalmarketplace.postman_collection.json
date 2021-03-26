@@ -1,0 +1,760 @@
+{
+	"info": {
+		"_postman_id": "6ad820ac-74a6-45ce-9496-b90b18c83674",
+		"name": "Digitalmarketplace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Platforms",
+					"item": [
+						{
+							"name": "Get platform by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/productPlatforms/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"productPlatforms",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new platform",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"riot\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/productPlatforms/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"productPlatforms",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update platform",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"wow\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/productPlatforms/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"productPlatforms",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get platforms pageable",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/productPlatforms?page=1&size=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"productPlatforms"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all platforms",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/productPlatforms?retrieval=all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"productPlatforms"
+									],
+									"query": [
+										{
+											"key": "retrieval",
+											"value": "all"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Sub-folder of products containing platform requests"
+				},
+				{
+					"name": "Genres",
+					"item": [
+						{
+							"name": "Get genre by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/genres/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"genres",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all genres",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/genres?retrieval=all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"genres"
+									],
+									"query": [
+										{
+											"key": "retrieval",
+											"value": "all"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get genres pagable default",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/genres?page=1&size=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"genres"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a new genre",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"genreName\": \"Rogue like\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/genres/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"genres",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a genre",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"genreName\": \"Rogue lik\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/genres/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"genres",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add test products",
+					"item": [
+						{
+							"name": "Add product anthem",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Anthem\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/anthem.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add product outrides",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add product valheim",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Valheim\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 14.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/valheim.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add product stellaris",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Stellaris\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 49.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/stellaris.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n             \"id\": 10,\r\n            \"genreName\": \"strategy\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get products by price and platform",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/platform/origin?page=1&size=5&price=39.99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"platform",
+								"origin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "price",
+									"value": "39.99"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/search/antem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"search",
+								"antem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products by platform",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/platform/origin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"platform",
+								"origin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products by price",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products?page=1&size=5&price=39.99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "price",
+									"value": "39.99"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products?page=1&size=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting a product by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Antem\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"smh/inapp\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"genreName\": \"shooter\"\r\n        },\r\n        {\r\n            \"genreName\": \"john\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a product by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Antem DELUX Edition\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"smh/inapp\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a product by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// const postRequest = {\r",
+									"//   url: 'http://localhost:8080/api/products/',\r",
+									"//   method: 'POST',\r",
+									"//   header: {\r",
+									"//     'Content-Type': 'application/json',\r",
+									"//     'X-Foo': 'bar'\r",
+									"//   },\r",
+									"//   body: {\r",
+									"//     mode: 'raw',\r",
+									"//     raw: JSON.stringify({\r",
+									"//     \"name\": \"The Forest\",\r",
+									"//     \"productPlatform\": {\r",
+									"//         \"id\": 2,\r",
+									"//         \"name\": \"steam\"\r",
+									"//     },\r",
+									"//     \"quantity\": 0,\r",
+									"//     \"price\": 20.00,\r",
+									"//     \"description\": \"Anotther cool game\",\r",
+									"//     \"imageUrl\": \"somewhere/inMyApp/again\",\r",
+									"//     \"active\": true\r",
+									"// })\r",
+									"//   }\r",
+									"// };\r",
+									"// pm.sendRequest(postRequest, (error, response) => {\r",
+									"//   console.log(error ? error : response.json());\r",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Product related requests"
+		},
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Hemjy/Pictures/Camera Roll/imageTest.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/images/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"images",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/images/getImage/imageTest.jpg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"images",
+								"getImage",
+								"imageTest.jpg"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
