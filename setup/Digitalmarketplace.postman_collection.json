@@ -303,7 +303,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Anthem\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/anthem.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Anthem\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/anthem.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -332,7 +332,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -361,7 +361,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Valheim\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 14.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/valheim.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Valheim\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 14.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/valheim.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -390,7 +390,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Stellaris\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 49.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/stellaris.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n             \"id\": 10,\r\n            \"genreName\": \"strategy\"\r\n        }\r\n    ],\r\n    \"active\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Stellaris\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 49.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/stellaris.png\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n             \"id\": 10,\r\n            \"genreName\": \"strategy\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

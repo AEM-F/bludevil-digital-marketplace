@@ -1,6 +1,10 @@
+.page-wrapper{
+  width: 95vw;
+  height: 100%;
+}
+
 .p-details-container{
   margin-top: 10px;
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -10,9 +14,12 @@
   border: 1px solid #5d5d5d;
   overflow: hidden;
   border-radius: 15px;
+  margin-bottom: 10px;
 }
 
 .p-details-container-header{
+  display: flex;
+  align-items: center;
   width: 100%;
   padding: 10px;
   min-height: 20px;
@@ -23,21 +30,27 @@
   font-weight: bold;
 }
 
+.p-details-container-header .p-link-item{
+  width: 35px;
+  height: 35px;
+  font-size: 1rem;
+}
+
 .p-details-container-body{
   min-height: 85%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 }
 
 .p-image-wrapper{
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  min-width: 100%;
   min-height: 300px;
   overflow: hidden;
   background-color: #212529;
@@ -71,8 +84,9 @@
   background-size:cover;
   background-repeat:no-repeat;
   background-position: center center;
-  width: 100%;
-  height: 250px;
+  min-width: 100%;
+  min-height: 250px;
+  max-height: 250px;
 }
 
 .p-details-btns{
@@ -94,12 +108,13 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   background-color: #212529;
   color: #e7e7e7;
+  transition: 0.3s;
 }
 
 .p-general-info{
   margin-top: 10px;
   width: 100%;
-  min-height: 300px;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -132,12 +147,25 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+.p-videogame-details{
+  width: 100%;
+  height: 100%;
 }
 
 .p-general-info-body p{
   margin: 0;
+  padding: 5px;
   text-align: center;
   color: #e7e7e7;
+}
+
+.p-platform-container{
+  display: flex;
+  align-items: center;
+  min-height: 50px;
 }
 
 .btn-collapse-genres{
@@ -164,19 +192,26 @@
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background-color: #222222;
+  background-color: #212529;
   color: #e7e7e7;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.genres-collapse.show .p-genre-item{
+.p-link-item{
   text-decoration: none;
   padding: 5px;
   margin: 5px;
-  border:1px solid #0066ff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 5px;
   transition: 0.3s;
   background-color: #212529;
+  color: #e7e7e7;
+  text-decoration: none;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.p-link-item:hover{
+  border:1px solid #0066ff;
   color: #0066ff;
 }
 
@@ -201,4 +236,90 @@
 
 #pTabContent{
   padding: 5px;
+}
+
+@media only screen and (min-width : 768px){
+  .page-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .p-details-container{
+    width: 70vw;
+  }
+
+  .btn-collapse-genres{
+    border-radius: 0;
+    border: none;
+  }
+
+  .genres-collapse.show{
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+@media only screen and (min-width : 1200px){
+  .page-wrapper{
+    width: 99vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .p-details-container{
+    width: 1000px;
+  }
+  .p-details-container-body{
+    display: grid;
+    grid-template-columns: 0.7fr 0.8fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "imageArea imageArea"
+      "generalInfoArea generalInfoArea"
+      ". buttonsArea"
+      "infoArea infoArea";
+    gap: 15px;
+  }
+
+  .p-image-wrapper{
+    grid-area: imageArea;
+    align-self: start;
+    min-width: auto;
+    justify-self: center;
+  }
+
+  .p-image{
+    min-width: 1000px;
+    max-width: 1000px;
+  }
+
+  .p-details-btns{
+    grid-area: buttonsArea;
+    align-self: start;
+    justify-content: flex-end;
+    justify-self: center;
+  }
+
+  .p-general-info{
+    margin-top: 35px;
+    grid-area: generalInfoArea;
+    align-self: start;
+    justify-self: center;
+    width: 1100px;
+  }
+
+  .p-tab-container{
+    grid-area: infoArea;
+    width: 1000px;
+    padding-bottom: 10px;
+  }
+
+  .tab-content{
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0 0 5px 5px;
+  }
 }

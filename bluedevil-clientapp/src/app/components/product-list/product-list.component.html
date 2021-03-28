@@ -30,7 +30,7 @@
     <div
       class="property-card animate-opacity"
       *ngFor="let product of products">
-      <a href="#">
+      <a routerLink="/products/{{product.id}}">
         <div
           class="property-image"
           [style.background-image]="'url('+product.imageUrl+')'">

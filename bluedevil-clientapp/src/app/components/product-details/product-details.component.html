@@ -1,59 +1,79 @@
-<div class="p-details-container">
-  <div class="p-details-container-header">
-    Stellaris
+<div class="page-wrapper">
+  <div *ngIf="isLoadingProduct && !error" class="loader-wrapper animate-opacity">
+    <div class="loader">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    Loading...
   </div>
-  <div class="p-details-container-body">
-    <div class="p-image-wrapper">
-      <div class="p-state-container state-available" *ngIf="productState">
-        <i class="fa fa-check"></i> Available
-      </div>
-      <div class="p-state-container state-unavailable" *ngIf="!productState">
-        <i class="fa fa-ban"></i> Unavailable
-      </div>
-      <div class="p-image" style="background-image: url('https://guides.gamepressure.com/gfx/logos/640x384/980_349104622.jpg');"></div>
+  <div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
+    <h4>An error occurred:</h4>
+    <p>{{error}}</p>
+    <button type="button" class="btn btn-danger" (click)="onHandleError()">Back to catalog</button>
+  </div>
+  <div class="p-details-container" *ngIf="product !== null">
+    <div class="p-details-container-header">
+      <a routerLink="/products" class="p-link-item"><i class="fa fa-arrow-left"></i></a>
+      {{product.name}}
     </div>
-    <div class="p-details-btns">
-      <button class="btn-p-details"><i class="fa fa-cart-plus"></i> To cart</button>
-      <button class="btn-p-details"><i class="fa fa-list-alt"></i> Wishlist</button>
-    </div>
-    <div class="p-general-info">
-      <div class="p-general-info-header">
-        <h1>General Info</h1>
-      </div>
-      <div class="p-general-info-body">
-        <p>Platform: Steam</p>
-        <button class="btn-collapse-genres btn-genres-main"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapseGenres"
-                aria-expanded="false"
-                aria-controls="collapseGenres"><i class="fa fa-arrow-down"></i> Genres</button>
-        <div class="collapse genres-collapse show" id="collapseGenres">
-          <p class="p-genre-item">Strategy</p>
-          <p class="p-genre-item">Sci-Fi</p>
+    <div class="p-details-container-body">
+      <div class="p-image-wrapper">
+        <div class="p-state-container state-available" *ngIf="product.active">
+          <i class="fa fa-check"></i> Available
         </div>
-        <p>Release Date: 09/05/2016</p>
-      </div>
-    </div>
-    <div class="p-tab-container">
-      <ul class="nav nav-tabs p-tabs" id="pTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#systemReq" role="tab" aria-controls="systemReq" aria-selected="false">System Requirements</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="pTabContent">
-        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec ac odio tempor orci dapibus. Mattis molestie a iaculis at erat pellentesque. Est ultricies integer quis auctor. Et odio pellentesque diam volutpat commodo sed egestas egestas fringilla. Vel turpis nunc eget lorem dolor sed viverra ipsum nunc. Auctor neque vitae tempus quam pellentesque nec nam. Integer enim neque volutpat ac tincidunt vitae semper quis. At quis risus sed vulputate odio ut enim blandit volutpat. Pharetra vel turpis nunc eget lorem. Adipiscing tristique risus nec feugiat in. Et leo duis ut diam quam nulla. Tortor condimentum lacinia quis vel eros donec ac odio. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare. Bibendum at varius vel pharetra vel turpis. Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt.
-
-          Justo laoreet sit amet cursus sit amet dictum sit. Id diam vel quam elementum pulvinar etiam non quam lacus. Eget arcu dictum varius duis at consectetur lorem donec. Non curabitur gravida arcu ac. Sagittis vitae et leo duis ut diam quam. Malesuada fames ac turpis egestas. Nunc sed velit dignissim sodales ut eu sem. Quisque id diam vel quam. Sagittis orci a scelerisque purus semper eget duis at tellus. Dictum varius duis at consectetur lorem donec massa sapien. Tincidunt id aliquet risus feugiat in ante.
+        <div class="p-state-container state-unavailable" *ngIf="!product.active">
+          <i class="fa fa-ban"></i> Unavailable
         </div>
-        <div class="tab-pane fade" id="systemReq" role="tabpanel" aria-labelledby="systemReq-tab">
-          Yu need a gud pc for dis
-          Works on windows i guess
-          Dunno about linux tho
+        <div class="p-image" [style.background-image]="'url('+product.imageUrl+')'"></div>
+      </div>
+      <div class="p-details-btns">
+        <button class="btn-p-details"><i class="fa fa-cart-plus"></i> To cart</button>
+        <button class="btn-p-details"><i class="fa fa-list-alt"></i> Wishlist</button>
+      </div>
+      <div class="p-general-info">
+        <div class="p-general-info-header">
+          <h1>General Info</h1>
+        </div>
+        <div class="p-general-info-body">
+          <p class="p-platform-container">
+            Platform:
+            <a class="p-link-item"
+                         [routerLink]="['/products']"
+                         [queryParams]="{platform: product.productPlatform.name}">{{product.productPlatform.name | firstToUpper}}
+          </a>
+          </p>
+          <p>Price: {{product.price | currency: 'EUR'}}</p>
+          <div class="p-videogame-details">
+            <button class="btn-collapse-genres btn-genres-main"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseGenres"
+                    aria-expanded="false"
+                    aria-controls="collapseGenres"><i class="fa fa-arrow-down"></i> Genres</button>
+            <div class="collapse genres-collapse show" id="collapseGenres">
+              <a class="p-link-item" *ngFor="let genre of productAsVideoGame.genres">{{genre.genreName | uppercase}}</a>
+            </div>
+            <p>Release Date: {{productAsVideoGame.releaseDate}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-tab-container">
+        <ul class="nav nav-tabs p-tabs" id="pTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#systemReq" role="tab" aria-controls="systemReq" aria-selected="false">System Requirements</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="pTabContent">
+          <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+            {{product.description}}
+          </div>
+          <div class="tab-pane fade" id="systemReq" role="tabpanel" aria-labelledby="systemReq-tab">
+            {{product.systemRequirements}}
+          </div>
         </div>
       </div>
     </div>

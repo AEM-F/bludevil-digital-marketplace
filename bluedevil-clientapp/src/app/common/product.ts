@@ -9,7 +9,7 @@ export abstract class Product {
   public description: string;
   public imageUrl: string;
   public systemRequirements: string;
-  public isActive: boolean;
+  public active: boolean;
   private type: string = '';
 
   protected constructor(name: string, platform: ProductPlatform, description: string, imageUrl: string, systemReq: string, isActive:boolean) {
@@ -18,7 +18,7 @@ export abstract class Product {
     this.description = description;
     this.imageUrl = imageUrl;
     this.systemRequirements = systemReq;
-    this.isActive = isActive;
+    this.active = isActive;
   }
 
 
