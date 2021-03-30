@@ -14,6 +14,7 @@ export class ProductListComponent implements OnInit {
 
   products: Product[];
   isLoadingProducts = false;
+  previousKeyword: string = '';
   previousPlatform: string = '';
   currentPlatformName: string = '';
   currentSearchKeyword: string = '';
@@ -37,16 +38,6 @@ export class ProductListComponent implements OnInit {
         this.currentPlatformName = '';
         this.handleSearchProducts();
       }
-      // else if(params.hasOwnProperty('platform')){
-      //   this.currentPlatformName = params['platform'];
-      //   this.currentSearchKeyword = '';
-      //   this.handleListProducts();
-      // }
-      // else{
-      //   this.currentSearchKeyword = '';
-      //   this.currentPlatformName ='';
-      //   this.handleListProducts();
-      // }
       else{
         this.currentSearchKeyword = '';
         if (params.hasOwnProperty('platform')){
@@ -66,7 +57,7 @@ export class ProductListComponent implements OnInit {
     this.error = null;
   }
 
-  loadScript():void{
+  loadScript(): void{
     let body = <HTMLDivElement> document.body;
     let script = document.createElement('script');
     script.innerHTML = '';
@@ -79,33 +70,39 @@ export class ProductListComponent implements OnInit {
   handleListProducts(): void{
     this.isLoadingProducts = true;
     this.productService.getProductListPaginate(this.pageNr, this.pageSize , this.currentPlatformName).subscribe(
-      data => {
-        this.isLoadingProducts = false;
-        this.products = data.objectsList;
-        this.pageNr = data.pageNumber;
-        this.pageSize = data.pageSize;
-        this.totalElements = data.totalElements;
-      },
-      error1 => {
-        this.isLoadingProducts = false;
-        this.error = error1.error.message;
-        this.products = [];
-      }
+      this.processResult(),
+      this.processError()
     );
   }
 
+  processResult(){
+    return data => {
+      this.isLoadingProducts = false;
+      this.products = data.objectsList;
+      this.pageNr = data.pageNumber;
+      this.pageSize = data.pageSize;
+      this.totalElements = data.totalElements;
+    };
+  }
+
+  processError(){
+    return error1 => {
+      this.isLoadingProducts = false;
+      this.error = error1.error.message;
+      this.products = [];
+    };
+  }
+
+
   handleSearchProducts(): void{
     this.isLoadingProducts = true;
-    this.productService.searchProducts(this.currentSearchKeyword).subscribe(
-      data => {
-        this.isLoadingProducts = false;
-        this.products = data;
-      },
-      error1 => {
-        this.isLoadingProducts = false;
-        this.error= error1.error.message;
-        this.products=[];
-      }
+    if (this.previousKeyword !== this.currentSearchKeyword){
+      this.pageNr = 1;
+    }
+    this.previousKeyword = this.currentSearchKeyword;
+    this.productService.searchProductsPaginate(this.pageNr, this.pageSize, this.currentSearchKeyword).subscribe(
+      this.processResult(),
+      this.processError()
     );
   }
 

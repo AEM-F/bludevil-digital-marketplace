@@ -15,18 +15,6 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProductList(platform:string): Observable<Product[]>{
-    let searchUrl = `${this.baseUrl}`;
-    if ( platform != null && platform !== ''){
-      searchUrl += `/platform/${platform}`;
-    }
-
-    return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
-      map(response => {
-        return response.objectsList;
-      })
-    );
-  }
   getProductListPaginate(page: number, size: number, platform:string): Observable<PaginationResponse<Product>>{
     let searchUrl = `${this.baseUrl}`;
     if ( platform != null && platform !== '' && platform !== 'all'){
@@ -40,12 +28,12 @@ export class ProductService {
     );
   }
 
-  searchProducts(keyword: string): Observable<Product[]> {
+  searchProductsPaginate(page: number, size: number, keyword:string): Observable<PaginationResponse<Product>>{
     let searchUrl = `${this.baseUrl}/search/${keyword}`;
-
+    searchUrl += `?page=${page}&size=${size}`;
     return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
       map(response => {
-        return response.objectsList;
+        return response;
       })
     );
   }

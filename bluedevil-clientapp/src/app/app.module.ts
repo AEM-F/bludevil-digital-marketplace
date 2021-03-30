@@ -16,6 +16,7 @@ import { SearchProductComponent } from './components/search-product/search-produ
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     ProductPlatformMenuComponent,
     ScrollToTopComponent,
     SearchProductComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    PriceFilterComponent
   ],
   imports: [
     BrowserModule,
