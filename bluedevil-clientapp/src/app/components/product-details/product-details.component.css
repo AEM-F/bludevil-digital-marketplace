@@ -218,6 +218,7 @@
 .p-tab-container{
   margin-top: 10px;
   color: #e7e7e7;
+  width: 100%;
 }
 
 .p-tabs{
@@ -236,6 +237,7 @@
 
 #pTabContent{
   padding: 5px;
+  white-space: pre-wrap;
 }
 
 @media only screen and (min-width : 768px){

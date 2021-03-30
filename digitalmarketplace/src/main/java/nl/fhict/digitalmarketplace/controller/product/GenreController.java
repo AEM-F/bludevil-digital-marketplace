@@ -49,7 +49,7 @@ public class GenreController {
                     }
                     case PAGE:{
                         Page<Genre> genres = genreService.getGenres(page, size);
-                        PaginationResponse<Genre> paginationResponse = new PaginationResponse<Genre>(genres.getContent(), genres.getTotalPages(), genres.getNumber()+1,genres.getSize());
+                        PaginationResponse<Genre> paginationResponse = new PaginationResponse<Genre>(genres.getContent(), genres.getTotalElements(), genres.getNumber()+1,genres.getSize());
                         return ResponseEntity.ok(paginationResponse);
                     }
                 }

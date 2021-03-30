@@ -303,7 +303,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Anthem\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/anthem.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Anthem\",\r\n    \"productPlatform\": {\r\n        \"id\": 1,\r\n        \"name\": \"origin\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/anthem.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"active\": false,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -361,7 +361,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Valheim\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 14.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/valheim.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Valheim\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 14.99,\r\n    \"description\": \"A battle-slain warrior, the Valkyries have ferried your soul to Valheim, the tenth Norse world. Besieged by creatures of chaos and ancient enemies of the gods, you are the newest custodian of the primordial purgatory, tasked with slaying Odin’s ancient rivals and bringing order to Valheim.Your trials begin at the disarmingly peaceful centre of Valheim, but the gods reward the brave and glory awaits. Venture forth through imposing forests and snow-capped mountains, explore and harvest more valuable materials to craft deadlier weapons, sturdier armor, viking strongholds and outposts. Build a mighty longship and sail the great oceans in search of exotic lands … but be wary of sailing too far...\\nFeatures\\nHuge procedurally-generated world - explore and inhabit mystical lands, from mysteriousforests to imposing snow-topped mountain ranges and stunning meadows, complete with their own creatures of legend to battle and wildlife to hunt.\\nCo-op PvE (2-10 players)\\n - Whether you want to brave the lands alone or venture with trusted allies, Valheim supports independent player-hosted servers and unlimited world creation. We recommend playing co-op with 3-5 players.\\nPunishing dodge & block based combat system with a wide range of weapons\\nBuild & sail ships - from flimsy rafts to imposing warships, build legendary vessels to conquer the seas and discover new lands.\\nSummon and defeat vengeful primordial bosses of myth and legend, and collect trophies to progress and craft new powerful items\\nFlexible house and base building system - raise mead halls, farms, settlements outposts, castles and more.\\nIntuitive item crafting - forge the finest weapons and armour, and craft food and mead.\\nDedicated server- for players who want to run a persistent server. If you prefer not to run a server on your PC, consider renting a server at G-Portal.\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/valheim.jpg\",\r\n    \"systemRequirements\": \"Windows: \\nRequires a 64-bit processor and operating system \\nOS: Windows 7 or later\\nProcessor: 2.6 GHz Dual Core or similar\\nMemory: 4 GB RAM\\nGraphics: GeForce GTX 500 series or similar\\nDirectX: Version 11\\nStorage: 1 GB available space\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -456,7 +456,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/search/antem",
+							"raw": "http://localhost:8080/api/products/search/ant",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -466,7 +466,7 @@
 								"api",
 								"products",
 								"search",
-								"antem"
+								"ant"
 							]
 						}
 					},

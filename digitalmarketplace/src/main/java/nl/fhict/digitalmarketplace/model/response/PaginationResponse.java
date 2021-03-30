@@ -4,13 +4,13 @@ import java.util.List;
 
 public class PaginationResponse<T> {
     private List<T> objectsList;
-    private int totalPages;
+    private long totalElements;
     private int pageNumber;
     private int pageSize;
 
-    public PaginationResponse(List<T> objectsList, int totalPages, int pageNumber, int pageSize) {
+    public PaginationResponse(List<T> objectsList, long totalElements, int pageNumber, int pageSize) {
         this.objectsList = objectsList;
-        this.totalPages = totalPages;
+        this.totalElements = totalElements;
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
     }
@@ -26,12 +26,12 @@ public class PaginationResponse<T> {
         this.objectsList = objectsList;
     }
 
-    public int getTotalPages() {
-        return totalPages;
+    public long getTotalElements() {
+        return totalElements;
     }
 
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
     }
 
     public int getPageNumber() {

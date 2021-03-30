@@ -34,11 +34,11 @@ public abstract class Product {
     private Integer quantity;
     @Column(name = "product_price")
     private double price;
-    @Column(name = "product_description")
+    @Column(name = "product_description", length = 2000)
     private String description;
     @Column(name = "product_imageUrl")
     private String imageUrl;
-    @Column(name = "product_systemReq")
+    @Column(name = "product_systemReq", length = 2000)
     private String systemRequirements;
     @Column(name = "product_isActive")
     private Boolean isActive=true;

@@ -27,6 +27,18 @@ export class ProductService {
       })
     );
   }
+  getProductListPaginate(page: number, size: number, platform:string): Observable<PaginationResponse<Product>>{
+    let searchUrl = `${this.baseUrl}`;
+    if ( platform != null && platform !== '' && platform !== 'all'){
+      searchUrl += `/platform/${platform}`;
+    }
+    searchUrl += `?page=${page}&size=${size}`;
+    return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
 
   searchProducts(keyword: string): Observable<Product[]> {
     let searchUrl = `${this.baseUrl}/search/${keyword}`;

@@ -1,6 +1,6 @@
 export interface PaginationResponse<T>{
   objectsList:T[];
-  totalPages:number;
+  totalElements:number;
   pageNumber:number;
   pageSize:number;
 }
