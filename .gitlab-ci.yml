@@ -1,3 +1,7 @@
+stages:
+    - build
+    - sonar
+    - test
 before_script:
     - echo "Start CI"
 build:
