@@ -1,3 +1,7 @@
+stages:
+    - build
+    - sonar
+    - test
 before_script:
     - echo "Start CI"
 build:
@@ -5,6 +9,11 @@ build:
     script:
         - cd digitalmarketplace
         - ./gradlew assemble  
+sonar:
+    stage: sonar
+    script:
+        - cd digitalmarketplace
+        - ./gradlew sonarqube -D sonar.projectKey=bludevil-digitalmarketplace -D sonar.host.url=%SONAR_URL% -D sonar.login=%SONAR_LOGIN%
 test:
     stage: test
     script:
