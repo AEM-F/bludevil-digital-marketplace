@@ -14,6 +14,8 @@ import { ProductPlatformMenuComponent } from './components/product-platform-menu
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 import { SearchProductComponent } from './components/search-product/search-product.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { ProductDetailsComponent } from './components/product-details/product-de
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     ProductService,

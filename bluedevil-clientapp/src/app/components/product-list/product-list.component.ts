@@ -13,11 +13,15 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 export class ProductListComponent implements OnInit {
 
   products: Product[];
-  isLoadingProducts= false;
-  currentPlatformName: string='';
-  currentSearchKeyword: string= '';
-  searchMode: boolean;
+  isLoadingProducts = false;
+  previousPlatform: string = '';
+  currentPlatformName: string = '';
+  currentSearchKeyword: string = '';
   error;
+  pageNr: number = 1;
+  pageSize: number= 10;
+  totalElements: number= 0;
+
   constructor(private productService: ProductService,private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -26,21 +30,32 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  listProducts():void{
-    this.route.queryParams.subscribe((params:Params)=>{
-      if(params.hasOwnProperty('name') && params['name'] != ''){
+  listProducts(): void{
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params.hasOwnProperty('name') && params['name'] != ''){
         this.currentSearchKeyword = params['name'];
-        this.currentPlatformName= '';
+        this.currentPlatformName = '';
         this.handleSearchProducts();
       }
-      else if(params.hasOwnProperty('platform')){
-        this.currentPlatformName= params['platform'];
-        this.currentSearchKeyword= '';
-        this.handleListProducts();
-      }
+      // else if(params.hasOwnProperty('platform')){
+      //   this.currentPlatformName = params['platform'];
+      //   this.currentSearchKeyword = '';
+      //   this.handleListProducts();
+      // }
+      // else{
+      //   this.currentSearchKeyword = '';
+      //   this.currentPlatformName ='';
+      //   this.handleListProducts();
+      // }
       else{
-        this.currentSearchKeyword= '';
-        this.currentPlatformName='';
+        this.currentSearchKeyword = '';
+        if (params.hasOwnProperty('platform')){
+          this.currentPlatformName = params['platform'];
+        }
+        if (this.previousPlatform !== this.currentPlatformName ){
+          this.pageNr = 1;
+        }
+        this.previousPlatform = this.currentPlatformName;
         this.handleListProducts();
       }
 
@@ -48,7 +63,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onHandleError():void{
-    this.error= null;
+    this.error = null;
   }
 
   loadScript():void{
@@ -61,40 +76,49 @@ export class ProductListComponent implements OnInit {
     body.appendChild(script);
   }
 
-  handleListProducts():void{
-    this.isLoadingProducts= true;
-    this.productService.getProductList(this.currentPlatformName).subscribe(
+  handleListProducts(): void{
+    this.isLoadingProducts = true;
+    this.productService.getProductListPaginate(this.pageNr, this.pageSize , this.currentPlatformName).subscribe(
       data => {
-        this.isLoadingProducts= false;
-        this.products = data;
+        this.isLoadingProducts = false;
+        this.products = data.objectsList;
+        this.pageNr = data.pageNumber;
+        this.pageSize = data.pageSize;
+        this.totalElements = data.totalElements;
       },
       error1 => {
-        this.isLoadingProducts= false;
-        this.error= error1.error.message;
-        this.products=[];
+        this.isLoadingProducts = false;
+        this.error = error1.error.message;
+        this.products = [];
       }
     );
   }
 
-  handleSearchProducts():void{
+  handleSearchProducts(): void{
     this.isLoadingProducts = true;
     this.productService.searchProducts(this.currentSearchKeyword).subscribe(
       data => {
-        this.isLoadingProducts= false;
+        this.isLoadingProducts = false;
         this.products = data;
       },
       error1 => {
-        this.isLoadingProducts= false;
+        this.isLoadingProducts = false;
         this.error= error1.error.message;
         this.products=[];
       }
     );
   }
 
-  onClearFilters(){
-    this.currentSearchKeyword='';
-    this.currentPlatformName='';
+  onClearFilters(): void{
+    this.currentSearchKeyword = '';
+    this.currentPlatformName = '';
     this.router.navigate(['/products']);
+  }
+
+  updatePageSize(size: number): void{
+    this.pageSize = size;
+    this.pageNr = 1;
+    this.listProducts();
   }
 
 }

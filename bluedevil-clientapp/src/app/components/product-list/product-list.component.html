@@ -1,5 +1,36 @@
 <div class="component-holder">
   <app-search-product></app-search-product>
+  <div class="pagination-container">
+    <div class="pagination-controls">
+      <ngb-pagination
+        [(page)]="pageNr"
+        [pageSize]="pageSize"
+        [collectionSize]="totalElements"
+        [maxSize]="3"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        [ellipses]="false"
+        (pageChange)="listProducts()">
+        <ng-template ngbPaginationFirst><i class="fa fa-angle-double-left"></i></ng-template>
+        <ng-template ngbPaginationLast><i class="fa fa-angle-double-right"></i></ng-template>
+        <ng-template ngbPaginationPrevious><i class="fa fa-angle-left"></i></ng-template>
+        <ng-template ngbPaginationNext><i class="fa fa-angle-right"></i></ng-template>
+      </ngb-pagination>
+    </div>
+    <div class="property-size">
+      <div class="form-group">
+        <label for="productPageSize">Page Size:</label>
+        <select class="form-control" id="productPageSize" (change)="updatePageSize($event.target.value)">
+          <option>1</option>
+          <option selected="true">10</option>
+          <option>20</option>
+          <option>30</option>
+          <option>40</option>
+          <option>50</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <div class="filter-outer-container">
     <button class="btn-filter"
             type="button"
@@ -11,6 +42,7 @@
       <button class="btn-filter"
               (click)="onClearFilters()"><i class="fa fa-undo"></i> Clear All</button>
       <app-product-platform-menu></app-product-platform-menu>
+
     </div>
   </div>
   <div class="card-holder">
@@ -31,12 +63,18 @@
       class="property-card animate-opacity"
       *ngFor="let product of products">
       <a routerLink="/products/{{product.id}}">
+<!--        Optional may use later-->
+<!--        <div class="p-state-container state-available" *ngIf="product.active">-->
+<!--          <i class="fa fa-check"></i> Available-->
+<!--        </div>-->
+<!--        <div class="p-state-container state-unavailable" *ngIf="!product.active">-->
+<!--          <i class="fa fa-ban"></i> Unavailable-->
+<!--        </div>-->
         <div
           class="property-image"
           [style.background-image]="'url('+product.imageUrl+')'">
           <div class="property-image-title">
-            <!-- Optional <h5>Additional info</h5> may use later  -->
-            <!--         <h5>Additional info</h5>-->
+
           </div>
         </div>
       </a>

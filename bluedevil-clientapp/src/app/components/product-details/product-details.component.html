@@ -12,7 +12,7 @@
     <p>{{error}}</p>
     <button type="button" class="btn btn-danger" (click)="onHandleError()">Back to catalog</button>
   </div>
-  <div class="p-details-container" *ngIf="product !== null">
+  <div class="p-details-container animate-opacity" *ngIf="product !== null">
     <div class="p-details-container-header">
       <a routerLink="/products" class="p-link-item"><i class="fa fa-arrow-left"></i></a>
       {{product.name}}

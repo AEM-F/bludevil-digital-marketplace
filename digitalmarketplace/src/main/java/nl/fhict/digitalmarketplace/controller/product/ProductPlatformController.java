@@ -70,7 +70,7 @@ public class ProductPlatformController {
                     }
                     case PAGE:{
                         Page<ProductPlatform> platforms = platformService.getPlatforms(page, size);
-                        PaginationResponse<ProductPlatform> paginationResponse = new PaginationResponse<ProductPlatform>(platforms.getContent(), platforms.getTotalPages(), platforms.getNumber()+1,platforms.getSize());
+                        PaginationResponse<ProductPlatform> paginationResponse = new PaginationResponse<ProductPlatform>(platforms.getContent(), platforms.getTotalElements(), platforms.getNumber()+1,platforms.getSize());
                         return ResponseEntity.ok(paginationResponse);
                     }
                 }

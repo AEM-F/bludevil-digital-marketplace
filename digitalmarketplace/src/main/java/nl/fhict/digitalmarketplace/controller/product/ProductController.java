@@ -91,13 +91,13 @@ public class ProductController {
                 double priceConverted = Double.parseDouble(price);
                 LOG.info("Attempting to get products by price: "+price);
                 Page<Product> products = productFilterService.filterBy(page, size, new ProductPriceFilterSpec(priceConverted));
-                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalPages(), products.getNumber()+1,products.getSize());
+                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
                 return ResponseEntity.ok(paginationResponse);
             }
             else{
                 LOG.info("Attempting to get products");
                 Page<Product> products = productService.getProducts(page, size);
-                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalPages(), products.getNumber()+1,products.getSize());
+                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
                 return ResponseEntity.ok(paginationResponse);
             }
         }
@@ -127,13 +127,13 @@ public class ProductController {
                 double priceConverted = Double.parseDouble(price);
                 LOG.info("Attempting to get products by price and platform: "+price+" "+platformName);
                 Page<Product> products = productFilterService.filterBy(page, size, new ProductPriceAndPlatformFilterSpec(priceConverted, platformName));
-                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalPages(), products.getNumber()+1,products.getSize());
+                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
                 return ResponseEntity.ok(paginationResponse);
             }
             else{
                 LOG.info("Attempting to get products by platform: "+platformName);
                 Page<Product> products = productFilterService.filterBy(page, size, new ProductPlatformFilterSpec(platformName));
-                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalPages(), products.getNumber()+1,products.getSize());
+                PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
                 return ResponseEntity.ok(paginationResponse);
             }
         } catch (NumberFormatException | InvalidInputException e){
@@ -157,7 +157,7 @@ public class ProductController {
         try {
             LOG.info("Attempting to get products by name: "+productName);
             Page<Product> products = productService.getProductsByName(page, size,productName);
-            PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalPages(), products.getNumber()+1,products.getSize());
+            PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
             return ResponseEntity.ok(paginationResponse);
         }
         catch (InvalidInputException e){

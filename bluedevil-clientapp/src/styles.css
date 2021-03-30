@@ -44,6 +44,10 @@ body{
   background-size: cover;
 }
 
+app-product-list{
+  width: 100%;
+}
+
 .component-holder{
   display: flex;
   flex-direction: column;
@@ -192,6 +196,32 @@ body{
 }
 
 /**End of general error**/
+
+/**Pagination controls**/
+
+ngb-pagination .pagination{
+  margin-bottom: 0;
+}
+
+ngb-pagination .page-item .page-link{
+  background-color: #212529;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: #e7e7e7;
+}
+
+ngb-pagination .page-item.disabled .page-link{
+  background-color: #212529;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+ngb-pagination .page-item.active .page-link{
+  background-color: #212529;
+  border-color: #043dd6;
+  text-shadow: -1px -1px 10px #013992,1px 1px 5px #013992;
+  box-shadow: 0 1px 6px 3px #02266b;
+}
+
+/**End*/
 
 .animate-opacity{
   animation:opac 0.8s
