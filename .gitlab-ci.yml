@@ -13,7 +13,7 @@ sonar:
     stage: sonar
     script:
         - cd digitalmarketplace
-        - ./gradlew sonarqube -Dsonar.projectKey="bludevil-digitalmarketplace" -Dsonar.host.url=%SONAR_URL% -Dsonar.login=%SONAR_LOGIN%
+        - ./gradlew sonarqube -D sonar.projectKey=bludevil-digitalmarketplace -D sonar.host.url=%SONAR_URL% -D sonar.login=%SONAR_LOGIN%
 test:
     stage: test
     script:
