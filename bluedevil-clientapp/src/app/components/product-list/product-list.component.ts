@@ -12,10 +12,12 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 })
 export class ProductListComponent implements OnInit {
 
-  products: Product[];
+  products: Product[] = [];
   isLoadingProducts = false;
+  previousPrice: number = 0;
   previousKeyword: string = '';
   previousPlatform: string = '';
+  currentPrice: number = 0;
   currentPlatformName: string = '';
   currentSearchKeyword: string = '';
   error;
@@ -30,16 +32,24 @@ export class ProductListComponent implements OnInit {
     this.listProducts();
   }
 
-
   listProducts(): void{
+    console.log("Page nr: " + this.pageNr);
     this.route.queryParams.subscribe((params: Params) => {
       if (params.hasOwnProperty('name') && params['name'] != ''){
         this.currentSearchKeyword = params['name'];
-        this.currentPlatformName = '';
+        if (this.currentPlatformName !== ''){
+          this.pageNr = 1;
+          this.currentPlatformName = '';
+          this.currentPrice = 0;
+        }
+
         this.handleSearchProducts();
       }
       else{
-        this.currentSearchKeyword = '';
+        if (this.currentSearchKeyword !== ''){
+          this.pageNr = 1;
+          this.currentSearchKeyword = '';
+        }
         if (params.hasOwnProperty('platform')){
           this.currentPlatformName = params['platform'];
         }
@@ -47,9 +57,12 @@ export class ProductListComponent implements OnInit {
           this.pageNr = 1;
         }
         this.previousPlatform = this.currentPlatformName;
+        if (params.hasOwnProperty('price')){
+          this.currentPrice = params['price'];
+        }
+        this.previousPrice = this.currentPrice;
         this.handleListProducts();
       }
-
     });
   }
 
@@ -69,7 +82,7 @@ export class ProductListComponent implements OnInit {
 
   handleListProducts(): void{
     this.isLoadingProducts = true;
-    this.productService.getProductListPaginate(this.pageNr, this.pageSize , this.currentPlatformName).subscribe(
+    this.productService.getProductListPaginate(this.pageNr, this.pageSize , this.currentPlatformName, this.currentPrice).subscribe(
       this.processResult(),
       this.processError()
     );
@@ -87,6 +100,7 @@ export class ProductListComponent implements OnInit {
 
   processError(){
     return error1 => {
+      this.pageNr = 1;
       this.isLoadingProducts = false;
       this.error = error1.error.message;
       this.products = [];
@@ -107,9 +121,15 @@ export class ProductListComponent implements OnInit {
   }
 
   onClearFilters(): void{
+    this.previousPrice = 0;
+    this.currentPrice = 0;
+    this.previousKeyword = '';
+    this.previousPlatform = '';
     this.currentSearchKeyword = '';
     this.currentPlatformName = '';
-    this.router.navigate(['/products']);
+    this.pageNr = 1;
+    this.router.navigate(['/products'], { queryParams: { platform: 'all', price: '0'}});
+    this.listProducts();
   }
 
   updatePageSize(size: number): void{

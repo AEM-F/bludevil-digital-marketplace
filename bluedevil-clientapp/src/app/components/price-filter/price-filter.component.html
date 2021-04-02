@@ -1,1 +1,13 @@
-<p class="temp">price-filter will come!</p>
+<div class="input-group" [formGroup]="priceGroup">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Price</span>
+  </div>
+  <input formControlName="price" type="text" class="form-control" aria-label="price-filter" placeholder="Enter price" (keyup.enter)="onPriceSubmit()">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary btn-submit-price" type="button" id="button-price-filter" [class.disabled]="price.invalid" (click)="onPriceSubmit()">Apply</button>
+  </div>
+  <div *ngIf="price.touched && price.invalid" class="alert alert-danger">
+    <div *ngIf="price.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Price cannot contain spaces</div>
+    <div *ngIf="price.errors.pattern"><i class="fa fa-exclamation-triangle"></i> Price has to be a number</div>
+  </div>
+</div>

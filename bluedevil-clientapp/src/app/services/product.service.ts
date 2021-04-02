@@ -11,16 +11,19 @@ import {environment} from "../../environments/environment";
 })
 export class ProductService {
 
-  private baseUrl = environment.apiBaseUrl+'/api/products';
+  private baseUrl = environment.apiBaseUrl + '/api/products';
 
   constructor(private http: HttpClient) { }
 
-  getProductListPaginate(page: number, size: number, platform:string): Observable<PaginationResponse<Product>>{
+  getProductListPaginate(page: number, size: number, platform: string, price: number): Observable<PaginationResponse<Product>>{
     let searchUrl = `${this.baseUrl}`;
     if ( platform != null && platform !== '' && platform !== 'all'){
       searchUrl += `/platform/${platform}`;
     }
     searchUrl += `?page=${page}&size=${size}`;
+    if ( price != null && price > 0){
+      searchUrl += `&price=${price}`;
+    }
     return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
       map(response => {
         return response;
@@ -28,7 +31,7 @@ export class ProductService {
     );
   }
 
-  searchProductsPaginate(page: number, size: number, keyword:string): Observable<PaginationResponse<Product>>{
+  searchProductsPaginate(page: number, size: number, keyword: string): Observable<PaginationResponse<Product>>{
     let searchUrl = `${this.baseUrl}/search/${keyword}`;
     searchUrl += `?page=${page}&size=${size}`;
     return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(

@@ -48,6 +48,10 @@ app-product-list{
   width: 100%;
 }
 
+app-product-creation{
+  width: 100%;
+}
+
 .component-holder{
   display: flex;
   flex-direction: column;
@@ -222,6 +226,15 @@ ngb-pagination .page-item.active .page-link{
 }
 
 /**End*/
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+{
+  -webkit-box-shadow: 0 0 0 30px #212529 inset !important;
+  -webkit-text-fill-color: #e7e7e7 !important;
+}
 
 .animate-opacity{
   animation:opac 0.8s

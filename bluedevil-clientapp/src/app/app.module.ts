@@ -17,6 +17,8 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import { ProductCreationComponent } from './components/product-creation/product-creation.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +31,16 @@ import { PriceFilterComponent } from './components/price-filter/price-filter.com
     ScrollToTopComponent,
     SearchProductComponent,
     ProductDetailsComponent,
-    PriceFilterComponent
+    PriceFilterComponent,
+    ProductCreationComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgbModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgbModule,
+        ReactiveFormsModule
+    ],
   providers: [
     ProductService,
     ProductPlatformService

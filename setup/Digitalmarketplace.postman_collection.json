@@ -332,7 +332,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 12,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": false,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -456,7 +456,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/search/ant",
+							"raw": "http://localhost:8080/api/products/search/val",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -466,7 +466,7 @@
 								"api",
 								"products",
 								"search",
-								"ant"
+								"val"
 							]
 						}
 					},

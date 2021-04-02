@@ -1,6 +1,6 @@
 <div class="component-holder">
   <app-search-product></app-search-product>
-  <div class="pagination-container">
+  <div class="pagination-container" *ngIf="(products.length > 0 && products != null)">
     <div class="pagination-controls">
       <ngb-pagination
         [(page)]="pageNr"
@@ -21,7 +21,7 @@
       <div class="form-group">
         <label for="productPageSize">Page Size:</label>
         <select class="form-control" id="productPageSize" (change)="updatePageSize($event.target.value)">
-          <option>1</option>
+          <option>5</option>
           <option selected="true">10</option>
           <option>20</option>
           <option>30</option>
@@ -67,9 +67,9 @@
 <!--        <div class="p-state-container state-available" *ngIf="product.active">-->
 <!--          <i class="fa fa-check"></i> Available-->
 <!--        </div>-->
-<!--        <div class="p-state-container state-unavailable" *ngIf="!product.active">-->
-<!--          <i class="fa fa-ban"></i> Unavailable-->
-<!--        </div>-->
+        <div class="p-state-container state-unavailable" *ngIf="!product.active">
+          <i class="fa fa-ban"></i> Unavailable
+        </div>
         <div
           class="property-image"
           [style.background-image]="'url('+product.imageUrl+')'">

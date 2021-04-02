@@ -4,18 +4,20 @@ import {Observable} from "rxjs";
 import {ProductPlatform} from "../common/productplatform";
 import {PaginationResponse} from "../common/paginationresponse";
 import {map} from "rxjs/operators";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductPlatformService {
 
-  private baseUrl= 'http://localhost:8080/api/productPlatforms?retrieval=all';
+  private baseUrl = environment.apiBaseUrl + '/api/productPlatforms';
 
   constructor(private http: HttpClient) { }
 
-  getPlatformList():Observable<ProductPlatform[]>{
-    return this.http.get<ProductPlatform[]>(this.baseUrl).pipe(
+  getPlatformList(): Observable<ProductPlatform[]>{
+    const searchUrl = `${this.baseUrl}?retrieval=all`;
+    return this.http.get<ProductPlatform[]>(searchUrl).pipe(
       map(response => {
         return response;
       })

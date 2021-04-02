@@ -13,7 +13,7 @@
   box-shadow: 0 1px 6px 0 #02266b;
 }
 
-.platform-collapse a{
+.platform-collapse .btn-platform-item{
   opacity: 0;
 }
 
@@ -29,7 +29,7 @@
   border: 1px solid rgba(253, 253, 253, 0.05);
 }
 
-.platform-collapse.show a{
+.platform-collapse.show .btn-platform-item{
   text-decoration: none;
   padding: 5px;
   margin: 5px;
@@ -40,8 +40,8 @@
   animation:opac 0.8s forwards;
 }
 
-.platform-collapse.show a:hover,
-.platform-collapse.show a.active{
+.platform-collapse.show .btn-platform-item:hover,
+.platform-collapse.show .btn-platform-item.active{
   background-color: #212529;
   color: #0066ff;
 }

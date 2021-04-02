@@ -1,0 +1,211 @@
+.product-form{
+  width: 95%;
+  height: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: .25rem;
+  background-color: #212529;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.product-form label{
+  color: #e7e7e7;
+}
+
+.product-form .form-control{
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  background-color: #212529 !important;
+  color: #e7e7e7 !important;
+}
+
+.btn-product-form,
+.btn-product-form:active{
+  outline: 0;
+  min-width: 100px;
+  padding: 5px;
+  background-color: #212529;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #e7e7e7;
+  transition: 0.3s;
+  border-radius: .25rem;
+}
+
+.btn-product-form[disabled]{
+  color: #5d5d5d;
+}
+
+.btn-product-form[disabled]:hover{
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  text-shadow: -1px -1px 10px #920101,1px 1px 10px #920101;
+}
+
+.btn-product-form:hover{
+  outline: 0;
+  border: 1px solid #0066ff;
+  color: #0066ff;
+}
+
+.btn-product-form.active{
+  border: 1px solid #0066ff;
+  color: #0066ff;
+  background-color: #212529;
+  box-shadow: 0 1px 6px 0px #043dd6;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.image-group-content{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-group .nav-pills{
+  min-width: 100px;
+}
+
+.image-group .nav-pills .nav-link{
+  padding: 5px;
+}
+
+.image-group .tab-content{
+  margin-left: 5px;
+  min-height: 68px;
+  min-width: 60%;
+  border-radius: .25rem;
+  color: #e7e7e7;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.image-group .tab-content .custom-file,
+.image-group .tab-content .form-group{
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.image-group .tab-content .custom-file:hover .custom-file-label,
+.image-group .tab-content .custom-file:hover .custom-file-label::after{
+  border-color:#0066ff;
+  background-color: #212529;
+  box-shadow: 0 1px 6px 0px #043dd6;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.image-group .tab-content .custom-file .custom-file-label{
+  background-color: #212529;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.image-group .tab-content .custom-file .custom-file-label::after{
+  background-color: #212529;
+  color: #e7e7e7;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.genre-holder{
+  padding: 5px;
+  gap: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: .25rem;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.btn-main-group{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/**
+Adding red border if the input is invalid
+ */
+.form-control.ng-touched.ng-invalid{
+  border: 2px solid crimson;
+  box-shadow: 0 1px 6px 0 #f73434;
+}
+
+/**
+Applying custom style for the validation alert
+ */
+.product-form .alert.alert-danger,.form-error{
+  background: rgba(238, 37, 37, 0.849);
+  color: #e0e0e0;
+  box-shadow: 0 1px 6px 0 #f73434;
+  align-self: center;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: none;
+}
+/*tablets*/
+@media only screen and (min-width : 768px){
+  .product-form{
+    display: grid;
+    grid-template-columns: .5fr .5fr;
+    grid-template-rows: minmax(70px, auto) minmax(70px, auto) auto auto auto auto auto;
+    grid-template-areas:
+      "name type"
+      "price platform"
+      "img genres"
+      "releaseDate genres"
+      "desc desc"
+      "systemReq systemReq"
+      "btnsMain btnsMain";
+    gap: 5px;
+  }
+  .group-name{
+    grid-area: name;
+  }
+  .group-type{
+    grid-area: type;
+  }
+  .group-price{
+    grid-area: price;
+  }
+  .group-platform{
+    grid-area: platform;
+  }
+  .group-description{
+    grid-area: desc;
+  }
+  .group-systemReq{
+    grid-area: systemReq;
+  }
+  .image-group{
+    grid-area: img;
+  }
+  .group-genre{
+    grid-area: genres;
+  }
+  .group-releaseDate{
+    grid-area: releaseDate;
+  }
+  .btn-main-group{
+    grid-area: btnsMain;
+  }
+}
+/*desktop*/
+@media only screen and (min-width : 1200px){
+  .product-form{
+    width: 1000px;
+    align-self: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+  "name type img"
+  "price platform releaseDate"
+  "genres genres genres"
+  "desc desc desc"
+  "systemReq systemReq systemReq"
+  "btnsMain btnsMain btnsMain";
+    gap: 10px;
+  }
+}

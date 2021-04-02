@@ -15,7 +15,7 @@ export class SearchProductComponent implements OnInit {
 
   onSearchProduct(value: string){
     console.log(`value=${value}`);
-    this.router.navigate([`/products`], {queryParams:{name: `${value}`}});
+    this.router.navigate([], {relativeTo: this.route ,queryParams:{name: `${value}`}});
   }
 
 }
