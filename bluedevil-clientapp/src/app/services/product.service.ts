@@ -13,15 +13,24 @@ export class ProductService {
 
   private baseUrl = environment.apiBaseUrl + '/api/products';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getProductListPaginate(page: number, size: number, platform: string, price: number): Observable<PaginationResponse<Product>>{
+  handleProductImage(imagePath: string): string {
+    if (imagePath != null && imagePath.length > 0 && imagePath !== '') {
+      return imagePath;
+    } else {
+      return environment.apiBaseUrl + '/api/images/getImage/picture-not-available.jpg';
+    }
+  }
+
+  getProductListPaginate(page: number, size: number, platform: string, price: number): Observable<PaginationResponse<Product>> {
     let searchUrl = `${this.baseUrl}`;
-    if ( platform != null && platform !== '' && platform !== 'all'){
+    if (platform != null && platform !== '' && platform !== 'all') {
       searchUrl += `/platform/${platform}`;
     }
     searchUrl += `?page=${page}&size=${size}`;
-    if ( price != null && price > 0){
+    if (price != null && price > 0) {
       searchUrl += `&price=${price}`;
     }
     return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
@@ -31,7 +40,7 @@ export class ProductService {
     );
   }
 
-  searchProductsPaginate(page: number, size: number, keyword: string): Observable<PaginationResponse<Product>>{
+  searchProductsPaginate(page: number, size: number, keyword: string): Observable<PaginationResponse<Product>> {
     let searchUrl = `${this.baseUrl}/search/${keyword}`;
     searchUrl += `?page=${page}&size=${size}`;
     return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
@@ -41,10 +50,17 @@ export class ProductService {
     );
   }
 
-  getProductById(id: number): Observable<Product>{
+  getProductById(id: number): Observable<Product> {
     let searchUrl = `${this.baseUrl}/${id}`;
     return this.http.get<Product>(searchUrl);
   }
+
+  createProduct(product: Product): Observable<any> {
+    return this.http.post(this.baseUrl, product);
+  }
+
+  updateProduct(product: Product, id: number): Observable<any> {
+    const endpoint = `${this.baseUrl}/${id}`;
+    return this.http.put(endpoint, product);
+  }
 }
-
-

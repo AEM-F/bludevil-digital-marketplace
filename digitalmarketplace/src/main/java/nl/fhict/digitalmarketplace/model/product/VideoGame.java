@@ -1,7 +1,5 @@
 package nl.fhict.digitalmarketplace.model.product;
 
-
-
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

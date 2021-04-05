@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @Service
 public class UserService implements IUserService{
 
-    private Logger LOG = LoggerFactory.getLogger(UserService.class);
+    private Logger log = LoggerFactory.getLogger(UserService.class);
     private UserRepository userRepository;
    // private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -28,12 +28,12 @@ public class UserService implements IUserService{
 
     @Override
     public User CreateUser(@Valid User user) throws InvalidInputException {
-        LOG.info("Validating the email: "+user.getEmail());
+        log.info("Validating the email: "+user.getEmail());
         User foundUser = userRepository.findByEmail(user.getEmail());
         if(foundUser == null){
-            LOG.info("Email is valid, no user with the given email was found");
+            log.info("Email is valid, no user with the given email was found");
            // user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            LOG.info("Saving user...");
+            log.info("Saving user...");
             userRepository.save(user);
             return user;
         }

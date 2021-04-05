@@ -4,6 +4,8 @@ import {Product} from "../../common/product";
 import {ProductPlatformService} from "../../services/product-platform.service";
 import {ProductPlatform} from "../../common/productplatform";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ImageService} from '../../services/image.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +27,10 @@ export class ProductListComponent implements OnInit {
   pageSize: number= 10;
   totalElements: number= 0;
 
-  constructor(private productService: ProductService,private route: ActivatedRoute, private router: Router) { }
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private imageService: ImageService) { }
 
   ngOnInit(): void {
     this.loadScript();
@@ -138,4 +143,7 @@ export class ProductListComponent implements OnInit {
     this.listProducts();
   }
 
+  handleProductImage(imagePath: string): string{
+    return this.productService.handleProductImage(imagePath);
+  }
 }

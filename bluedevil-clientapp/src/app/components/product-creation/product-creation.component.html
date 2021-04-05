@@ -1,5 +1,15 @@
 <div class="component-holder">
-  <form class="product-form animate-opacity" [formGroup]="creationForm">
+  <div class="alert alert-danger general-error-container animate-opacity" *ngIf="genreServerError">
+    <h4><i class="fa fa-exclamation-triangle"></i> Ups... an error:</h4>
+    <p>{{genreServerError}}</p>
+    <button class="btn btn-danger" (click)="navigateToProductManage()">Manage products</button>
+  </div>
+  <div class="alert alert-danger general-error-container animate-opacity" *ngIf="platformServerError">
+    <h4><i class="fa fa-exclamation-triangle"></i> Ups... an error:</h4>
+    <p>{{genreServerError}}</p>
+    <button class="btn btn-danger" (click)="navigateToProductManage()">Manage products</button>
+  </div>
+  <form class="product-form animate-opacity" [formGroup]="creationForm" (ngSubmit)="createProduct()">
     <div class="form-group group-type">
       <label for="formControlSelect1">Type</label>
       <select class="form-control"
@@ -68,14 +78,17 @@
       <label>Image</label>
       <div class="image-group-content">
           <div class="nav flex-column nav-pills" id="v-pills-tab-image" role="tablist" aria-orientation="vertical">
-            <a class="nav-link btn-product-form active" id="v-pills-upload-tab" data-toggle="pill" href="#v-pills-upload" role="tab" aria-controls="v-pills-upload" aria-selected="true" (click)="updateFileUploadMode('upload')">Upload</a>
+            <a class="nav-link btn-product-form active" id="v-pills-upload-tab" data-toggle="pill" href="#v-pills-upload" role="tab" aria-controls="v-pills-upload" aria-selected="true" (click)="updateFileUploadMode('uploadImage')">Upload</a>
             <a class="nav-link btn-product-form" id="v-pills-link-tab" data-toggle="pill" href="#v-pills-image" role="tab" aria-controls="v-pills-link" aria-selected="false" (click)="updateFileUploadMode('url')">Link</a>
           </div>
           <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-upload" role="tabpanel" aria-labelledby="v-pills-upload-tab" *ngIf="fileUploadMode === 'upload'">
+            <div class="tab-pane fade show active" id="v-pills-upload" role="tabpanel" aria-labelledby="v-pills-upload-tab" *ngIf="fileUploadMode === 'uploadImage'">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" accept=".jpg, .jpeg, .png">
+                <input type="file" class="custom-file-input" id="customFile" accept=".jpg, .jpeg, .png" (change)="handleFile($event.target.files)">
                 <label class="custom-file-label" for="customFile">Choose file</label>
+                <div class="alert alert-danger" *ngIf="!validateUploadFile()">
+                  <div><i class="fa fa-exclamation-triangle"></i> File is missing or it's not an image</div>
+                </div>
               </div>
             </div>
             <div class="tab-pane fade" id="v-pills-image" role="tabpanel" aria-labelledby="v-pills-link-tab" *ngIf="fileUploadMode === 'url'">
@@ -120,10 +133,23 @@
     </div>
     <div class="form-group btn-main-group">
       <button type="button" class="btn-product-form">Cancel</button>
-      <button type="submit" class="btn-product-form" [disabled]="creationForm.invalid">Submit</button>
+      <button type="submit" class="btn-product-form" [disabled]="creationForm.invalid || selectedGenres.length === 0 || !validateFile()">Submit</button>
     </div>
-    <div class="alert alert-danger" *ngIf="creationForm.errors">
-      <i class="fa fa-exclamation-triangle"></i> Some error
+    <div class="alert alert-danger creationError" *ngIf="creationForm.errors">
+      <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="creationForm.errors.invalidCreationProduct">
+        <p><i class="fa fa-exclamation-triangle">{{errorCreation}}</i></p>
+        <button class="btn btn-outline-dark btn-error-creation" (click)="handleCreationError()">Okay</button>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="creationForm.errors.invalidImageUpload">
+        <p><i class="fa fa-exclamation-triangle"></i> Error: Product was created but the image upload failed, try to edit the product and upload the image again</p>
+        <p>Reason: {{errorUploadImage}}</p>
+        <button class="btn btn-outline-dark btn-error-creation" (click)="navigateToProductEdit()">Go to product edit</button>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="creationForm.errors.invalidUpdateProduct">
+        <p><i class="fa fa-exclamation-triangle"></i> Error: Product was created but something went wrong with the image upload, try to edit the product and upload the image again</p>
+        <p>Reason: {{errorUpdateProduct}}</p>
+        <button class="btn btn-outline-dark btn-error-creation" (click)="navigateToProductEdit()">Go to product edit</button>
+      </div>
     </div>
   </form>
 </div>

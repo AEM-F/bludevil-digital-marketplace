@@ -50,4 +50,8 @@ export class ProductDetailsComponent implements OnInit {
     this.error = null;
     this.router.navigate(['/products']);
   }
+
+  handleProductImage(imagePath: string): string{
+    return this.productService.handleProductImage(imagePath);
+  }
 }

@@ -7,10 +7,11 @@ export class Videogame extends Product{
   public genres: Genre[];
 
 
-  constructor(name: string, platform: ProductPlatform, description: string, imageUrl: string, systemReq: string, isActive: boolean, releaseDate: string, genres: Genre[]) {
-    super(name, platform, description, imageUrl, systemReq, isActive);
+  constructor(name: string, platform: ProductPlatform, description: string, imageUrl: string, systemReq: string, active: boolean, price: number, releaseDate: string, genres: Genre[]) {
+    super(name, platform, description, imageUrl, systemReq, active, price);
     this.releaseDate = releaseDate;
     this.genres = genres;
+    this.setType('videogame');
   }
 
   getType(): string {

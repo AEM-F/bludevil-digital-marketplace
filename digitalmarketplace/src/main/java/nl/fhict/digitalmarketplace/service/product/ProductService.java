@@ -3,8 +3,11 @@ package nl.fhict.digitalmarketplace.service.product;
 import nl.fhict.digitalmarketplace.DigitalmarketplaceApplication;
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
+import nl.fhict.digitalmarketplace.model.product.Genre;
 import nl.fhict.digitalmarketplace.model.product.Product;
 import nl.fhict.digitalmarketplace.model.product.ProductPlatform;
+import nl.fhict.digitalmarketplace.model.product.VideoGame;
+import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
 import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import nl.fhict.digitalmarketplace.repository.product.ProductRepository;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Validated
@@ -25,21 +29,23 @@ public class ProductService implements IProductService{
 
     private ProductRepository productRepository;
     private ProductPlatformRepository productPlatformRepository;
-    private Logger LOG = LoggerFactory.getLogger(ProductService.class);
+    private GenreRepository genreRepository;
+    private Logger log = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductPlatformRepository productPlatformRepository) {
+    public ProductService(ProductRepository productRepository, ProductPlatformRepository productPlatformRepository, GenreRepository genreRepository) {
         this.productRepository = productRepository;
         this.productPlatformRepository = productPlatformRepository;
+        this.genreRepository = genreRepository;
     }
     @Override
     public Product getProductById(Integer id) throws InvalidInputException, ResourceNotFoundException {
-        LOG.info("Validating the given id: "+id);
+        log.info("Validating the given id: "+id);
         if(id > 0){
-            LOG.info("Getting the product with given id: "+id);
+            log.info("Getting the product with given id: "+id);
             Product foundProduct = productRepository.getById(id);
             if(foundProduct != null){
-                LOG.info("Successfully returned the product");
+                log.info("Successfully returned the product");
                 return foundProduct;
             }
             throw new ResourceNotFoundException("The product with the given id was not found");
@@ -55,39 +61,27 @@ public class ProductService implements IProductService{
      */
     @Override
     public Product createProduct(@Valid Product product) throws InvalidInputException, ResourceNotFoundException {
-        LOG.info("Validating product platform: "+product.getProductPlatform().toString());
-        ProductPlatform productPlatform = productPlatformRepository.getById(product.getProductPlatform().getId());
-        if(productPlatform != null){
-            if(productPlatform.getName().equals(product.getProductPlatform().getName())){
-                LOG.info("Saving product...");
-                Product productCreated = productRepository.save(product);
-                return productCreated;
-            }
-            throw new InvalidInputException("The given platform name does not match with the platform id");
-        }
-        throw new ResourceNotFoundException("No platform was found the given id");
+        this.validateProductPlatform(product);
+        this.validateProductGenres(product);
+        log.info("Saving product...");
+        Product productCreated = productRepository.save(product);
+        return productCreated;
     }
 
     @Override
     public Product updateProduct(@Valid Product productToUpdate, Integer id) throws InvalidInputException, ResourceNotFoundException {
-        LOG.info("Validating the given id: "+id);
+        log.info("Validating the given id: "+id);
         if(id>0){
             Product foundProduct = productRepository.getById(id);
             if(foundProduct != null){
                 if(foundProduct.getType().equals(productToUpdate.getType())){
-                    ProductPlatform productPlatform = productPlatformRepository.getById(productToUpdate.getProductPlatform().getId());
-                    if(productPlatform != null){
-                        LOG.info("Validating product platform: "+productToUpdate.getProductPlatform().toString());
-                        if(productPlatform.getName().equals(productToUpdate.getProductPlatform().getName())){
-                            LOG.info("Updating the found product: "+foundProduct.toString());
-                            productToUpdate.setId(foundProduct.getId());
-                            Product updatedProduct = productRepository.save(productToUpdate);
-                            LOG.info("Finished updating the product");
-                            return updatedProduct;
-                        }
-                        throw new InvalidInputException("The given platform name does not match with the platform id");
-                    }
-                    throw new ResourceNotFoundException("No platform was found the given id");
+                    this.validateProductPlatform(productToUpdate);
+                    this.validateProductGenres(productToUpdate);
+                    log.info("Updating the found product: "+foundProduct.toString());
+                    productToUpdate.setId(foundProduct.getId());
+                    Product updatedProduct = productRepository.save(productToUpdate);
+                    log.info("Finished updating the product");
+                    return updatedProduct;
                 }
                 throw new InvalidInputException("The product type cannot be different");
             }
@@ -96,14 +90,41 @@ public class ProductService implements IProductService{
         throw new InvalidInputException("The given id is not valid");
     }
 
+    private boolean validateProductPlatform(Product product) throws InvalidInputException, ResourceNotFoundException {
+        ProductPlatform productPlatform = productPlatformRepository.getById(product.getProductPlatform().getId());
+        if(productPlatform != null){
+            log.info("Validating product platform: "+product.getProductPlatform().toString());
+            if(productPlatform.getName().equals(product.getProductPlatform().getName())){
+                return true;
+            }
+            throw new InvalidInputException("The given platform name does not match with the platform id");
+        }
+        throw new ResourceNotFoundException("No platform was found the given id");
+    }
+
+    private boolean validateProductGenres(Product product) throws InvalidInputException, ResourceNotFoundException {
+        if (product.getType().equals("videogame")){
+            List<Genre> productGenres = ((VideoGame)product).getGenres();
+            List<Genre> genres = genreRepository.findAll();
+            if (!genres.isEmpty() && !productGenres.isEmpty()){
+                if(genres.containsAll(productGenres)){
+                    return true;
+                }
+                throw new InvalidInputException("The provided genres are invalid");
+            }
+            throw new ResourceNotFoundException("No available genre exists");
+        }
+        return false;
+    }
+
     @Override
     public Product deleteProductById(Integer id) throws InvalidInputException, ResourceNotFoundException{
-        LOG.info("Validating the given id: "+id);
+        log.info("Validating the given id: "+id);
         if(id > 0){
             Product foundProduct = productRepository.getById(id);
             if(foundProduct != null){
                 productRepository.deleteById(id);
-                LOG.info("Successfully deleted the product");
+                log.info("Successfully deleted the product");
                 return foundProduct;
             }
             throw new ResourceNotFoundException("No product was found with the given id");
@@ -113,13 +134,13 @@ public class ProductService implements IProductService{
 
     @Override
     public Page<Product> getProducts(int page, int size) throws InvalidInputException, ResourceNotFoundException {
-        LOG.info("Validating input");
+        log.info("Validating input");
         if(page > 0){
             if(size > 0){
                 Pageable requestedPage = PageRequest.of(page-1, size);
                 Page<Product> products = productRepository.findAll(requestedPage);
                 if(products.getContent().size() != 0){
-                    LOG.info("Successfully returned the products");
+                    log.info("Successfully returned the products");
                     return products;
                 }
                 throw new ResourceNotFoundException("No products were found");
@@ -137,8 +158,8 @@ public class ProductService implements IProductService{
                 if(size > 0){
                     Pageable requestedPage = PageRequest.of(page-1, size);
                     Page<Product> products = productRepository.findAllByNameIsContainingIgnoreCase(name, requestedPage);
-                    if(products.getContent().size() != 0){
-                        LOG.info("Successfully returned the products with the name: "+name);
+                    if(!products.getContent().isEmpty()){
+                        log.info("Successfully returned the products with the name: "+name);
                         return products;
                     }
                     throw new ResourceNotFoundException("No products were found");
