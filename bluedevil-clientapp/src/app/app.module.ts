@@ -18,7 +18,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import { ProductCreationComponent } from './components/product-creation/product-creation.component';
+import { ProductCreationComponent } from './components/admin/products/product-creation/product-creation.component';
+import { ProductEditComponent } from './components/admin/products/product-edit/product-edit.component';
+import { ProductManageComponent } from './components/admin/products/product-manage/product-manage.component';
+import { ProductPlatformManageComponent } from './components/admin/products/product-platform-manage/product-platform-manage.component';
+
+import { ProductListAdminComponent } from './components/admin/products/product-list-admin/product-list-admin.component';
+import {GenreManageComponent} from './components/admin/products/genre-manage/genre-manage.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +38,12 @@ import { ProductCreationComponent } from './components/product-creation/product-
     SearchProductComponent,
     ProductDetailsComponent,
     PriceFilterComponent,
-    ProductCreationComponent
+    ProductCreationComponent,
+    ProductEditComponent,
+    ProductManageComponent,
+    ProductPlatformManageComponent,
+    GenreManageComponent,
+    ProductListAdminComponent
   ],
     imports: [
         BrowserModule,

@@ -10,7 +10,7 @@ export abstract class Product {
   public imageUrl: string;
   public systemRequirements: string;
   public active: boolean;
-  private type: string = '';
+  public type: string = '';
 
   protected constructor(name: string, platform: ProductPlatform, description: string, imageUrl: string, systemReq: string, active:boolean, price: number) {
     this.name = name;

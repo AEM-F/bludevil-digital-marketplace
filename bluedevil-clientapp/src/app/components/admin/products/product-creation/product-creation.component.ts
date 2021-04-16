@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Genre} from '../../common/genre';
-import {ProductPlatform} from '../../common/productplatform';
-import {ProductService} from '../../services/product.service';
-import {ProductPlatformService} from '../../services/product-platform.service';
-import {GenreService} from '../../services/genre.service';
-import {ProductValidators} from '../validators/product.validators';
-import {Videogame} from '../../common/videogame';
-import {SoftwareProduct} from '../../common/softwareproduct';
-import {Product} from '../../common/product';
-import {ImageService} from '../../services/image.service';
+import {Genre} from '../../../../common/genre';
+import {ProductPlatform} from '../../../../common/productplatform';
+import {ProductService} from '../../../../services/product.service';
+import {ProductPlatformService} from '../../../../services/product-platform.service';
+import {GenreService} from '../../../../services/genre.service';
+import {ProductValidators} from '../../../validators/product.validators';
+import {Videogame} from '../../../../common/videogame';
+import {SoftwareProduct} from '../../../../common/softwareproduct';
+import {Product} from '../../../../common/product';
+import {ImageService} from '../../../../services/image.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -125,6 +125,17 @@ export class ProductCreationComponent implements OnInit {
 
   updateProductType(type: string): void{
     this.productType = type;
+    if (this.productType === 'softwareproduct'){
+      this.creationForm.controls.releaseDate.setValidators([]);
+      this.creationForm.controls.releaseDate.updateValueAndValidity();
+    }
+    else if(this.productType === 'videogame'){
+      this.creationForm.controls.releaseDate.setValidators([
+        Validators.required,
+        Validators.maxLength(10),
+        Validators.pattern(ProductValidators.datePattern)]);
+      this.creationForm.controls.releaseDate.updateValueAndValidity();
+    }
   }
 
   updateFileUploadMode(mode: string): void{
@@ -203,6 +214,18 @@ export class ProductCreationComponent implements OnInit {
     }
   }
 
+  validateSelectedGenres(): boolean{
+    if (this.productType === 'videogame'){
+      if (this.selectedGenres.length === 0){
+        return false;
+      }
+      return true;
+    }
+    else if (this.productType === 'softwareproduct'){
+      return true;
+    }
+  }
+
   handleFile(files: FileList): void{
     this.fileToUpload = files.item(0);
     if (!this.validateUploadFile()){
@@ -246,20 +269,22 @@ export class ProductCreationComponent implements OnInit {
       }
     }
     // console.log(productToSave);
-    this.productService.createProduct(productToSave).subscribe(
-      data => {
-        const returnedProduct: Product = data;
-        this.productRedirectId = returnedProduct.id;
-        // console.log(returnedProduct);
-        if (this.fileUploadMode === `uploadImage`){
-          this.imageService.uploadProductImage(this.fileToUpload, returnedProduct.id).subscribe(
-            dataUploadImg => {
-              const productImagePath: string = dataUploadImg.message;
-              returnedProduct.imageUrl = productImagePath;
-              this.productService.updateProduct(returnedProduct, returnedProduct.id).subscribe(
+    if (this.fileUploadMode === `uploadImage`){
+      this.productService.createProduct(productToSave).subscribe(
+        data => {
+          const returnedProduct: Product = data;
+          this.productRedirectId = returnedProduct.id;
+          // console.log(returnedProduct);
+          if (this.fileUploadMode === `uploadImage`){
+            this.imageService.uploadProductImage(this.fileToUpload, returnedProduct.id).subscribe(
+              dataUploadImg => {
+                const productImagePath: string = dataUploadImg.message;
+                returnedProduct.imageUrl = productImagePath;
+                this.productService.updateProduct(returnedProduct, returnedProduct.id).subscribe(
                   dataUpdateProduct => {
                     const returnedUpdatedProduct: Product = dataUpdateProduct;
                     console.log(returnedUpdatedProduct);
+                    this.navigateToProductManage();
                   },
                   errorUpdateProduct => {
                     this.errorUpdateProduct = errorUpdateProduct.error.message;
@@ -268,23 +293,40 @@ export class ProductCreationComponent implements OnInit {
                     );
                   }
                 );
-            },
-            errorUploadImg => {
-              this.errorUploadImage = errorUploadImg.error.message;
-              this.creationForm.setErrors(
-                { invalidImageUpload: true }
-              );
-            }
+              },
+              errorUploadImg => {
+                this.errorUploadImage = errorUploadImg.error.message;
+                this.creationForm.setErrors(
+                  { invalidImageUpload: true }
+                );
+              }
+            );
+          }
+        },
+        errorCreation => {
+          this.errorCreation = errorCreation.error.message;
+          this.creationForm.setErrors(
+            { invalidCreationProduct: true }
           );
         }
-      },
-      errorCreation => {
-        this.errorCreation = errorCreation.error.message;
-        this.creationForm.setErrors(
-          { invalidCreationProduct: true }
-        );
-      }
-    );
+      );
+    }
+    else{
+      this.productService.createProduct(productToSave).subscribe(
+        data => {
+          const returnedProduct: Product = data;
+          this.productRedirectId = returnedProduct.id;
+          this.navigateToProductManage();
+          // console.log(returnedProduct);
+        },
+        errorCreation => {
+          this.errorCreation = errorCreation.error.message;
+          this.creationForm.setErrors(
+            { invalidCreationProduct: true }
+          );
+        }
+      );
+    }
   }
 
   handleCreationError(): void{

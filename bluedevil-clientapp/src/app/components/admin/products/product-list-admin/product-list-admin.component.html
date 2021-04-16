@@ -1,0 +1,116 @@
+<div class="component-holder">
+  <app-search-product></app-search-product>
+  <div class="pagination-container" *ngIf="(products.length > 0 && products != null)">
+    <div class="pagination-controls">
+      <ngb-pagination
+        [(page)]="pageNr"
+        [pageSize]="pageSize"
+        [collectionSize]="totalElements"
+        [maxSize]="3"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        [ellipses]="false"
+        (pageChange)="listProducts()">
+        <ng-template ngbPaginationFirst><i class="fa fa-angle-double-left"></i></ng-template>
+        <ng-template ngbPaginationLast><i class="fa fa-angle-double-right"></i></ng-template>
+        <ng-template ngbPaginationPrevious><i class="fa fa-angle-left"></i></ng-template>
+        <ng-template ngbPaginationNext><i class="fa fa-angle-right"></i></ng-template>
+      </ngb-pagination>
+    </div>
+    <div class="property-size">
+      <div class="form-group">
+        <label for="productPageSize">Page Size:</label>
+        <select class="form-control" id="productPageSize" (change)="updatePageSize($event.target.value)">
+          <option>5</option>
+          <option selected="true">10</option>
+          <option>20</option>
+          <option>30</option>
+          <option>40</option>
+          <option>50</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="side-area">
+    <div class="side-area-inner-container">
+      <div class="product-state-select-container">
+        <div class="btn-group" role="group" aria-label="products-state">
+          <button type="button"
+                  class="btn-state btn-state-available"
+                  (click)="handleProductsState(true)"
+                  [class.active]="productsState"><i class="fa fa-check-circle"></i>Available</button>
+          <button type="button"
+                  class="btn-state btn-state-unavailable"
+                  (click)="handleProductsState(false)"
+                  [class.active]="!productsState"><i class="fa fa-times-circle"></i>Unavailable</button>
+        </div>
+      </div>
+      <div class="controls-outer-container">
+        <button class="btn-filter"
+                type="button"
+                [routerLink]="['/admin/products/create']"><i class="fa fa-plus"></i> Create Product</button>
+      </div>
+      <div class="filter-outer-container">
+        <button class="btn-filter"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseFilters"
+                aria-expanded="false"
+                aria-controls="collapseFilters"><i class="fa fa-filter"></i> Filters</button>
+        <div class="filter-inner-container collapse" id="collapseFilters">
+          <button class="btn-filter"
+                  (click)="onClearFilters()"><i class="fa fa-undo"></i> Clear All</button>
+          <app-product-platform-menu></app-product-platform-menu>
+          <app-price-filter></app-price-filter>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-holder">
+    <div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
+      <h4>An error occurred:</h4>
+      <p>{{error}}</p>
+      <button class="btn btn-danger" (click)="onHandleError()">Okay</button>
+    </div>
+    <div *ngIf="isLoadingProducts && !error" class="loader-wrapper animate-opacity">
+      <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      Loading...
+    </div>
+
+    <div
+      class="product-card animate-opacity"
+      *ngFor="let product of products"
+      [class.selected]="checkIfProductIsSelected(product.id)" (click)="handleProductSelect(product)">
+      <div class="product-state">
+        <div class="product-state-content state-unavailable" *ngIf="!product.active"><i class="fa fa-times-circle"></i> Unavailable</div>
+        <div class="product-state-content state-available" *ngIf="product.active"><i class="fa fa-check-circle"></i> Available</div>
+      </div>
+      <div class="product-image" [style.background-image]="'url('+handleProductImage(product.imageUrl)+')'">
+
+      </div>
+      <div class="product-description">
+        <div class="product-platform">
+          <p>{{product.productPlatform.name | firstToUpper}}</p>
+        </div>
+        <div class="product-price">
+          <p>{{product.price | currency: 'EUR'}}</p>
+        </div>
+        <div class="product-name">
+          <p>{{product.name}}</p>
+        </div>
+      </div>
+      <div class="product-control-btns" *ngIf="checkIfProductIsSelected(product.id)">
+        <button class="btn-product-control" type="button" (click)="handleEditNavigation(product.id)"><i class="fa fa-pencil-square-o"></i>Edit</button>
+        <button class="btn-product-control"
+                type="button"
+                (click)="handleProductDeactivate(product.id)"
+                *ngIf="product.active"><i class="fa fa-times"></i>Deactivate</button>
+        <button class="btn-product-control" type="button"><i class="fa fa-eye"></i>Inspect</button>
+      </div>
+    </div>
+  </div>
+</div>

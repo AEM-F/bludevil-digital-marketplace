@@ -1,0 +1,21 @@
+.product-section{
+  width: 100%;
+}
+
+.platform-genre-section{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media only screen and (min-width : 768px){
+  .platform-genre-section{
+    flex-direction: row;
+  }
+}
+
+  @media only screen and (min-width : 1200px) {
+
+}

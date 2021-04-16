@@ -14,6 +14,6 @@ public interface IProductService {
     Product createProduct(@Valid Product product) throws InvalidInputException, ResourceNotFoundException;
     Product updateProduct(@Valid Product productToUpdate, Integer id) throws InvalidInputException, ResourceNotFoundException;
     Product deleteProductById(Integer id) throws InvalidInputException, ResourceNotFoundException;
-    Page<Product> getProducts(int page, int size) throws InvalidInputException, ResourceNotFoundException;
+    Page<Product> getProducts(int page, int size, boolean state) throws InvalidInputException, ResourceNotFoundException;
     Page<Product> getProductsByName(int page, int size, String name) throws InvalidInputException, ResourceNotFoundException;
 }

@@ -24,7 +24,7 @@ export class ProductService {
     }
   }
 
-  getProductListPaginate(page: number, size: number, platform: string, price: number): Observable<PaginationResponse<Product>> {
+  getProductListPaginate(page: number, size: number, platform: string, price: number, productsState: boolean): Observable<PaginationResponse<Product>> {
     let searchUrl = `${this.baseUrl}`;
     if (platform != null && platform !== '' && platform !== 'all') {
       searchUrl += `/platform/${platform}`;
@@ -33,6 +33,7 @@ export class ProductService {
     if (price != null && price > 0) {
       searchUrl += `&price=${price}`;
     }
+    searchUrl += `&state=${productsState}`;
     return this.http.get<PaginationResponse<Product>>(searchUrl).pipe(
       map(response => {
         return response;
@@ -62,5 +63,10 @@ export class ProductService {
   updateProduct(product: Product, id: number): Observable<any> {
     const endpoint = `${this.baseUrl}/${id}`;
     return this.http.put(endpoint, product);
+  }
+
+  deactivateProduct(id: number): Observable<any>{
+    const endpoint = `${this.baseUrl}/${id}`;
+    return this.http.delete(endpoint);
   }
 }

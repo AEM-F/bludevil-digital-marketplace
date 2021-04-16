@@ -11,14 +11,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    Page<Product> findAllByProductPlatform_Name(String platformName, Pageable pageable);
-    Page<Product> findAllByPrice(double price, Pageable pageable);
-    Page<Product> findAllByProductPlatform_NameAndPrice(String platformName, double price, Pageable pageable);
+    Page<Product> findAllByIsActiveAndProductPlatform_Name(boolean state, String platformName, Pageable pageable);
+    Page<Product> findAllByIsActiveAndPrice(boolean state, double price, Pageable pageable);
+    Page<Product> findAllByIsActiveAndProductPlatform_NameAndPrice(boolean state, String platformName, double price, Pageable pageable);
     Page<Product> findAllByNameIsContainingIgnoreCase(String productName, Pageable pageable);
+    Page<Product> findAllByIsActive(boolean state, Pageable pageable);
     Product getById(Integer id);
-    @Modifying
-    @Query("update Product p set p.isActive = 'false' where p.id = :productId")
-    void deleteById(@Param("productId") Integer id);
     Product save(Product product);
     long count();
     long countAllByProductPlatform_Name(String platformName);

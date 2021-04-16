@@ -21,12 +21,12 @@ public class ProductFilterService implements IProductFilterService{
     }
 
     @Override
-   public Page<Product> filterBy(int page, int size, ProductFilterSpec productFilterSpec) throws ResourceNotFoundException, InvalidInputException {
+   public Page<Product> filterBy(int page, int size, ProductFilterSpec productFilterSpec, boolean productState) throws ResourceNotFoundException, InvalidInputException {
        if(page > 0){
            if(size > 0){
                Pageable requestedPage = PageRequest.of(page-1, size);
                productFilterSpec.setProductRepository(productRepository);
-               Page<Product> products = productFilterSpec.applyFilter(requestedPage);
+               Page<Product> products = productFilterSpec.applyFilter(requestedPage, productState);
                if(!products.getContent().isEmpty()){
                    log.info("Successfully returned the products");
                    return products;

@@ -53,6 +53,14 @@ app-product-creation{
   width: 100%;
 }
 
+app-product-edit{
+  width: 100%;
+}
+
+app-product-manage{
+  width: 100%;
+}
+
 .component-holder{
   display: flex;
   flex-direction: column;

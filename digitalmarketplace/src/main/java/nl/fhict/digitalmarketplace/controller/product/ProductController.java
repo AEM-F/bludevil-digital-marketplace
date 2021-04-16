@@ -49,18 +49,18 @@ public class ProductController {
     @GetMapping()
     public ResponseEntity<Object> getProducts(@RequestParam(name = "page", defaultValue = "1") int page,
                                       @RequestParam(name = "size", defaultValue = "10") int size,
-                                      @RequestParam(name = "price", required = false) String price) throws ResourceNotFoundException, InvalidInputException {
+                                      @RequestParam(name = "price", required = false) String price,@RequestParam(name = "state", defaultValue = "true") boolean state) throws ResourceNotFoundException, InvalidInputException {
         if(price != null){
             double priceConverted = Double.parseDouble(price);
             log.info("Attempting to get products by price: "+price);
-            Page<Product> products = productFilterService.filterBy(page, size, new ProductPriceFilterSpec(priceConverted));
-            PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
+            Page<Product> products = productFilterService.filterBy(page, size, new ProductPriceFilterSpec(priceConverted), state);
+            PaginationResponse<Product> paginationResponse = new PaginationResponse<>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
             return ResponseEntity.ok(paginationResponse);
         }
         else{
             log.info("Attempting to get products");
-            Page<Product> products = productService.getProducts(page, size);
-            PaginationResponse<Product> paginationResponse = new PaginationResponse<Product>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
+            Page<Product> products = productService.getProducts(page, size, state);
+            PaginationResponse<Product> paginationResponse = new PaginationResponse<>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
             return ResponseEntity.ok(paginationResponse);
         }
     }
@@ -69,18 +69,18 @@ public class ProductController {
     public ResponseEntity<Object> getProductsByPlatform(@PathVariable(name = "name") String platformName,
                                                 @RequestParam(name = "page", defaultValue = "1") int page,
                                                 @RequestParam(name = "size", defaultValue = "10") int size,
-                                                @RequestParam(name = "price", required = false) String price) throws InvalidInputException, ResourceNotFoundException {
+                                                @RequestParam(name = "price", required = false) String price, @RequestParam(name = "state", defaultValue = "true") boolean state) throws InvalidInputException, ResourceNotFoundException {
         platformService.getPlatformByName(platformName);
         if(price != null){
             double priceConverted = Double.parseDouble(price);
             log.info("Attempting to get products by price and platform: "+price+" "+platformName);
-            Page<Product> products = productFilterService.filterBy(page, size, new ProductPriceAndPlatformFilterSpec(priceConverted, platformName));
+            Page<Product> products = productFilterService.filterBy(page, size, new ProductPriceAndPlatformFilterSpec(priceConverted, platformName), state);
             PaginationResponse<Product> paginationResponse = new PaginationResponse<>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
             return ResponseEntity.ok(paginationResponse);
         }
         else{
             log.info("Attempting to get products by platform: "+platformName);
-            Page<Product> products = productFilterService.filterBy(page, size, new ProductPlatformFilterSpec(platformName));
+            Page<Product> products = productFilterService.filterBy(page, size, new ProductPlatformFilterSpec(platformName), state);
             PaginationResponse<Product> paginationResponse = new PaginationResponse<>(products.getContent(), products.getTotalElements(), products.getNumber()+1,products.getSize());
             return ResponseEntity.ok(paginationResponse);
         }

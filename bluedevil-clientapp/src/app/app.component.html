@@ -37,7 +37,10 @@
         </a>
         <ul class="collapse list-unstyled nav-list-holder" id="productSection">
           <li>
-            <a class="nav-link nav-item" href="#"><i class="fa fa-list"></i> Manage</a>
+            <a class="nav-link nav-item"
+               routerLinkActive="active nav-item-active"
+               [routerLink]="['admin/products']"
+               [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-list"></i> Manage</a>
           </li>
           <li>
             <a class="nav-link nav-item"

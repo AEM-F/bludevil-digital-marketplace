@@ -20,7 +20,7 @@ public class ProductPriceFilterSpec extends ProductFilterSpec {
     }
 
     @Override
-    public Page<Product> applyFilter(Pageable pageable) {
-       return super.getProductRepository().findAllByPrice(this.price, pageable);
+    public Page<Product> applyFilter(Pageable pageable, boolean productState) {
+       return super.getProductRepository().findAllByIsActiveAndPrice(productState, this.price, pageable);
     }
 }

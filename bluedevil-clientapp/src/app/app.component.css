@@ -119,6 +119,10 @@
   box-shadow: none;
 }
 
+.nav-list-holder .nav-item-active{
+  border-radius: 0;
+}
+
 
 /*Start of dismiss btn*/
 .dismiss {

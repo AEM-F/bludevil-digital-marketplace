@@ -17,5 +17,5 @@ public abstract class ProductFilterSpec {
     }
 
 
-    public abstract Page<Product> applyFilter(Pageable pageable);
+    public abstract Page<Product> applyFilter(Pageable pageable, boolean productState);
 }

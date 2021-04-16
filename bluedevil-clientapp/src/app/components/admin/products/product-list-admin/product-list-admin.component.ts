@@ -1,19 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {ProductService} from "../../services/product.service";
-import {Product} from "../../common/product";
-import {ProductPlatformService} from "../../services/product-platform.service";
-import {ProductPlatform} from "../../common/productplatform";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {ImageService} from '../../services/image.service';
-import {environment} from '../../../environments/environment';
+import { Component, OnInit } from '@angular/core';
+import {Product} from '../../../../common/product';
+import {ProductService} from '../../../../services/product.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ImageService} from '../../../../services/image.service';
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  selector: 'app-product-list-admin',
+  templateUrl: './product-list-admin.component.html',
+  styleUrls: ['./product-list-admin.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListAdminComponent implements OnInit {
 
+  productsState = true;
+  selectedProduct: Product = null;
   products: Product[] = [];
   isLoadingProducts = false;
   previousPrice: number = 0;
@@ -87,7 +86,12 @@ export class ProductListComponent implements OnInit {
 
   handleListProducts(): void{
     this.isLoadingProducts = true;
-    this.productService.getProductListPaginate(this.pageNr, this.pageSize , this.currentPlatformName, this.currentPrice, true).subscribe(
+    this.productService.getProductListPaginate(
+      this.pageNr,
+      this.pageSize,
+      this.currentPlatformName,
+      this.currentPrice,
+      this.productsState).subscribe(
       this.processResult(),
       this.processError()
     );
@@ -133,7 +137,7 @@ export class ProductListComponent implements OnInit {
     this.currentSearchKeyword = '';
     this.currentPlatformName = '';
     this.pageNr = 1;
-    this.router.navigate(['/products'], { queryParams: { platform: 'all', price: '0'}});
+    this.router.navigate(['admin/products'], { queryParams: { platform: 'all', price: '0'}});
     this.listProducts();
   }
 
@@ -146,4 +150,48 @@ export class ProductListComponent implements OnInit {
   handleProductImage(imagePath: string): string{
     return this.productService.handleProductImage(imagePath);
   }
+
+  checkIfProductIsSelected(id: number): boolean{
+    if (this.selectedProduct == null){
+      return false;
+    }
+    else{
+      return this.selectedProduct.id === id;
+    }
+  }
+
+  handleProductSelect(product: Product): void{
+    if ((this.selectedProduct != null) && (product.id === this.selectedProduct.id)){
+      this.selectedProduct = null;
+    }
+    else{
+      this.selectedProduct = product;
+    }
+  }
+
+  handleEditNavigation(id: number): void{
+    const navigateUrl = `/admin/products/edit/${id}`;
+    this.router.navigate([navigateUrl]);
+  }
+
+  handleProductsState(state: boolean){
+    this.productsState = state;
+    this.listProducts();
+  }
+
+  handleProductDeactivate(id: number): void{
+    this.productService.deactivateProduct(id).subscribe(
+      data => {
+        this.selectedProduct = null;
+        this.listProducts();
+      },
+      error => {
+        this.selectedProduct = null;
+        this.listProducts();
+        console.log(error);
+        this.error = error.error.message;
+      }
+    );
+  }
+
 }

@@ -1,60 +1,32 @@
 package nl.fhict.digitalmarketplace;
 
-import nl.fhict.digitalmarketplace.model.product.*;
-import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
-import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
+import com.zaxxer.hikari.HikariDataSource;
+import nl.fhict.digitalmarketplace.config.DatabaseConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.sql.SQLException;
 
 @SpringBootApplication
-public class DigitalmarketplaceApplication implements CommandLineRunner {
+public class DigitalmarketplaceApplication{
 
-    private Logger log = LoggerFactory.getLogger(DigitalmarketplaceApplication.class);
-    private ProductPlatformRepository productPlatformRepository;
-    private GenreRepository genreRepository;
-
-    @Autowired
-    public void setGenreRepository(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
-    }
-
-    @Autowired
-    public void setProductPlatformRepository(ProductPlatformRepository productPlatformRepository) {
-        this.productPlatformRepository = productPlatformRepository;
-    }
+    private static Logger log = LoggerFactory.getLogger(DigitalmarketplaceApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(DigitalmarketplaceApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        String[] platformNames = {"origin","steam","battle.net", "ncsoft", "uplay", "xbox", "playstation", "android", "gog", "nintendo", "epic", "microsoft"};
-
-        List<ProductPlatform> productPlatforms = new ArrayList<>();
-        for (String name : platformNames){
-            ProductPlatform platform = new ProductPlatform(name);
-            productPlatforms.add(platform);
-        }
-
-        log.info("Saving default product platforms");
-        productPlatformRepository.saveAll(productPlatforms);
-
-        String[] genreNames = {"action", "shooter","survival","battle_royal","adventure","horror","rpg","racing", "sports","strategy","sandbox","open_world"};
-        List<Genre> genres = new ArrayList<>();
-        for (String name : genreNames){
-            Genre genre = new Genre(name);
-            genres.add(genre);
-        }
-
-        log.info("Saving default genres");
-        genreRepository.saveAll(genres);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            HikariDataSource ds = DatabaseConfig.ds;
+            if (ds != null){
+                try {
+                    ds.getConnection().close();
+                }
+                catch (SQLException e){
+                    log.error(e.getMessage());
+                }
+            }
+        }, "Shutdown-thread"));
     }
 
     public static boolean isNullOrEmpty(String str) {

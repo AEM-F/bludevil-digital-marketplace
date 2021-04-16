@@ -123,8 +123,9 @@ public class ProductService implements IProductService{
         if(id > 0){
             Product foundProduct = productRepository.getById(id);
             if(foundProduct != null){
-                productRepository.deleteById(id);
-                log.info("Successfully deleted the product");
+                foundProduct.setActive(false);
+                productRepository.save(foundProduct);
+                log.info("Successfully made the product inactive");
                 return foundProduct;
             }
             throw new ResourceNotFoundException("No product was found with the given id");
@@ -133,12 +134,12 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public Page<Product> getProducts(int page, int size) throws InvalidInputException, ResourceNotFoundException {
+    public Page<Product> getProducts(int page, int size, boolean state) throws InvalidInputException, ResourceNotFoundException {
         log.info("Validating input");
         if(page > 0){
             if(size > 0){
                 Pageable requestedPage = PageRequest.of(page-1, size);
-                Page<Product> products = productRepository.findAll(requestedPage);
+                Page<Product> products = productRepository.findAllByIsActive(state,requestedPage);
                 if(products.getContent().size() != 0){
                     log.info("Successfully returned the products");
                     return products;

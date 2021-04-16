@@ -22,6 +22,10 @@ dependencies {
 // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
     //implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.4.5'
     //compile("com.auth0:java-jwt:3.4.0")
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.2'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation('org.springframework.boot:spring-boot-starter-validation')
@@ -31,9 +35,11 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     //testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
 }
 
 test {
+    //useJunitPlatform()
     useJUnit()
     maxHeapSize = '1G'
     afterTest { desc, result ->

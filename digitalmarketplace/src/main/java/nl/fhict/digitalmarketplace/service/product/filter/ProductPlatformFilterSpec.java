@@ -20,7 +20,7 @@ public class ProductPlatformFilterSpec extends ProductFilterSpec{
     }
 
     @Override
-    public Page<Product> applyFilter(Pageable pageable) {
-        return super.getProductRepository().findAllByProductPlatform_Name(platformName, pageable);
+    public Page<Product> applyFilter(Pageable pageable, boolean productState) {
+        return super.getProductRepository().findAllByIsActiveAndProductPlatform_Name(productState, platformName, pageable);
     }
 }
