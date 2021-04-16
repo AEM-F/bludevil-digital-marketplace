@@ -14,21 +14,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductFilterService implements IProductFilterService{
     private ProductRepository productRepository;
-    private Logger LOG = LoggerFactory.getLogger(ProductFilterService.class);
+    private Logger log = LoggerFactory.getLogger(ProductFilterService.class);
 
     public ProductFilterService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Override
-   public Page<Product> filterBy(int page, int size, ProductFilterSpec productFilterSpec) throws ResourceNotFoundException, InvalidInputException {
+   public Page<Product> filterBy(int page, int size, ProductFilterSpec productFilterSpec, boolean productState) throws ResourceNotFoundException, InvalidInputException {
        if(page > 0){
            if(size > 0){
                Pageable requestedPage = PageRequest.of(page-1, size);
                productFilterSpec.setProductRepository(productRepository);
-               Page<Product> products = productFilterSpec.applyFilter(requestedPage);
-               if(products.getContent().size() != 0){
-                   LOG.info("Successfully returned the products");
+               Page<Product> products = productFilterSpec.applyFilter(requestedPage, productState);
+               if(!products.getContent().isEmpty()){
+                   log.info("Successfully returned the products");
                    return products;
                }
                throw new ResourceNotFoundException("No products were found");

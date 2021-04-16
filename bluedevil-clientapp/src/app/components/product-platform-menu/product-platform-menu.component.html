@@ -13,11 +13,13 @@
     </div>
     Loading...
   </div>
-  <a [routerLink]="['/products']"
-     [queryParams]="{platform: productPlatform.name}"
-     routerLinkActive="active"
-     *ngFor="let productPlatform of platforms">{{productPlatform.name | firstToUpper}}</a>
-  <a [routerLink]="['/products']" [queryParams]="{platform: 'all'}"> All</a>
+  <button class="btn-platform-item" type="button"
+     [class.active]="checkIfPlatformIsActive(productPlatform.name)"
+     *ngFor="let productPlatform of platforms" (click)="onPlatformSubmit(productPlatform.name)">{{productPlatform.name | firstToUpper}}</button>
+  <button class="btn-platform-item"
+          type="button"
+          [class.active]="checkIfPlatformIsActive('all')"
+          (click)="onPlatformSubmit('all')"> All</button>
 </div>
 <div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
   <h4>An error occurred:</h4>

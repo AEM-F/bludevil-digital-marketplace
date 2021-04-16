@@ -1,7 +1,7 @@
 import {ProductPlatform} from "./productplatform";
 
 export abstract class Product {
-  public id: number = 0;
+  public id: number = null;
   public name: string;
   public productPlatform: ProductPlatform;
   public quantity: number = 0;
@@ -10,15 +10,16 @@ export abstract class Product {
   public imageUrl: string;
   public systemRequirements: string;
   public active: boolean;
-  private type: string = '';
+  public type: string = '';
 
-  protected constructor(name: string, platform: ProductPlatform, description: string, imageUrl: string, systemReq: string, isActive:boolean) {
+  protected constructor(name: string, platform: ProductPlatform, description: string, imageUrl: string, systemReq: string, active:boolean, price: number) {
     this.name = name;
     this.productPlatform = platform;
     this.description = description;
     this.imageUrl = imageUrl;
     this.systemRequirements = systemReq;
-    this.active = isActive;
+    this.active = active;
+    this.price = price;
   }
 
 

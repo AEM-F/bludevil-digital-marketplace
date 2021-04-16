@@ -25,7 +25,7 @@
         <div class="p-state-container state-unavailable" *ngIf="!product.active">
           <i class="fa fa-ban"></i> Unavailable
         </div>
-        <div class="p-image" [style.background-image]="'url('+product.imageUrl+')'"></div>
+        <div class="p-image" [style.background-image]="'url('+handleProductImage(product.imageUrl)+')'"></div>
       </div>
       <div class="p-details-btns">
         <button class="btn-p-details"><i class="fa fa-cart-plus"></i> To cart</button>

@@ -332,7 +332,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 39.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Outriders\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 12,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"http://localhost:8080/api/images/getImage/outriders.jpg\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n            \"id\": 1,\r\n            \"genreName\": \"action\"\r\n        }\r\n    ],\r\n    \"isActive\": false,\r\n    \"type\": \"videogame\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -411,6 +411,35 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Add product broken image test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Stellaris\",\r\n    \"productPlatform\": {\r\n        \"id\": 2,\r\n        \"name\": \"steam\"\r\n    },\r\n    \"quantity\": 0,\r\n    \"price\": 49.99,\r\n    \"description\": \"Cool game\",\r\n    \"imageUrl\": \"\",\r\n    \"systemRequirements\": \"On Windows\",\r\n    \"releaseDate\": \"2021/03/02\",\r\n    \"genres\": [\r\n        {\r\n             \"id\": 10,\r\n            \"genreName\": \"strategy\"\r\n        }\r\n    ],\r\n    \"isActive\": true,\r\n    \"type\": \"videogame\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -456,7 +485,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/search/ant",
+							"raw": "http://localhost:8080/api/products/search/val",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -466,7 +495,7 @@
 								"api",
 								"products",
 								"search",
-								"ant"
+								"val"
 							]
 						}
 					},
@@ -712,7 +741,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/Hemjy/Pictures/Camera Roll/imageTest.jpg"
+									"src": "/C:/Users/Hemjy/Downloads/flames.jpg"
 								}
 							]
 						},
@@ -738,7 +767,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/images/getImage/imageTest.jpg",
+							"raw": "http://localhost:8080/api/images/getImage/valheim.jpg",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -748,7 +777,40 @@
 								"api",
 								"images",
 								"getImage",
-								"imageTest.jpg"
+								"valheim.jpg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image for product by id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Hemjy/Downloads/valheim.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/images/upload/product/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"images",
+								"upload",
+								"product",
+								"1"
 							]
 						}
 					},

@@ -15,32 +15,37 @@
 
     <ul class="list-unstyled menu-elements">
       <li>
-        <a class="nav-link nav-item" href="#"
+        <a class="nav-link nav-item"
            routerLinkActive="active nav-item-active"
            [routerLinkActiveOptions]="{exact: true}"
            routerLink=""><i class="fa fa-home"></i> Home</a>
       </li>
       <li>
-        <a class="nav-link nav-item" href="#"
+        <a class="nav-link nav-item"
            routerLinkActive="active nav-item-active"
            [routerLink]="['products']"><i class="fa fa-tags"></i> Catalog</a>
       </li>
       <li>
-        <a class="nav-link nav-item" href="#"><i class="fa fa-file"></i> Orders</a>
+        <a class="nav-link nav-item"><i class="fa fa-file"></i> Orders</a>
       </li>
       <li>
-        <a class="nav-link nav-item" href="#"><i class="fa fa-cog"></i> Account Settings</a>
+        <a class="nav-link nav-item"><i class="fa fa-cog"></i> Account Settings</a>
       </li>
       <li>
         <a href="#productSection" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
-          <i class="fa fa-tasks"></i>Manage Products
+          <i class="fa fa-tasks"></i>Products
         </a>
         <ul class="collapse list-unstyled nav-list-holder" id="productSection">
           <li>
-            <a class="nav-link nav-item" href="#"><i class="fa fa-list"></i> View all</a>
+            <a class="nav-link nav-item"
+               routerLinkActive="active nav-item-active"
+               [routerLink]="['admin/products']"
+               [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-list"></i> Manage</a>
           </li>
           <li>
-            <a class="nav-link nav-item" href="#"><i class="fa fa-plus"></i> Create</a>
+            <a class="nav-link nav-item"
+               routerLinkActive="active nav-item-active"
+               [routerLink]="['admin/products/create']"><i class="fa fa-plus"></i> Create</a>
           </li>
         </ul>
       </li>

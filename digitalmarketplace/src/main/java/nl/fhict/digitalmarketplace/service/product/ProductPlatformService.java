@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,7 +23,7 @@ import java.util.Locale;
 @Validated
 public class ProductPlatformService implements IProductPlatformService {
 
-    private Logger LOG = LoggerFactory.getLogger(ProductPlatformService.class);
+    private Logger log = LoggerFactory.getLogger(ProductPlatformService.class);
     private ProductPlatformRepository productPlatformRepository;
 
     @Autowired
@@ -35,11 +34,11 @@ public class ProductPlatformService implements IProductPlatformService {
     @Override
     public ProductPlatform createProductPlatform(@Valid ProductPlatform productPlatform) throws ExistingResourceException {
         productPlatform.setName(productPlatform.getName().toLowerCase(Locale.ROOT));
-        LOG.info("Checking if platform with the given name exists");
+        log.info("Checking if platform with the given name exists");
         ProductPlatform foundPlatform = productPlatformRepository.getProductPlatformByName(productPlatform.getName());
         if(foundPlatform == null){
-            LOG.info("Success, platform name does not exist");
-            LOG.info("Saving product platform...");
+            log.info("Success, platform name does not exist");
+            log.info("Saving product platform...");
             productPlatformRepository.save(productPlatform);
             return productPlatform;
         }
@@ -48,12 +47,12 @@ public class ProductPlatformService implements IProductPlatformService {
 
     @Override
     public ProductPlatform getPlatformById(Integer id) throws InvalidInputException, ResourceNotFoundException {
-        LOG.info("Validating the given id: "+id);
+        log.info("Validating the given id: "+id);
         if(id > 0){
-            LOG.info("Getting the platform with given id: "+id);
+            log.info("Getting the platform with given id: "+id);
             ProductPlatform foundPlatform = productPlatformRepository.getById(id);
             if(foundPlatform != null){
-                LOG.info("Successfully returned the platform");
+                log.info("Successfully returned the platform");
                 return foundPlatform;
             }
             throw new ResourceNotFoundException("The platform with the given id was not found");
@@ -63,19 +62,19 @@ public class ProductPlatformService implements IProductPlatformService {
 
     @Override
     public ProductPlatform updatePlatform(@Valid ProductPlatform productPlatform, Integer id) throws InvalidInputException, ResourceNotFoundException, ExistingResourceException {
-        LOG.info("Validating given id: "+id);
+        log.info("Validating given id: "+id);
         if(id > 0){
-            LOG.info("Id is valid, checking if the platform exists");
+            log.info("Id is valid, checking if the platform exists");
             ProductPlatform foundPlatform = productPlatformRepository.getById(id);
             if (foundPlatform != null){
-                LOG.info("Found platform: "+foundPlatform.toString());
-                LOG.info("Checking if the platform name is used");
+                log.info("Found platform: "+foundPlatform.toString());
+                log.info("Checking if the platform name is used");
                 ProductPlatform foundPlatformByName = productPlatformRepository.getProductPlatformByName(productPlatform.getName().toLowerCase(Locale.ROOT));
                 if(foundPlatformByName == null){
-                    LOG.info("No platform with the given name was found, attempting to update platform");
+                    log.info("No platform with the given name was found, attempting to update platform");
                     foundPlatform.setName(productPlatform.getName().toLowerCase(Locale.ROOT));
                     productPlatformRepository.save(foundPlatform);
-                    LOG.info("Successfully, updated platform");
+                    log.info("Successfully, updated platform");
                     return foundPlatform;
                 }
                 throw new ExistingResourceException("The given platform name is in use");
@@ -87,16 +86,16 @@ public class ProductPlatformService implements IProductPlatformService {
 
     @Override
     public Page<ProductPlatform> getPlatforms(int page, int size) throws InvalidInputException, ResourceNotFoundException {
-        LOG.info("Validating input");
+        log.info("Validating input");
         if(page > 0){
             if(size > 0){
                 Pageable requestedPage = PageRequest.of(page-1, size);
                 Page<ProductPlatform> platforms = productPlatformRepository.findAll(requestedPage);
-                if(platforms.getContent().size() != 0){
-                    LOG.info("Successfully returned the products");
+                if(!platforms.getContent().isEmpty()){
+                    log.info("Successfully returned the products");
                     return platforms;
                 }
-                throw new ResourceNotFoundException("No products were found");
+                throw new ResourceNotFoundException("No platforms were found,try adding some");
             }
             throw new InvalidInputException("The given size is not valid");
         }
@@ -105,12 +104,12 @@ public class ProductPlatformService implements IProductPlatformService {
 
     @Override
     public List<ProductPlatform> getAllPlatforms() throws ResourceNotFoundException {
-        List<ProductPlatform> platforms = new ArrayList<>();
+        List<ProductPlatform> platforms;
         platforms = productPlatformRepository.findAll();
         if(!platforms.isEmpty()){
             return platforms;
         }
-        throw new ResourceNotFoundException("The are no platforms");
+        throw new ResourceNotFoundException("No platforms were found,try adding some");
     }
 
     @Override

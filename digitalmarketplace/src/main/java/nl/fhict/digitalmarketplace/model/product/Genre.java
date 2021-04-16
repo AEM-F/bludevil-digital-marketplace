@@ -46,6 +46,29 @@ public class Genre {
     }
 
     @Override
+    public boolean equals(Object obj){
+        if(obj == null){
+            return false;
+        }
+        if(obj.getClass() != this.getClass()){
+            return false;
+        }
+        Genre other = (Genre) obj;
+        if(this.id == null || other.getId() == null || !this.id.equals(other.getId())){
+            return false;
+        }
+        if (this.genreName ==null || other.getGenreName() == null || !this.genreName.equals(other.getGenreName())){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode(){
+        return id;
+    }
+
+    @Override
     public String toString() {
         return "Genre{" +
                 "id=" + id +

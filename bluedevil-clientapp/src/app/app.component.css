@@ -84,6 +84,10 @@
   position: relative;
 }
 
+.sidebar a[aria-expanded="true"] {
+  box-shadow: 0 1px 6px 0 #02266b;
+}
+
 .sidebar .dropdown-toggle::after {
   display: block;
   position: absolute;
@@ -113,6 +117,10 @@
 .nav-list-holder .nav-item:hover{
   text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
   box-shadow: none;
+}
+
+.nav-list-holder .nav-item-active{
+  border-radius: 0;
 }
 
 

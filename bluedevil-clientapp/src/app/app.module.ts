@@ -16,6 +16,15 @@ import { SearchProductComponent } from './components/search-product/search-produ
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { PriceFilterComponent } from './components/price-filter/price-filter.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import { ProductCreationComponent } from './components/admin/products/product-creation/product-creation.component';
+import { ProductEditComponent } from './components/admin/products/product-edit/product-edit.component';
+import { ProductManageComponent } from './components/admin/products/product-manage/product-manage.component';
+import { ProductPlatformManageComponent } from './components/admin/products/product-platform-manage/product-platform-manage.component';
+
+import { ProductListAdminComponent } from './components/admin/products/product-list-admin/product-list-admin.component';
+import {GenreManageComponent} from './components/admin/products/genre-manage/genre-manage.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +36,22 @@ import {NgxPaginationModule} from 'ngx-pagination';
     ProductPlatformMenuComponent,
     ScrollToTopComponent,
     SearchProductComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    PriceFilterComponent,
+    ProductCreationComponent,
+    ProductEditComponent,
+    ProductManageComponent,
+    ProductPlatformManageComponent,
+    GenreManageComponent,
+    ProductListAdminComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgbModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgbModule,
+        ReactiveFormsModule
+    ],
   providers: [
     ProductService,
     ProductPlatformService

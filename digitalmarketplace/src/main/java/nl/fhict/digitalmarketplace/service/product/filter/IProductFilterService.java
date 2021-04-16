@@ -6,5 +6,5 @@ import nl.fhict.digitalmarketplace.model.product.Product;
 import org.springframework.data.domain.Page;
 
 public interface IProductFilterService {
-    Page<Product> filterBy(int page, int size, ProductFilterSpec productFilterSpec) throws ResourceNotFoundException, InvalidInputException;
+    Page<Product> filterBy(int page, int size, ProductFilterSpec productFilterSpec, boolean productState) throws ResourceNotFoundException, InvalidInputException;
 }

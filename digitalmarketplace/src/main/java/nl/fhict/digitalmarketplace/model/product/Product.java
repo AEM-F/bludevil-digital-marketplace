@@ -46,7 +46,7 @@ public abstract class Product {
     @JsonProperty("type")
     private String type;
 
-    public Product(){}
+    protected Product(){}
 
     public Integer getId() {
         return id;

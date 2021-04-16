@@ -2,15 +2,18 @@ package nl.fhict.digitalmarketplace.model.response;
 
 public class MessageDTO {
 
+    public static final String errorType = "ERROR";
     private String message;
     private String type;
+    private String requestedURI;
 
     public MessageDTO() {
     }
 
-    public MessageDTO(String message, String type) {
+    public MessageDTO(String message, String type, String requestedURI) {
         this.message = message;
         this.type = type;
+        this.requestedURI = requestedURI;
     }
 
     public String getMessage() {
@@ -27,5 +30,13 @@ public class MessageDTO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getRequestedURI() {
+        return requestedURI;
+    }
+
+    public void setRequestedURI(String requestedURI) {
+        this.requestedURI = requestedURI;
     }
 }

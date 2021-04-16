@@ -14,13 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 @Service
 public class GenreService implements IGenreService {
-    private Logger LOG = LoggerFactory.getLogger(GenreService.class);
+    private Logger log = LoggerFactory.getLogger(GenreService.class);
     private GenreRepository genreRepository;
 
     @Autowired
@@ -31,11 +30,11 @@ public class GenreService implements IGenreService {
     @Override
     public Genre createGenre(@Valid Genre genre) throws ExistingResourceException {
         genre.setGenreName(genre.getGenreName().toLowerCase(Locale.ROOT));
-        LOG.info("Checking if the genre with the given name exists");
+        log.info("Checking if the genre with the given name exists");
         Genre foundGenre = genreRepository.getByGenreNameIgnoreCase(genre.getGenreName());
         if(foundGenre == null){
-            LOG.info("Success, genre name is not in use");
-            LOG.info("Saving genre...");
+            log.info("Success, genre name is not in use");
+            log.info("Saving genre...");
             return genreRepository.save(genre);
         }
         throw new ExistingResourceException("Genre name already exists");
@@ -43,26 +42,26 @@ public class GenreService implements IGenreService {
 
     @Override
     public List<Genre> getAllGenres() throws ResourceNotFoundException {
-        List<Genre> genres = new ArrayList<>();
+        List<Genre> genres;
         genres = genreRepository.findAll();
         if(!genres.isEmpty()){
             return genres;
         }
-        throw new ResourceNotFoundException("The are no genres");
+        throw new ResourceNotFoundException("There are no genres, try adding some");
     }
 
     @Override
     public Page<Genre> getGenres(int page, int size) throws ResourceNotFoundException, InvalidInputException {
-        LOG.info("Validating input");
+        log.info("Validating input");
         if(page > 0){
             if(size > 0){
                 Pageable requestedPage = PageRequest.of(page-1, size);
                 Page<Genre> genres = genreRepository.findAll(requestedPage);
-                if(genres.getContent().size() != 0){
-                    LOG.info("Successfully returned the genres");
+                if(!genres.getContent().isEmpty()){
+                    log.info("Successfully returned the genres");
                     return genres;
                 }
-                throw new ResourceNotFoundException("No genres were found");
+                throw new ResourceNotFoundException("No genres were found, try adding some");
             }
             throw new InvalidInputException("The given size is not valid");
         }
@@ -71,12 +70,12 @@ public class GenreService implements IGenreService {
 
     @Override
     public Genre getById(Integer id) throws ResourceNotFoundException, InvalidInputException {
-        LOG.info("Validating the given id: "+id);
+        log.info("Validating the given id: "+id);
         if(id > 0){
-            LOG.info("Getting the genre with given id: "+id);
+            log.info("Getting the genre with given id: "+id);
             Genre foundGenre = genreRepository.getById(id);
             if(foundGenre != null){
-                LOG.info("Successfully returned the genre");
+                log.info("Successfully returned the genre");
                 return foundGenre;
             }
             throw new ResourceNotFoundException("The genre with the given id was not found");
@@ -86,19 +85,19 @@ public class GenreService implements IGenreService {
 
     @Override
     public Genre updateGenre(@Valid Genre genre, Integer id) throws ExistingResourceException, ResourceNotFoundException, InvalidInputException {
-        LOG.info("Validating given id: "+id);
+        log.info("Validating given id: "+id);
         if(id > 0){
-            LOG.info("Id is valid, checking if the genre exists");
+            log.info("Id is valid, checking if the genre exists");
             Genre foundGenre = genreRepository.getById(id);
             if (foundGenre != null){
-                LOG.info("Found genre: "+foundGenre.toString());
-                LOG.info("Checking if the genre name is used");
+                log.info("Found genre: "+foundGenre.toString());
+                log.info("Checking if the genre name is used");
                 Genre foundGenreByName = genreRepository.getByGenreNameIgnoreCase(genre.getGenreName().toLowerCase(Locale.ROOT));
                 if(foundGenreByName == null){
-                    LOG.info("No genres with the given name was found, attempting to update the genre");
+                    log.info("No genres with the given name was found, attempting to update the genre");
                     foundGenre.setGenreName(genre.getGenreName().toLowerCase(Locale.ROOT));
                     genreRepository.save(foundGenre);
-                    LOG.info("Successfully, updated the genre");
+                    log.info("Successfully, updated the genre");
                     return foundGenre;
                 }
                 throw new ExistingResourceException("The given genre name is in use");

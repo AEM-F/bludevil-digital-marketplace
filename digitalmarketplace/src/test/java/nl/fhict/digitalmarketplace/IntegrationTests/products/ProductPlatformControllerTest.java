@@ -1,27 +1,55 @@
-package nl.fhict.digitalmarketplace;
+package nl.fhict.digitalmarketplace.IntegrationTests.products;
 
 
+
+import nl.fhict.digitalmarketplace.IntegrationTests.AbstractTest;
+import nl.fhict.digitalmarketplace.model.product.Genre;
 import nl.fhict.digitalmarketplace.model.product.ProductPlatform;
+import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
+import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ProductPlatformControllerTest extends AbstractTest{
+public class ProductPlatformControllerTest extends AbstractTest {
+
     private ProductPlatform testPlatform;
+    @Autowired
+    ProductPlatformRepository platformRepository;
+    @Autowired
+    GenreRepository genreRepository;
 
     @Override
     @Before
     public void setUp(){
         super.setUp();
-        ProductPlatform testPlatform = new ProductPlatform("riot");
-        this.testPlatform = testPlatform;
+        String[] platformNames = {"origin","steam","battle.net", "ncsoft", "uplay", "xbox", "playstation", "android", "gog", "nintendo", "epic", "microsoft"};
+        List<ProductPlatform> productPlatforms = new ArrayList<>();
+        for (String name : platformNames){
+            ProductPlatform platform = new ProductPlatform(name);
+            productPlatforms.add(platform);
+        }
+        platformRepository.saveAll(productPlatforms);
+        String[] genreNames = {"action", "shooter","survival","battle_royal","adventure","horror","rpg","racing", "sports","strategy","sandbox","open_world"};
+        List<Genre> genres = new ArrayList<>();
+        for (String name : genreNames){
+            Genre genre = new Genre(name);
+            genres.add(genre);
+        }
+        genreRepository.saveAll(genres);
+
+        this.testPlatform = new ProductPlatform("riot");
     }
 
     @Test

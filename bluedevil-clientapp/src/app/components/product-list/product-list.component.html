@@ -1,6 +1,6 @@
 <div class="component-holder">
   <app-search-product></app-search-product>
-  <div class="pagination-container">
+  <div class="pagination-container" *ngIf="(products.length > 0 && products != null)">
     <div class="pagination-controls">
       <ngb-pagination
         [(page)]="pageNr"
@@ -21,7 +21,7 @@
       <div class="form-group">
         <label for="productPageSize">Page Size:</label>
         <select class="form-control" id="productPageSize" (change)="updatePageSize($event.target.value)">
-          <option>1</option>
+          <option>5</option>
           <option selected="true">10</option>
           <option>20</option>
           <option>30</option>
@@ -42,7 +42,7 @@
       <button class="btn-filter"
               (click)="onClearFilters()"><i class="fa fa-undo"></i> Clear All</button>
       <app-product-platform-menu></app-product-platform-menu>
-
+      <app-price-filter></app-price-filter>
     </div>
   </div>
   <div class="card-holder">
@@ -67,12 +67,12 @@
 <!--        <div class="p-state-container state-available" *ngIf="product.active">-->
 <!--          <i class="fa fa-check"></i> Available-->
 <!--        </div>-->
-<!--        <div class="p-state-container state-unavailable" *ngIf="!product.active">-->
-<!--          <i class="fa fa-ban"></i> Unavailable-->
-<!--        </div>-->
+        <div class="p-state-container state-unavailable" *ngIf="!product.active">
+          <i class="fa fa-ban"></i> Unavailable
+        </div>
         <div
           class="property-image"
-          [style.background-image]="'url('+product.imageUrl+')'">
+          [style.background-image]="'url('+handleProductImage(product.imageUrl)+')'">
           <div class="property-image-title">
 
           </div>
