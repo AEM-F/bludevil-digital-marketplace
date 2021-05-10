@@ -1,6 +1,99 @@
-<div class="card text-white bg-dark mb-3 text-center m-3 animate-opacity">
-  <div class="card-body">
-    <h5 class="card-title">Platform manager</h5>
-    <p class="card-text">Work in progress</p>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="platform-container">
+    <h1>Product Platforms</h1>
+    <div class="pagination-controls">
+      <ngb-pagination
+        [(page)]="pageNr"
+        [pageSize]="pageSize"
+        [collectionSize]="totalElements"
+        [maxSize]="3"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        [ellipses]="false"
+        (pageChange)="listPlatforms()">
+        <ng-template ngbPaginationFirst><i class="fa fa-angle-double-left"></i></ng-template>
+        <ng-template ngbPaginationLast><i class="fa fa-angle-double-right"></i></ng-template>
+        <ng-template ngbPaginationPrevious><i class="fa fa-angle-left"></i></ng-template>
+        <ng-template ngbPaginationNext><i class="fa fa-angle-right"></i></ng-template>
+      </ngb-pagination>
+      <div class="property-size">
+        <div class="form-group">
+          <label for="productPageSize">Page Size:</label>
+          <select class="form-control" id="productPageSize" (change)="updatePageSize($event.target.value)">
+            <option selected="true">5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>40</option>
+            <option>50</option>
+          </select>
+        </div>
+    </div>
+    </div>
+    <div class="platform-controls">
+      <button type="button" (click)="setFormOption('create')"><i class="fa fa-plus"></i> Create</button>
+      <button type="button" (click)="setFormOption('update')"><i class="fa fa-pencil-square-o"></i> Update</button>
+    </div>
+    <div class="platform-list">
+      <div *ngIf="isLoadingPlatforms && !platformFetchError" class="loader-wrapper" [@inOutAnimation]>
+        <div class="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        Loading...
+      </div>
+      <button *ngFor="let platform of platforms"
+              [class.active]="checkIfPlatformIsSelected(platform.name)"
+              (click)="togglePlatform(platform)">{{platform.name | firstToUpper}}</button>
+    </div>
+    <div class="form-section">
+      <form class="platform-creation-form"
+            [formGroup]="createPlatformForm"
+            (ngSubmit)="onCreateSubmit()"
+            *ngIf="formOption === 'create'">
+        <div class="input-group" >
+          <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+          </div>
+          <input type="text" class="form-control" placeholder="Enter platform name" formControlName="name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary btn-submit-platform"
+                    type="button" id="button-submit-platform"
+                    [disabled]="createPlatformForm.invalid">Submit</button>
+          </div>
+          <div *ngIf="createFormPlatformName.touched && createFormPlatformName.invalid" class="alert alert-danger form-error" [@inOutAnimation]>
+            <div *ngIf="createFormPlatformName.errors.required"><i class="fa fa-exclamation-triangle"></i> Platform name is required</div>
+            <div *ngIf="createFormPlatformName.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Platform name cannot contain spaces</div>
+          </div>
+        </div>
+      </form>
+      <form class="platform-update-form"
+            [formGroup]="editPlatformForm"
+            (ngSubmit)="onEditFormSubmit()"
+            *ngIf="formOption === 'update'">
+        <div class="input-group" >
+          <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+          </div>
+          <input type="text" class="form-control" placeholder="Enter genre name" formControlName="name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary btn-submit-platform" type="submit" id="btn-submit-edit-platform" [disabled]="editPlatformForm.invalid || selectedPlatform == null">Submit</button>
+          </div>
+        </div>
+        <div *ngIf="updateFormPlatformName.touched && updateFormPlatformName.invalid" class="alert alert-danger form-error" [@inOutAnimation]>
+          <div *ngIf="updateFormPlatformName.errors.required"><i class="fa fa-exclamation-triangle"></i> Platform name is required</div>
+          <div *ngIf="updateFormPlatformName.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Platform name cannot contain spaces</div>
+        </div>
+      </form>
+      <div *ngIf="platformUpdateError != null || platformCreateError != null" class="alert alert-danger form-error" [@inOutAnimation]>
+        <div *ngIf="platformUpdateError != null"><i class="fa fa-exclamation-triangle"></i> {{platformUpdateError}}</div>
+        <div *ngIf="platformCreateError != null"><i class="fa fa-exclamation-triangle"></i> {{platformCreateError}}</div>
+      </div>
+      <div *ngIf="isUpdateDone || isCreateDone" class="alert alert-success form-success" [@inOutAnimation]>
+        <div *ngIf="isUpdateDone"><i class="fa fa-check"></i> Update successful</div>
+        <div *ngIf="isCreateDone"><i class="fa fa-check"></i> Creation successful</div>
+      </div>
+    </div>
   </div>
 </div>

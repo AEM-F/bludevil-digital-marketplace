@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(path = "/api/products")
 public class ProductController {
@@ -35,6 +35,7 @@ public class ProductController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> createProduct(@RequestBody Product product) throws InvalidInputException, ResourceNotFoundException {
         Product productCreated = productService.createProduct(product);
         return ResponseEntity.ok(productCreated);
@@ -96,12 +97,14 @@ public class ProductController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> updateProduct(@RequestBody Product product,@PathVariable(name = "id") Integer id) throws InvalidInputException, ResourceNotFoundException {
         Product updatedProduct = productService.updateProduct(product, id);
         return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> deleteProduct(@PathVariable Integer id) throws InvalidInputException, ResourceNotFoundException {
         Product deletedProduct = productService.deleteProductById(id);
         return ResponseEntity.ok(deletedProduct);

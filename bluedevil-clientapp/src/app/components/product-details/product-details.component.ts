@@ -2,14 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import {Product} from '../../common/product';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductService} from '../../services/product.service';
-import {SoftwareProduct} from '../../common/softwareproduct';
 import {Videogame} from '../../common/videogame';
-import {Genre} from '../../common/genre';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  styleUrls: ['./product-details.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductDetailsComponent implements OnInit {
 
@@ -17,7 +39,7 @@ export class ProductDetailsComponent implements OnInit {
   isLoadingProduct = false;
   error;
 
-  constructor(private productService: ProductService, private router:Router, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {

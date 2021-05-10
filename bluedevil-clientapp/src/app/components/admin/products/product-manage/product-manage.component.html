@@ -1,7 +1,18 @@
-<div class="platform-genre-section">
-  <app-genre-manage></app-genre-manage>
-  <app-product-platform-manage></app-product-platform-manage>
+<app-search-product-admin></app-search-product-admin>
+<div class="page-navigation btn-group" [ngClass]="{'show-scrollTop': windowScrolled}">
+  <button type="button" class="btn btn-secondary dropdown-toggle btn-page-nav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-map-signs" aria-hidden="true"></i> Travel
+  </button>
+  <div class="dropdown-menu dropdown-menu-right">
+    <button class="dropdown-item" type="button" (click)="scrollTo('products')">To products</button>
+    <button class="dropdown-item" type="button" (click)="scrollTo('platforms')">To platforms</button>
+    <button class="dropdown-item" type="button" (click)="scrollTo('genres')">To genres</button>
+  </div>
 </div>
-<div class="product-section">
+<div class="platform-genre-section">
+  <app-genre-manage id="genres-section"></app-genre-manage>
+  <app-product-platform-manage id="platforms-section"></app-product-platform-manage>
+</div>
+<div class="product-section" id="products-section">
   <app-product-list-admin></app-product-list-admin>
 </div>

@@ -1,5 +1,6 @@
 package nl.fhict.digitalmarketplace.service.product;
 
+import nl.fhict.digitalmarketplace.DigitalmarketplaceApplication;
 import nl.fhict.digitalmarketplace.customException.ExistingResourceException;
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
@@ -105,5 +106,52 @@ public class GenreService implements IGenreService {
             throw new ResourceNotFoundException("No genre was found with the given id");
         }
         throw new InvalidInputException("The given id is not valid");
+    }
+
+    @Override
+    public Genre getByName(String name) throws ResourceNotFoundException, InvalidInputException {
+        if (!name.isBlank()){
+            Genre foundGenre = this.genreRepository.getByGenreNameIgnoreCase(name);
+            if (foundGenre != null){
+                log.info("Found genre: "+foundGenre.toString());
+                return foundGenre;
+            }
+            throw new ResourceNotFoundException("No genre was found with the given name");
+        }
+        throw new InvalidInputException("Genre name is not valid");
+    }
+
+    @Override
+    public boolean checkNameValidity(String name) throws InvalidInputException {
+        if (!name.isBlank()){
+            Genre foundGenre = this.genreRepository.getByGenreNameIgnoreCase(name);
+            if (foundGenre == null){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        throw new InvalidInputException("The given genre name is not valid");
+    }
+
+    @Override
+    public Page<Genre> getGenresByName(int page, int size, String name) throws InvalidInputException, ResourceNotFoundException {
+        if(!DigitalmarketplaceApplication.isNullOrEmpty(name)){
+            if(page > 0){
+                if(size > 0){
+                    Pageable requestedPage = PageRequest.of(page-1, size);
+                    Page<Genre> genres = genreRepository.findAllByGenreNameIsContainingIgnoreCase(name, requestedPage);
+                    if(!genres.getContent().isEmpty()){
+                        log.info("Successfully returned the genres with the name: "+name);
+                        return genres;
+                    }
+                    throw new ResourceNotFoundException("No genres were found");
+                }
+                throw new InvalidInputException("The given size is not valid");
+            }
+            throw new InvalidInputException("The given page is not valid");
+        }
+        throw new InvalidInputException("The given name can not be empty");
     }
 }

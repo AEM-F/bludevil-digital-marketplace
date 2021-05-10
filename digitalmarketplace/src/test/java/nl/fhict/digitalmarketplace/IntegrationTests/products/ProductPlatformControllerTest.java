@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -53,6 +54,7 @@ public class ProductPlatformControllerTest extends AbstractTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void getProductPlatformByIdTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/productPlatforms/1";
@@ -68,6 +70,7 @@ public class ProductPlatformControllerTest extends AbstractTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void addProductPlatformTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/productPlatforms/";
@@ -85,6 +88,7 @@ public class ProductPlatformControllerTest extends AbstractTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void updateProductPlatformTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/productPlatforms/1";

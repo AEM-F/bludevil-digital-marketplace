@@ -8,28 +8,29 @@ import nl.fhict.digitalmarketplace.service.img.IImageService;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value = "api/images/")
+@RequestMapping(value = "api/images")
 public class ImageServiceController {
     public IImageService imageService;
 
     public ImageServiceController(IImageService imageService) {
         this.imageService = imageService;
     }
-
-    @PostMapping(path ={"upload"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(path ={"/upload"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> uploadImage(@RequestParam MultipartFile file) throws InvalidInputException, FileException {
         String response = imageService.uploadFile(file);
         return ResponseEntity.ok(response);
     }
+
     @GetMapping(
-            path = {"getImage/{imageName:.+}"},
+            path = {"/getImage/{imageName:.+}"},
             produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_PNG_VALUE,MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<Object> getImageWithMediaType(@PathVariable(name = "imageName") String fileName) throws FileException, ResourceNotFoundException, InvalidInputException, IOException {
@@ -37,8 +38,9 @@ public class ImageServiceController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(
-            path = {"upload/product/{id}"},
+            path = {"/upload/product/{id}"},
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )

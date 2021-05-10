@@ -18,6 +18,18 @@
   gap:5px;
 }
 
+.section-title{
+  width: 100%;
+  padding: 5px;
+  font-size: 1.2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  border-radius: .25rem;
+  background: linear-gradient(90deg, rgb(28, 29, 33) 58%, rgb(35, 39, 43) 100%);
+  color: #e7e7e7;
+  font-family: 'Audiowide', cursive;
+}
+
 .product-card{
   min-width: 100%;
   margin-left: 5px;
@@ -405,10 +417,27 @@
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
+  .section-title{
+    width: 90%;
+  }
+
+  .pagination-container{
+    width: 90%;
+    background-color: rgba(30,30,30, 0.8);
+  }
+
+  .side-area{
+    width: 90%;
+    background-color: rgba(30,30,30, 0.8);
+  }
+
+
   .card-holder{
+    width: 90%;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    background-color: rgba(30,30,30, 0.8);
   }
 
   .product-card{
@@ -430,17 +459,25 @@
   .component-holder{
     display: grid;
     grid-template-columns: 250px 1fr;
-    grid-template-rows: auto auto auto;
-    grid-template-areas: "sideArea paginationArea"
+    grid-template-rows: 35px auto auto auto;
+    grid-template-areas: "titleArea ."
+                          "sideArea paginationArea"
                           "sideArea productsArea"
                           "sideArea productsArea";
   }
 
   .pagination-container{
+    background-color: transparent;
+    width: 100%;
     grid-area: paginationArea;
     flex-direction: row;
     font-size: 1rem;
     padding: 0;
+  }
+
+  .section-title{
+    grid-area: titleArea;
+    width: 100%;
   }
 
   .product-card {
@@ -491,11 +528,15 @@
   }
 
   .card-holder{
+    background-color: transparent;
+    width: 100%;
     grid-area: productsArea;
     padding: 20px;
   }
 
   .side-area{
+    background-color: transparent;
+    width: 100%;
     grid-area: sideArea;
     min-height: 100px;
     justify-content: flex-start;

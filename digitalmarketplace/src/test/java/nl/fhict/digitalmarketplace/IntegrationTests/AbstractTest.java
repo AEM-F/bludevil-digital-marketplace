@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.fhict.digitalmarketplace.DigitalmarketplaceApplication;
+import nl.fhict.digitalmarketplace.model.user.Role;
+import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

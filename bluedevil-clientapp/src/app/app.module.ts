@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -6,16 +6,15 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import {HttpClientModule} from "@angular/common/http";
-import {ProductService} from "./services/product.service";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ProductService} from './services/product.service';
 import { FirstToUpperPipe } from './common/pipes/first-to-upper.pipe';
-import {ProductPlatformService} from "./services/product-platform.service";
+import {ProductPlatformService} from './services/product-platform.service';
 import { ProductPlatformMenuComponent } from './components/product-platform-menu/product-platform-menu.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 import { SearchProductComponent } from './components/search-product/search-product.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgxPaginationModule} from 'ngx-pagination';
 import { PriceFilterComponent } from './components/price-filter/price-filter.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ProductCreationComponent } from './components/admin/products/product-creation/product-creation.component';
@@ -25,6 +24,17 @@ import { ProductPlatformManageComponent } from './components/admin/products/prod
 
 import { ProductListAdminComponent } from './components/admin/products/product-list-admin/product-list-admin.component';
 import {GenreManageComponent} from './components/admin/products/genre-manage/genre-manage.component';
+import {ImageService} from './services/image.service';
+import {GenreService} from './services/genre.service';
+import { SearchProductAdminComponent } from './components/admin/products/search-product-admin/search-product-admin.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { LoginComponent } from './components/login/login.component';
+import {appIntializer} from './security/app.initializer';
+import {AuthenticationService} from './services/authentication.service';
+import {JwtInterceptor} from './security/jwt.interceptor';
+import {ErrorInterceptor} from './security/error.interceptor';
+import {TokenLocalStorageService} from './services/token-local-storage.service';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -43,18 +53,28 @@ import {GenreManageComponent} from './components/admin/products/genre-manage/gen
     ProductManageComponent,
     ProductPlatformManageComponent,
     GenreManageComponent,
-    ProductListAdminComponent
+    ProductListAdminComponent,
+    SearchProductAdminComponent,
+    LoginComponent,
+    UserDetailsComponent
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         NgbModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        BrowserAnimationsModule
     ],
   providers: [
+    AuthenticationService,
     ProductService,
-    ProductPlatformService
+    ProductPlatformService,
+    ImageService,
+    GenreService,
+    TokenLocalStorageService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

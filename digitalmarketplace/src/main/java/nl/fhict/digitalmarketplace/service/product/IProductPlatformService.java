@@ -18,4 +18,6 @@ public interface IProductPlatformService {
     Page<ProductPlatform> getPlatforms(int page, int size) throws InvalidInputException, ResourceNotFoundException;
     List<ProductPlatform> getAllPlatforms() throws ResourceNotFoundException;
     ProductPlatform getPlatformByName(String name) throws InvalidInputException, ResourceNotFoundException;
+    boolean checkNameValidity(String name) throws InvalidInputException;
+    Page<ProductPlatform> getPlatformsByName(int page, int size, String name) throws InvalidInputException, ResourceNotFoundException;
 }

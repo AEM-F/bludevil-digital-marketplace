@@ -11,11 +11,35 @@ import {SoftwareProduct} from '../../../../common/softwareproduct';
 import {Product} from '../../../../common/product';
 import {ImageService} from '../../../../services/image.service';
 import {Router} from '@angular/router';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-product-creation',
   templateUrl: './product-creation.component.html',
-  styleUrls: ['./product-creation.component.css']
+  styleUrls: ['./product-creation.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductCreationComponent implements OnInit {
 
@@ -112,7 +136,7 @@ export class ProductCreationComponent implements OnInit {
   }
 
   listGenres(): void{
-    this.genreService.getGenreList().subscribe(
+    this.genreService.getGenreList('all', 0 ,0).subscribe(
       data => {
         this.genres = data;
       },

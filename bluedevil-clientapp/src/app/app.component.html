@@ -25,13 +25,13 @@
            routerLinkActive="active nav-item-active"
            [routerLink]="['products']"><i class="fa fa-tags"></i> Catalog</a>
       </li>
-      <li>
+      <li *ngIf="user">
         <a class="nav-link nav-item"><i class="fa fa-file"></i> Orders</a>
       </li>
-      <li>
+      <li *ngIf="user">
         <a class="nav-link nav-item"><i class="fa fa-cog"></i> Account Settings</a>
       </li>
-      <li>
+      <li *ngIf="checkAdmin()">
         <a href="#productSection" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
           <i class="fa fa-tasks"></i>Products
         </a>
@@ -48,6 +48,15 @@
                [routerLink]="['admin/products/create']"><i class="fa fa-plus"></i> Create</a>
           </li>
         </ul>
+      </li>
+      <li *ngIf="!user">
+        <a class="nav-link nav-item"
+           routerLinkActive="active nav-item-active"
+           [routerLink]="['/login']"
+           [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-sign-in"></i> Login/Signup</a>
+      </li>
+      <li *ngIf="user" (click)="logoutUser()">
+        <a class="nav-link nav-item"><i class="fa fa-sign-out"></i> Logout</a>
       </li>
     </ul>
   </nav>

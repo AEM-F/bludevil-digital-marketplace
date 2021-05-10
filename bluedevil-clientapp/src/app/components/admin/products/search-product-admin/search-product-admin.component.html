@@ -1,0 +1,31 @@
+<button class="btn-search-show"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapseSearch"
+        aria-expanded="false"
+        aria-controls="collapseSearch"><i class="fa fa-search"></i></button>
+<div id="collapseSearch" class="collapse search-container">
+  <div class="property-search-select">
+    <div class="form-group">
+      <select class="form-control" id="searchOptions" (change)="onChangeSearchOption($event.target.value)">
+        <option selected="true">Products</option>
+        <option>Platforms</option>
+        <option>Genres</option>
+      </select>
+    </div>
+  </div>
+  <div class="input-group">
+    <input #searchInput
+           type="text"
+           class="form-control search-input"
+           placeholder="Search by name"
+           aria-describedby="button-search"
+           (keyup.enter)="onSearchProduct(searchInput.value)">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary"
+              type="button"
+              id="button-search"
+              (click)="onSearchProduct(searchInput.value)">Search</button>
+    </div>
+  </div>
+</div>

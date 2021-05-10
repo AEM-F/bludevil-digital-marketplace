@@ -1,6 +1,5 @@
 <div class="component-holder">
-  <app-search-product></app-search-product>
-  <div class="pagination-container" *ngIf="(products.length > 0 && products != null)">
+  <div class="pagination-container" [@inOutAnimation] *ngIf="(products.length > 0 && products != null)">
     <div class="pagination-controls">
       <ngb-pagination
         [(page)]="pageNr"
@@ -46,7 +45,7 @@
     </div>
   </div>
   <div class="card-holder">
-    <div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
+    <div class="alert alert-danger general-error-container" [@inOutAnimation] *ngIf="error">
       <h4>An error occurred:</h4>
       <p>{{error}}</p>
       <button class="btn btn-danger" (click)="onHandleError()">Okay</button>
@@ -60,7 +59,8 @@
       Loading...
     </div>
     <div
-      class="property-card animate-opacity"
+      class="property-card"
+      [@inOutAnimation]
       *ngFor="let product of products">
       <a routerLink="/products/{{product.id}}">
 <!--        Optional may use later-->

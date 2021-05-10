@@ -12,11 +12,35 @@ import {GenreService} from '../../../../services/genre.service';
 import {ImageService} from '../../../../services/image.service';
 import {SoftwareProduct} from '../../../../common/softwareproduct';
 import {FirstToUpperPipe} from '../../../../common/pipes/first-to-upper.pipe';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.css']
+  styleUrls: ['./product-edit.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductEditComponent implements OnInit {
 
@@ -97,7 +121,7 @@ export class ProductEditComponent implements OnInit {
               private productService: ProductService,
               private platformService: ProductPlatformService,
               private genreService: GenreService,
-              private imageService: ImageService) { }
+              private imageService: ImageService) {}
 
   ngOnInit(): void {
     this.listPlatforms();
@@ -212,7 +236,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   listGenres(): void{
-    this.genreService.getGenreList().subscribe(
+    this.genreService.getGenreList('all', 0, 0).subscribe(
       data => {
         this.genres = data;
       },
@@ -325,7 +349,7 @@ export class ProductEditComponent implements OnInit {
         console.log(returnedUpdatedProduct);
       },
       errorUpdateProduct => {
-        this.errorUpdateProduct = errorUpdateProduct.error.message;
+        this.errorUpdateProduct = errorUpdateProduct.error.message || errorUpdateProduct.error;
         this.editForm.setErrors(
           { invalidUpdateProduct: true }
         );
@@ -397,7 +421,9 @@ export class ProductEditComponent implements OnInit {
     this.editForm.setErrors({});
   }
   navigateToProductManage(): void{
-    this.router.navigate(['admin/products']);
+    setTimeout(() => {
+      this.router.navigate(['admin/products']);
+    }, 1000);
   }
 }
 

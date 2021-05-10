@@ -17,4 +17,7 @@ public interface IGenreService {
     Page<Genre> getGenres(int page, int size) throws ResourceNotFoundException, InvalidInputException;
     Genre getById(Integer id) throws ResourceNotFoundException, InvalidInputException;
     Genre updateGenre(@Valid Genre genre, Integer id) throws ExistingResourceException, ResourceNotFoundException, InvalidInputException;
+    Genre getByName(String name) throws ResourceNotFoundException, InvalidInputException;
+    boolean checkNameValidity(String name) throws InvalidInputException;
+    Page<Genre> getGenresByName(int page, int size, String name) throws InvalidInputException, ResourceNotFoundException;
 }
