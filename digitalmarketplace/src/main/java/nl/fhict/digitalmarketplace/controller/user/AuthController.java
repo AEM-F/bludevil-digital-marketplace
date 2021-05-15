@@ -18,7 +18,6 @@ import nl.fhict.digitalmarketplace.model.user.ERole;
 import nl.fhict.digitalmarketplace.model.user.Role;
 import nl.fhict.digitalmarketplace.model.user.User;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
-import nl.fhict.digitalmarketplace.repository.user.UserRepository;
 import nl.fhict.digitalmarketplace.service.jwt.IRefreshTokenService;
 import nl.fhict.digitalmarketplace.service.user.IUserService;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +45,6 @@ public class AuthController {
     private IUserService userService;
 
     public AuthController(AuthenticationManager authenticationManager,
-                          UserRepository userRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder passwordEncoder,
                           JwtUtils jwtUtils,

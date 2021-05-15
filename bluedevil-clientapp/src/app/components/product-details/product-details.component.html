@@ -14,8 +14,8 @@
   </div>
   <div class="p-details-container" [@inOutAnimation] *ngIf="product !== null">
     <div class="p-details-container-header">
-      <a routerLink="/products" class="p-link-item"><i class="fa fa-arrow-left"></i></a>
-      <a routerLink="/admin/products" class="p-link-item"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <a routerLink="/products" class="p-link-item" *ngIf="!checkAdmin();"><i class="fa fa-arrow-left"></i></a>
+      <a routerLink="/admin/products" class="p-link-item" *ngIf="checkAdmin();"><i class="fa fa-arrow-circle-o-left"></i></a>
       {{product.name}}
     </div>
     <div class="p-details-container-body">

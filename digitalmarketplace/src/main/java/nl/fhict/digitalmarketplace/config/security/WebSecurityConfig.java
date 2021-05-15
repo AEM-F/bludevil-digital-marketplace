@@ -64,27 +64,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.cors().and().csrf().disable()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+//                .antMatchers("/api/users/**")
+//                .permitAll()
+//                .antMatchers("/api/products/**")
+//                .permitAll()
+//                .antMatchers("/api/productPlatforms/**")
+//                .permitAll()
+//                .antMatchers("/api/images/**")
+//                .permitAll()
+//                .antMatchers("/api/genres/**")
+//                .permitAll()
+//                .anyRequest().authenticated();
+//
+//        http.headers()
+//                .featurePolicy("interest-cohort 'none'");
+//
+//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/users/**")
-                .permitAll()
-                .antMatchers("/api/products/**")
-                .permitAll()
-                .antMatchers("/api/productPlatforms/**")
-                .permitAll()
-                .antMatchers("/api/images/**")
-                .permitAll()
-                .antMatchers("/api/genres/**")
+                .authorizeRequests()
+                .antMatchers("/**")
                 .permitAll()
                 .anyRequest().authenticated();
 
-        http.headers()
-                .featurePolicy("interest-cohort 'none'");
-
+        http.headers().featurePolicy("interest-cohort 'none'");
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

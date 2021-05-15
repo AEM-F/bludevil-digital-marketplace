@@ -113,7 +113,8 @@
                 class="btn-product-form"
                 *ngFor="let genre of genres"
                 (click)="toggleGenre(genre)"
-                [class.active]="checkIfGenreIsActive(genre)">{{genre.genreName | uppercase}}</button>
+                [class.active]="checkIfGenreIsActive(genre)"
+                [id]="'genre-'+genre.id">{{genre.genreName | uppercase}}</button>
       </div>
       <div class="alert alert-danger" [@inOutAnimation] *ngIf="selectedGenres.length === 0">
         <div><i class="fa fa-exclamation-triangle"></i> No genre selected. Minimum is one genre</div>

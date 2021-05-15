@@ -34,9 +34,14 @@ export class AuthenticationService {
     return this.userSubject.value;
   }
 
-  public get getUserRoles(): string[]{
-    const  jwtToken = JSON.parse(atob(this.getUserValue.getToken.split('.')[1]));
-    return jwtToken.scopes;
+  public get getUserRoles(): string[] | null{
+    if (this.getUserValue != null){
+      const  jwtToken = JSON.parse(atob(this.getUserValue.getToken.split('.')[1]));
+      return jwtToken.scopes;
+    }
+    else{
+      return null;
+    }
   }
 
   login(email: string, password: string): Observable<UserJwt>{

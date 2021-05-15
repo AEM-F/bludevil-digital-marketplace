@@ -62,7 +62,7 @@
       class="property-card"
       [@inOutAnimation]
       *ngFor="let product of products">
-      <a routerLink="/products/{{product.id}}">
+      <a routerLink="/products/{{product.id}}" [id]="'product-'+product.id">
 <!--        Optional may use later-->
 <!--        <div class="p-state-container state-available" *ngIf="product.active">-->
 <!--          <i class="fa fa-check"></i> Available-->

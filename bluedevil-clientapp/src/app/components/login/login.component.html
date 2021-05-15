@@ -90,7 +90,8 @@
                   <div *ngIf="getLoginForm.password.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{getLoginForm.password.errors.maxlength.requiredLength}}</div>
                 </div>
               </div>
-              <button [disabled]="loginForm.invalid" class="login-form-btn">
+              <button [disabled]="loginForm.invalid"
+                      class="login-form-btn" id="login-btn">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 LOGIN
               </button>
@@ -163,7 +164,9 @@
                   <div *ngIf="signUpForm.errors.passwordsValuesNotMatching"><i class="fa fa-exclamation-triangle"></i> Password fields do not match</div>
                 </div>
               </div>
-              <button [disabled]="signUpForm.invalid" class="login-form-btn" type="submit">
+              <button [disabled]="signUpForm.invalid"
+                      class="login-form-btn"
+                      type="submit" id="signup-btn">
                 <span *ngIf="loadingSignUp" class="spinner-border spinner-border-sm mr-1"></span>
                 SIGN UP
               </button>

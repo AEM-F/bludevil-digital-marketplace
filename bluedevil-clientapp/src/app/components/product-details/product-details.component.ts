@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ProductService} from '../../services/product.service';
 import {Videogame} from '../../common/videogame';
 import {animate, style, transition, trigger} from '@angular/animations';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-product-details',
@@ -38,13 +39,18 @@ export class ProductDetailsComponent implements OnInit {
   product: Product = null;
   isLoadingProduct = false;
   error;
+  userRoles: string[];
 
-  constructor(private productService: ProductService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.handleProductDetails();
     });
+    this.userRoles = this.authenticationService.getUserRoles;
   }
 
   private handleProductDetails(): void {
@@ -54,7 +60,7 @@ export class ProductDetailsComponent implements OnInit {
       data => {
         this.isLoadingProduct = false;
         this.product = data;
-        console.log(data);
+        // console.log(data);
       },
       error1 => {
         this.isLoadingProduct = false;
@@ -75,5 +81,19 @@ export class ProductDetailsComponent implements OnInit {
 
   handleProductImage(imagePath: string): string{
     return this.productService.handleProductImage(imagePath);
+  }
+
+  checkAdmin(): boolean{
+    if (this.userRoles != null){
+      for (const role of this.userRoles){
+        if (role === 'ADM'){
+          return true;
+        }
+      }
+      return false;
+    }
+    else{
+      return false;
+    }
   }
 }
