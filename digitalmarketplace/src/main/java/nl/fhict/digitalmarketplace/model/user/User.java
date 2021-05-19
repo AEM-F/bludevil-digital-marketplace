@@ -1,12 +1,13 @@
 package nl.fhict.digitalmarketplace.model.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -14,33 +15,40 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Positive
+    @Column(name = "user_id")
     private Integer id;
-    @NotBlank
-    private String firstName;
-    @NotBlank
-    private String lastName;
     @Email
     @NotBlank
     private String email;
     @NotBlank
+    @JsonIgnore
     private String password;
+    private String firstName;
+    private String lastName;
+    private boolean active;
+    private String imagePath;
 
-    public User(Integer id, String firstName, String lastName, String email, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public User(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+        this.active = true;
     }
 
     public User() {
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Integer getId() {
@@ -83,7 +91,19 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername(){
-        return this.email;
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

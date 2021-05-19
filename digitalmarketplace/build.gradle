@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id "org.sonarqube" version "3.0"
+    id 'jacoco'
 }
 
 group = 'nl.fhict.digitalmarketplace'
@@ -14,29 +15,34 @@ repositories {
 }
 
 dependencies {
-    //security-will implement on authentication and authorization
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
-    //implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.4.5'
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
-    //implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.4.5'
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
-    //implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.4.5'
-    //compile("com.auth0:java-jwt:3.4.0")
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
-    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation 'junit:junit:4.12'
     implementation 'org.springframework.boot:spring-boot-starter-test'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.4.6'
+//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
     //testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
 }
+
+sonarqube {
+    properties{
+        property 'sonar.projectKey', 'bludevil-digitalmarketplace'
+        property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.login', 'bb2cdf3556aed60341fa2b75a04fae9598b14207'
+    }
+}
+
+tasks['sonarqube'].dependsOn test
 
 test {
     //useJunitPlatform()
@@ -45,4 +51,12 @@ test {
     afterTest { desc, result ->
         logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+    dependsOn test // tests are required to run before generating the report
 }

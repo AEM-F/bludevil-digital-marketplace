@@ -1,6 +1,104 @@
-<div class="card text-white bg-dark mb-3 text-center m-3 animate-opacity">
-  <div class="card-body">
-    <h5 class="card-title">Genre manager</h5>
-    <p class="card-text">Work in progress</p>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="genre-container" [@inOutAnimation]>
+    <h1>Genres</h1>
+    <div class="pagination-controls">
+      <ngb-pagination
+        [(page)]="pageNr"
+        [pageSize]="pageSize"
+        [collectionSize]="totalElements"
+        [maxSize]="3"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        [ellipses]="false"
+        (pageChange)="listGenres()">
+        <ng-template ngbPaginationFirst><i class="fa fa-angle-double-left"></i></ng-template>
+        <ng-template ngbPaginationLast><i class="fa fa-angle-double-right"></i></ng-template>
+        <ng-template ngbPaginationPrevious><i class="fa fa-angle-left"></i></ng-template>
+        <ng-template ngbPaginationNext><i class="fa fa-angle-right"></i></ng-template>
+      </ngb-pagination>
+
+      <div class="property-size">
+        <div class="form-group">
+          <label for="productPageSize">Page Size:</label>
+          <select class="form-control" id="productPageSize" (change)="updatePageSize($event.target.value)">
+            <option selected="true">5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>40</option>
+            <option>50</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="genre-controls">
+      <button type="button" (click)="setFormOption('create')"><i class="fa fa-plus"></i> Create</button>
+      <button type="button" (click)="setFormOption('update')"><i class="fa fa-pencil-square-o"></i> Update</button>
+    </div>
+    <div class="genre-list">
+      <div *ngIf="isLoadingGenres && !genreFetchError" class="loader-wrapper">
+        <div class="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        Loading...
+      </div>
+      <button *ngFor="let genre of genres"
+              [@inOutAnimation]
+              [class.active]="checkIfGenreIsSelected(genre.genreName)"
+              (click)="toggleGenre(genre)">{{genre.genreName | firstToUpper}}</button>
+    </div>
+    <div class="form-section">
+      <form class="genre-creation-form"
+            [@inOutAnimation]
+            [formGroup]="createGenreForm"
+            (ngSubmit)="onCreateSubmit()"
+            *ngIf="formOption === 'create'">
+        <div class="input-group" >
+          <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+          </div>
+          <input  type="text" class="form-control" placeholder="Enter genre name" formControlName="name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary btn-submit-genre"
+                    type="submit"
+                    id="btn-submit-create-genre"
+                    [disabled]="createGenreForm.invalid">Submit</button>
+          </div>
+        </div>
+        <div *ngIf="createFormGenreName.touched && createFormGenreName.invalid" class="alert alert-danger form-error" [@inOutAnimation]>
+          <div *ngIf="createFormGenreName.errors.required"><i class="fa fa-exclamation-triangle"></i> Genre name is required</div>
+          <div *ngIf="createFormGenreName.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Genre name cannot contain spaces</div>
+        </div>
+      </form>
+      <form class="genre-update-form"
+            [@inOutAnimation]
+            [formGroup]="editGenreForm"
+            (ngSubmit)="onEditFormSubmit()"
+            *ngIf="formOption === 'update'">
+        <div class="input-group" >
+          <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+          </div>
+          <input type="text" class="form-control" placeholder="Enter genre name" formControlName="name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary btn-submit-genre" type="submit" id="btn-submit-edit-genre" [disabled]="editGenreForm.invalid || selectedGenre == null">Submit</button>
+          </div>
+        </div>
+        <div *ngIf="editFormGenreName.touched && editFormGenreName.invalid" class="alert alert-danger form-error" [@inOutAnimation]>
+          <div *ngIf="editFormGenreName.errors.required"><i class="fa fa-exclamation-triangle"></i> Genre name is required</div>
+          <div *ngIf="editFormGenreName.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Genre name cannot contain spaces</div>
+        </div>
+      </form>
+      <div *ngIf="genreEditError != null || genreCreateError != null" class="alert alert-danger form-error" [@inOutAnimation]>
+        <div *ngIf="genreEditError != null"><i class="fa fa-exclamation-triangle"></i> {{genreEditError}}</div>
+        <div *ngIf="genreCreateError != null"><i class="fa fa-exclamation-triangle"></i> {{genreCreateError}}</div>
+      </div>
+      <div *ngIf="isUpdateDone || isCreateDone" class="alert alert-success form-success" [@inOutAnimation]>
+        <div *ngIf="isUpdateDone"><i class="fa fa-check"></i> Update successful</div>
+        <div *ngIf="isCreateDone"><i class="fa fa-check"></i> Creation successful</div>
+      </div>
+    </div>
   </div>
 </div>

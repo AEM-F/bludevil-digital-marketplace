@@ -35,7 +35,7 @@ public class ProductPlatformService implements IProductPlatformService {
     public ProductPlatform createProductPlatform(@Valid ProductPlatform productPlatform) throws ExistingResourceException {
         productPlatform.setName(productPlatform.getName().toLowerCase(Locale.ROOT));
         log.info("Checking if platform with the given name exists");
-        ProductPlatform foundPlatform = productPlatformRepository.getProductPlatformByName(productPlatform.getName());
+        ProductPlatform foundPlatform = productPlatformRepository.getProductPlatformByNameIgnoreCase(productPlatform.getName());
         if(foundPlatform == null){
             log.info("Success, platform name does not exist");
             log.info("Saving product platform...");
@@ -69,7 +69,7 @@ public class ProductPlatformService implements IProductPlatformService {
             if (foundPlatform != null){
                 log.info("Found platform: "+foundPlatform.toString());
                 log.info("Checking if the platform name is used");
-                ProductPlatform foundPlatformByName = productPlatformRepository.getProductPlatformByName(productPlatform.getName().toLowerCase(Locale.ROOT));
+                ProductPlatform foundPlatformByName = productPlatformRepository.getProductPlatformByNameIgnoreCase(productPlatform.getName().toLowerCase(Locale.ROOT));
                 if(foundPlatformByName == null){
                     log.info("No platform with the given name was found, attempting to update platform");
                     foundPlatform.setName(productPlatform.getName().toLowerCase(Locale.ROOT));
@@ -115,7 +115,7 @@ public class ProductPlatformService implements IProductPlatformService {
     @Override
     public ProductPlatform getPlatformByName(String name) throws InvalidInputException, ResourceNotFoundException {
         if (!DigitalmarketplaceApplication.isNullOrEmpty(name)){
-            ProductPlatform foundPlatform = productPlatformRepository.getProductPlatformByName(name);
+            ProductPlatform foundPlatform = productPlatformRepository.getProductPlatformByNameIgnoreCase(name);
             if (foundPlatform != null){
                 return foundPlatform;
             }
@@ -123,4 +123,39 @@ public class ProductPlatformService implements IProductPlatformService {
         }
         throw new InvalidInputException("Platform name cannot be empty");
     }
+
+    @Override
+    public boolean checkNameValidity(String name) throws InvalidInputException {
+        if (!name.isBlank()){
+            ProductPlatform foundPlatform = this.productPlatformRepository.getProductPlatformByNameIgnoreCase(name);
+            if (foundPlatform == null){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        throw new InvalidInputException("The given genre name is not valid");
+    }
+
+    @Override
+    public Page<ProductPlatform> getPlatformsByName(int page, int size, String name) throws InvalidInputException, ResourceNotFoundException {
+        if(!DigitalmarketplaceApplication.isNullOrEmpty(name)){
+            if(page > 0){
+                if(size > 0){
+                    Pageable requestedPage = PageRequest.of(page-1, size);
+                    Page<ProductPlatform> platforms = productPlatformRepository.findAllByNameIsContainingIgnoreCase(name, requestedPage);
+                    if(!platforms.getContent().isEmpty()){
+                        log.info("Successfully returned the platforms with the name: "+name);
+                        return platforms;
+                    }
+                    throw new ResourceNotFoundException("No platforms were found");
+                }
+                throw new InvalidInputException("The given size is not valid");
+            }
+            throw new InvalidInputException("The given page is not valid");
+        }
+        throw new InvalidInputException("The given name can not be empty");
+    }
+
 }

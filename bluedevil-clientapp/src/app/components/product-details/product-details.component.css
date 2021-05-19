@@ -31,6 +31,7 @@
 }
 
 .p-details-container-header .p-link-item{
+  cursor: pointer;
   width: 35px;
   height: 35px;
   font-size: 1rem;
@@ -206,7 +207,6 @@
   transition: 0.3s;
   background-color: #212529;
   color: #e7e7e7;
-  text-decoration: none;
   text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
 }
 

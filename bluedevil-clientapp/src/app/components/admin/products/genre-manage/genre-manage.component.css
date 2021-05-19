@@ -1,9 +1,295 @@
-.card-title{
-  font-size: 1rem;
-  color: #c6c6c6;
+.genre-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgb(52, 58, 64);
+  background: linear-gradient(90deg, rgba(34,38,42,1) 58%, rgb(52, 58, 64) 100%);
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255,255,255,.10);
+  min-height: 400px;
+  gap:10px;
+  transition: 0.2s;
 }
 
-.card-text{
-  font-size: 0.6rem;
-  color: #c6c6c6;
+.genre-container h1{
+  padding: 5px;
+  width: 100%;
+  font-size: 1.2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  background-color: rgba(0, 0, 0, .2);
+  color: #e7e7e7;
+  margin-bottom: auto;
+  font-family: 'Audiowide', cursive;
+}
+
+/*.genre-container:hover{*/
+/*  box-shadow: 0 0 2px rgba(1, 31, 107, 0.6), 0 0 10px rgba(4, 61, 214, 0.6);*/
+/*}*/
+
+.genre-container:hover h1{
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.pagination-controls{
+  font-size: 0.8rem;
+}
+
+.genre-list{
+  padding: 10px;
+  width: 100%;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255,255,255,.10);
+  gap: 5px;
+}
+
+.genre-list button{
+  width: 100%;
+  padding: 5px;
+  border-radius: .25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #212529;
+  color: #e7e7e7;
+  transition: 0.2s;
+}
+
+.genre-list button:hover{
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  border-color: #043dd6;
+}
+
+.genre-list button.active{
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  box-shadow: 0 1px 6px 0 #02266b;
+  border-color: #043dd6;
+}
+
+.genre-controls{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.genre-controls button{
+  padding: 5px;
+  border-radius: .25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #212529;
+  color: #e7e7e7;
+  transition: 0.3s;
+}
+
+.genre-controls button:hover{
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  box-shadow: 0 1px 6px 0 #02266b;
+  border-color: #043dd6;
+  color: #0066ff;
+}
+
+.property-size{
+  margin-top: 5px;
+  min-width: 170px;
+  background-color: #212529;
+  border-radius: .25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.property-size .form-group{
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: #e7e7e7;
+}
+
+.property-size .form-group label{
+  margin: 0;
+}
+
+.property-size #productPageSize{
+  width: 80px;
+  color: #e7e7e7;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-top: 0;
+  border-bottom: 0;
+  border-right: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.property-size #productPageSize:hover{
+  text-shadow: -1px -1px 10px #013992,1px 1px 5px #013992;
+  box-shadow: 0 1px 6px 3px #02266b;
+}
+
+.property-size #productPageSize:focus{
+  outline: 0;
+  box-shadow: 0 1px 6px 2px #02266b;
+  border: 2px solid #0037a5;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+.property-size #productPageSize option{
+  background-color: #212529;
+}
+
+/**Forms**/
+
+.genre-creation-form,
+.genre-update-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-error{
+  background: rgba(238, 37, 37, 0.849);
+  color: #e0e0e0;
+  box-shadow: 0 1px 6px 0 #f73434;
+  align-self: center;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: none;
+  margin: 0;
+}
+
+.form-success{
+  margin-top: 5px;
+  align-self: center;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: none;
+  color: #cce7c7;
+  text-shadow: -1px -1px 10px #4e9201,1px 1px 10px #5f9201;
+  background: radial-gradient(circle, rgba(95,146,1,0.5525560566023284) 0%, rgba(33,37,41,1) 91%);
+  box-shadow: 0 1px 6px 1px rgba(95,146,1,0.5525560566023284);
+}
+
+.form-section{
+  padding: 10px;
+}
+/**
+Adding red border if the input is invalid
+ */
+.form-control.ng-touched.ng-invalid{
+  border: 2px solid crimson;
+  box-shadow: 0 1px 6px 0 #f73434;
+}
+/**
+Applying custom style for the validation alert
+ */
+.form-error{
+  background: rgba(238, 37, 37, 0.849);
+  color: #e0e0e0;
+  box-shadow: 0 1px 6px 0 #f73434;
+  align-self: center;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: none;
+  font-family: 'Jura', sans-serif;
+}
+
+.input-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-group-prepend .input-group-text{
+  background-color: #212529;
+  border-color: #484848;
+  color: #d2d2d2;
+}
+
+.form-control{
+  border: 1px solid #484848;
+  background-color: #212529;
+  color: #e7e7e7;
+}
+
+.form-control:focus{
+  border-color: #043dd6;
+  box-shadow: 0 1px 6px 0 #043dd6;
+}
+
+.btn-submit-genre{
+  border: 1px solid #484848;
+  color: #e7e7e7;
+  transition: 0.3s;
+}
+
+.btn-submit-genre.disabled{
+  border-radius: 0 .25rem .25rem 0 !important;
+}
+
+.btn-submit-genre:hover,
+.btn-submit-genre:active{
+  outline: 0;
+  background-color: #212529;
+  border: 1px solid #043dd6;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  color: #0066ff;
+  box-shadow: 0 1px 7px 0 #043dd6;
+}
+
+.btn-submit-genre[disabled]:hover{
+  background-color: #212529;
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  text-shadow: -1px -1px 10px #9d0000,1px 1px 10px #9d0000;
+  box-shadow: 0 1px 7px 0 #9d0000;
+  cursor: not-allowed;
+}
+
+@media only screen and (min-width : 768px){
+  .genre-container{
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width : 1200px) {
+  .genre-container{
+    width: 500px;
+    min-height: 250px;
+  }
+
+  .pagination-controls{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  .genre-list{
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 100px;
+  }
+
+  .genre-list button{
+    width: 30%;
+  }
 }

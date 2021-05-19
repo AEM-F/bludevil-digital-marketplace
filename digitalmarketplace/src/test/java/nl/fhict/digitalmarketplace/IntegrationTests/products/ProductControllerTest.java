@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -98,6 +99,7 @@ public class ProductControllerTest extends AbstractTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void addProductTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/products";
@@ -121,6 +123,7 @@ public class ProductControllerTest extends AbstractTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void deleteProductTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/products/1";
@@ -138,6 +141,7 @@ public class ProductControllerTest extends AbstractTest {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void updateProductTest() throws Exception{
         //arrange
         String uri = "http://localhost:8080/api/products/1";

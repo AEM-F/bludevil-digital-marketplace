@@ -1,13 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product} from '../../../../common/product';
 import {ProductService} from '../../../../services/product.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ImageService} from '../../../../services/image.service';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-product-list-admin',
   templateUrl: './product-list-admin.component.html',
-  styleUrls: ['./product-list-admin.component.css']
+  styleUrls: ['./product-list-admin.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductListAdminComponent implements OnInit {
 
@@ -104,6 +128,7 @@ export class ProductListAdminComponent implements OnInit {
       this.pageNr = data.pageNumber;
       this.pageSize = data.pageSize;
       this.totalElements = data.totalElements;
+      console.log(data);
     };
   }
 
@@ -170,6 +195,14 @@ export class ProductListAdminComponent implements OnInit {
   }
 
   handleEditNavigation(id: number): void{
+    this.previousPrice = 0;
+    this.currentPrice = 0;
+    this.previousKeyword = '';
+    this.previousPlatform = '';
+    this.currentSearchKeyword = '';
+    this.currentPlatformName = '';
+    this.pageNr = 1;
+    this.selectedProduct = null;
     const navigateUrl = `/admin/products/edit/${id}`;
     this.router.navigate([navigateUrl]);
   }
@@ -194,4 +227,16 @@ export class ProductListAdminComponent implements OnInit {
     );
   }
 
+  handleProductView(product: Product): void{
+    this.previousPrice = 0;
+    this.currentPrice = 0;
+    this.previousKeyword = '';
+    this.previousPlatform = '';
+    this.currentSearchKeyword = '';
+    this.currentPlatformName = '';
+    this.pageNr = 1;
+    this.selectedProduct = null;
+    const navigateUrl = `/products/${product.id}`;
+    this.router.navigate([navigateUrl]);
+  }
 }

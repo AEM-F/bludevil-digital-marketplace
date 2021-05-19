@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-search-product',
@@ -8,14 +8,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SearchProductComponent implements OnInit {
 
-  constructor(private router: Router,private route:ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
   onSearchProduct(value: string){
     console.log(`value=${value}`);
-    this.router.navigate([], {relativeTo: this.route ,queryParams:{name: `${value}`}});
+    this.router.navigate([], {relativeTo: this.route , queryParams: {name: `${value}`}});
   }
 
 }

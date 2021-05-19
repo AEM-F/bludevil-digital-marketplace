@@ -1,5 +1,5 @@
-export class Genre{
-  public id: number=0;
+export class Genre {
+  public id: number = null;
   public genreName: string;
 
   constructor(name:string) {

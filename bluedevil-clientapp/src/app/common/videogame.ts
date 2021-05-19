@@ -1,6 +1,6 @@
-import {Product} from "./product";
-import {Genre} from "./genre";
-import {ProductPlatform} from "./productplatform";
+import {Product} from './product';
+import {Genre} from './genre';
+import {ProductPlatform} from './productplatform';
 
 export class Videogame extends Product{
   public releaseDate: string;
@@ -15,7 +15,7 @@ export class Videogame extends Product{
   }
 
   getType(): string {
-    return "videogame";
+    return 'videogame';
   }
 
 }

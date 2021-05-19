@@ -2,15 +2,39 @@ import { Component, OnInit } from '@angular/core';
 import {ProductPlatformService} from "../../services/product-platform.service";
 import {ProductPlatform} from "../../common/productplatform";
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-product-platform-menu',
   templateUrl: './product-platform-menu.component.html',
-  styleUrls: ['./product-platform-menu.component.css']
+  styleUrls: ['./product-platform-menu.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductPlatformMenuComponent implements OnInit {
 
-  isLoadingPlatforms= false;
+  isLoadingPlatforms = false;
   platforms: ProductPlatform[];
   currentPlatform: string;
   error;

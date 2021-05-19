@@ -1,0 +1,199 @@
+<div class="content-holder" [@inOutAnimation]>
+  <div class="main-wrapper">
+    <div class="side-wrapper">
+      <div class="waves-desktop">
+        <div class="flying-devil-img">
+          <div class="circle" [class.invalid]="checkActiveFormInvalid()"></div>
+          <div class="horn horn-left" [class.invalid]="checkActiveFormInvalid()"></div>
+          <div class="horn horn-right" [class.invalid]="checkActiveFormInvalid()"></div>
+        </div>
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          </defs>
+          <g class="parallax" *ngIf="!checkActiveFormInvalid()">
+            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(1,41,105,0.7)" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(1,41,77,0.5)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(1,41,77,0.3)" />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(1,41,105,1)" />
+          </g>
+          <g class="parallax" *ngIf="checkActiveFormInvalid()">
+            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(105,1,1,0.7)" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(70,1,1,0.5)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(70,1,1,0.3)" />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(105,1,1,1)" />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="outside-form-wrapper" [class.invalid]="checkActiveFormInvalid()">
+      <div class="form-wrapper">
+        <div class="signin-signup-switch">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active"
+                 id="pills-login-tab"
+                 data-toggle="pill"
+                 href="#pills-login"
+                 role="tab"
+                 aria-controls="pills-login"
+                 aria-selected="true"
+                 [class.invalid]="checkActiveFormInvalid()"
+                 (click)="onFormSwitch('login')">LOGIN</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link"
+                 id="pills-signup-tab"
+                 data-toggle="pill"
+                 href="#pills-signup"
+                 role="tab"
+                 aria-controls="pills-signup"
+                 aria-selected="false"
+                 [class.invalid]="checkActiveFormInvalid()"
+                 (click)="onFormSwitch('signup')">SIGNUP</a>
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="error" class="form-alert alert alert-danger" [@inOutAnimation]><i class="fa fa-exclamation-triangle"></i> {{error}}</div>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+            <!--          Login form section-->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="username">Email</label>
+                <input type="email" formControlName="username" id="username" class="form-control" />
+                <div class="form-alert alert alert-danger" [@inOutAnimation] *ngIf="getLoginForm.username.touched && getLoginForm.username.invalid">
+                  <div *ngIf="getLoginForm.username.errors.required"><i class="fa fa-exclamation-triangle"></i> Email is not filled</div>
+                  <div *ngIf="getLoginForm.username.errors.emailPatternMatch"><i class="fa fa-exclamation-triangle"></i> Email does not look like a valid email address</div>
+                  <div *ngIf="getLoginForm.username.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{getLoginForm.username.errors.maxlength.requiredLength}}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-group">
+                  <input type="password" formControlName="password" id="password" class="form-control" aria-describedby="button-password"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary"
+                            type="button"
+                            id="button-password"
+                            (click)="onPasswordBtnClick()"
+                            [class.invalid]="loginForm.invalid">
+                      <i class="fa"
+                         [class.fa-eye]="!isPasswordHidden" [class.fa-eye-slash]="isPasswordHidden"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-alert alert alert-danger" [@inOutAnimation] *ngIf="getLoginForm.password.touched && getLoginForm.password.invalid">
+                  <div *ngIf="getLoginForm.password.errors.required"><i class="fa fa-exclamation-triangle"></i> Password is not filled</div>
+                  <div *ngIf="getLoginForm.password.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Password cannot contain spaces</div>
+                  <div *ngIf="getLoginForm.password.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{getLoginForm.password.errors.maxlength.requiredLength}}</div>
+                </div>
+              </div>
+              <button [disabled]="loginForm.invalid"
+                      class="login-form-btn" id="login-btn">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                LOGIN
+              </button>
+              <div class="waves-mobile">
+                <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                     viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                  <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                  </defs>
+                  <g class="parallax" *ngIf="!loginForm.invalid">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(1,41,105,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(1,41,77,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(1,41,77,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(1,41,105,1)" />
+                  </g>
+                  <g class="parallax" *ngIf="loginForm.invalid">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(105,1,1,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(70,1,1,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(70,1,1,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(105,1,1,1)" />
+                  </g>
+                </svg>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
+            <!--          Signup form section-->
+            <form [formGroup]="signUpForm" (ngSubmit)="onRegisterSubmit()">
+              <div class="form-group">
+                <label for="su-email">Email</label>
+                <input type="email" formControlName="username" id="su-email" class="form-control" />
+                <div class="form-alert alert alert-danger" [@inOutAnimation] *ngIf="getSignupForm.username.touched && getSignupForm.username.invalid">
+                  <div *ngIf="getSignupForm.username.errors.required"><i class="fa fa-exclamation-triangle"></i> Email is not filled</div>
+                  <div *ngIf="getSignupForm.username.errors.emailPatternMatch"><i class="fa fa-exclamation-triangle"></i> Email does not look like a valid email address</div>
+                  <div *ngIf="getSignupForm.username.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{getSignupForm.username.errors.maxlength.requiredLength}}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="su-password">Password</label>
+                <div class="input-group">
+                  <input type="password" formControlName="password" id="su-password" class="form-control" aria-describedby="button-password"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary"
+                            type="button"
+                            id="su-button-password"
+                            (click)="onSignUpPasswordBtnClick()"
+                            [class.invalid]="signUpForm.invalid">
+                      <i class="fa"
+                         [class.fa-eye]="!arePasswordHiddenSignUp" [class.fa-eye-slash]="arePasswordHiddenSignUp"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-alert alert alert-danger" [@inOutAnimation] *ngIf="getSignupForm.password.touched && getSignupForm.password.invalid">
+                  <div *ngIf="getSignupForm.password.errors.required"><i class="fa fa-exclamation-triangle"></i> Password is not filled</div>
+                  <div *ngIf="getSignupForm.password.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Password cannot contain spaces</div>
+                  <div *ngIf="getSignupForm.password.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{getSignupForm.password.errors.maxlength.requiredLength}}</div>
+                  <div *ngIf="getSignupForm.password.errors.minlength"><i class="fa fa-exclamation-triangle"></i> Minimum length is {{getSignupForm.password.errors.minlength.requiredLength}}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="su-confirmPassword">Confirm Password</label>
+                <input type="password" formControlName="confirmPassword" id="su-confirmPassword" class="form-control" />
+                <div class="form-alert alert alert-danger" [@inOutAnimation] *ngIf="getSignupForm.confirmPassword.touched && getSignupForm.confirmPassword.invalid">
+                  <div *ngIf="getSignupForm.confirmPassword.errors.required"><i class="fa fa-exclamation-triangle"></i> Password is not filled</div>
+                  <div *ngIf="getSignupForm.confirmPassword.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Password cannot contain spaces</div>
+                  <div *ngIf="getSignupForm.confirmPassword.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{getSignupForm.confirmPassword.errors.maxlength.requiredLength}}</div>
+                  <div *ngIf="getSignupForm.confirmPassword.errors.minlength"><i class="fa fa-exclamation-triangle"></i> Minimum length is {{getSignupForm.confirmPassword.errors.minlength.requiredLength}}</div>
+                </div>
+                <div class="form-alert alert alert-danger" [@inOutAnimation] *ngIf="getSignupForm.password.touched && getSignupForm.confirmPassword.touched && (signUpForm.errors != null && signUpForm.errors.passwordsValuesNotMatching != null)">
+                  <div *ngIf="signUpForm.errors.passwordsValuesNotMatching"><i class="fa fa-exclamation-triangle"></i> Password fields do not match</div>
+                </div>
+              </div>
+              <button [disabled]="signUpForm.invalid"
+                      class="login-form-btn"
+                      type="submit" id="signup-btn">
+                <span *ngIf="loadingSignUp" class="spinner-border spinner-border-sm mr-1"></span>
+                SIGN UP
+              </button>
+              <div class="waves-mobile">
+                <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                     viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                  <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                  </defs>
+                  <g class="parallax" *ngIf="!signUpForm.invalid">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(1,41,105,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(1,41,77,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(1,41,77,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(1,41,105,1)" />
+                  </g>
+                  <g class="parallax" *ngIf="signUpForm.invalid">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(105,1,1,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(70,1,1,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(70,1,1,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(105,1,1,1)" />
+                  </g>
+                </svg>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

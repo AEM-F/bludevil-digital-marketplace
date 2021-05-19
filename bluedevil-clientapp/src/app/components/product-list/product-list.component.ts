@@ -6,11 +6,35 @@ import {ProductPlatform} from "../../common/productplatform";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ImageService} from '../../services/image.service';
 import {environment} from '../../../environments/environment';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  styleUrls: ['./product-list.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductListComponent implements OnInit {
 

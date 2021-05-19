@@ -5,7 +5,7 @@
   <nav class="sidebar" [class.active]="isSideNavOpen">
 
     <!-- close sidebar menu -->
-    <div class="dismiss" (click)="onSideNavClose()">
+    <div class="dismiss" (click)="onSideNavClose()" id="close-menu-btn">
       <i class="fa fa-arrow-left"></i>
     </div>
 
@@ -18,21 +18,23 @@
         <a class="nav-link nav-item"
            routerLinkActive="active nav-item-active"
            [routerLinkActiveOptions]="{exact: true}"
-           routerLink=""><i class="fa fa-home"></i> Home</a>
+           routerLink=""
+           id="nav-home"><i class="fa fa-home"></i> Home</a>
       </li>
       <li>
         <a class="nav-link nav-item"
            routerLinkActive="active nav-item-active"
-           [routerLink]="['products']"><i class="fa fa-tags"></i> Catalog</a>
+           [routerLink]="['products']"
+           id="nav-catalog"><i class="fa fa-tags"></i> Catalog</a>
       </li>
-      <li>
-        <a class="nav-link nav-item"><i class="fa fa-file"></i> Orders</a>
+      <li *ngIf="user">
+        <a class="nav-link nav-item" id="nav-orders"><i class="fa fa-file"></i> Orders</a>
       </li>
-      <li>
-        <a class="nav-link nav-item"><i class="fa fa-cog"></i> Account Settings</a>
+      <li *ngIf="user">
+        <a class="nav-link nav-item" id="nav-account-settings"><i class="fa fa-cog"></i> Account Settings</a>
       </li>
-      <li>
-        <a href="#productSection" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
+      <li *ngIf="checkAdmin()">
+        <a href="#productSection" id="product-section-collapse" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
           <i class="fa fa-tasks"></i>Products
         </a>
         <ul class="collapse list-unstyled nav-list-holder" id="productSection">
@@ -40,14 +42,28 @@
             <a class="nav-link nav-item"
                routerLinkActive="active nav-item-active"
                [routerLink]="['admin/products']"
-               [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-list"></i> Manage</a>
+               [routerLinkActiveOptions]="{exact: true}"
+               id="nav-product-manage"><i class="fa fa-list"></i> Manage</a>
           </li>
           <li>
             <a class="nav-link nav-item"
                routerLinkActive="active nav-item-active"
-               [routerLink]="['admin/products/create']"><i class="fa fa-plus"></i> Create</a>
+               [routerLink]="['admin/products/create']"
+               id="nav-product-create"><i class="fa fa-plus"></i> Create</a>
           </li>
         </ul>
+      </li>
+      <li *ngIf="!user">
+        <a class="nav-link nav-item"
+           routerLinkActive="active nav-item-active"
+           [routerLink]="['/login']"
+           [routerLinkActiveOptions]="{exact: true}"
+           id="nav-login"><i class="fa fa-sign-in"></i> Login/Signup</a>
+      </li>
+      <li id="logout-btn"
+          *ngIf="user"
+          (click)="logoutUser()">
+        <a class="nav-link nav-item"><i class="fa fa-sign-out"></i> Logout</a>
       </li>
     </ul>
   </nav>
@@ -60,7 +76,7 @@
     <!--    <div class="logo-tiny">-->
     <!--      <img src="../assets/images/bludevil_logo.png" alt="BluDevilLogo">-->
     <!--    </div>-->
-    <button type="button" class="btn-nav-custom" (click)="onSideNavOpen()">
+    <button type="button" class="btn-nav-custom" (click)="onSideNavOpen()" id="menu-btn">
       <i class="fa fa-align-left"></i>Menu
     </button>
   </div>

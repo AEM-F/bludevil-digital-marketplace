@@ -1,5 +1,5 @@
 <div class="component-holder">
-  <app-search-product></app-search-product>
+  <div class="section-title">Products</div>
   <div class="pagination-container" *ngIf="(products.length > 0 && products != null)">
     <div class="pagination-controls">
       <ngb-pagination
@@ -66,8 +66,8 @@
       </div>
     </div>
   </div>
-  <div class="card-holder">
-    <div class="alert alert-danger general-error-container animate-opacity" *ngIf="error">
+  <div class="card-holder" [@inOutAnimation]>
+    <div class="alert alert-danger general-error-container" [@inOutAnimation] *ngIf="error">
       <h4>An error occurred:</h4>
       <p>{{error}}</p>
       <button class="btn btn-danger" (click)="onHandleError()">Okay</button>
@@ -82,9 +82,11 @@
     </div>
 
     <div
-      class="product-card animate-opacity"
+      class="product-card"
       *ngFor="let product of products"
-      [class.selected]="checkIfProductIsSelected(product.id)" (click)="handleProductSelect(product)">
+      [class.selected]="checkIfProductIsSelected(product.id)"
+      (click)="handleProductSelect(product)"
+      [id]="'product-'+product.id">
       <div class="product-state">
         <div class="product-state-content state-unavailable" *ngIf="!product.active"><i class="fa fa-times-circle"></i> Unavailable</div>
         <div class="product-state-content state-available" *ngIf="product.active"><i class="fa fa-check-circle"></i> Available</div>
@@ -104,12 +106,12 @@
         </div>
       </div>
       <div class="product-control-btns" *ngIf="checkIfProductIsSelected(product.id)">
-        <button class="btn-product-control" type="button" (click)="handleEditNavigation(product.id)"><i class="fa fa-pencil-square-o"></i>Edit</button>
-        <button class="btn-product-control"
+        <button class="btn-product-control btn-product-edit" type="button" (click)="handleEditNavigation(product.id)"><i class="fa fa-pencil-square-o"></i>Edit</button>
+        <button class="btn-product-control btn-product-deactivate"
                 type="button"
                 (click)="handleProductDeactivate(product.id)"
                 *ngIf="product.active"><i class="fa fa-times"></i>Deactivate</button>
-        <button class="btn-product-control" type="button"><i class="fa fa-eye"></i>Inspect</button>
+        <button class="btn-product-control btn-product-inspect" type="button" (click)="handleProductView(product)"><i class="fa fa-eye"></i>Inspect</button>
       </div>
     </div>
   </div>

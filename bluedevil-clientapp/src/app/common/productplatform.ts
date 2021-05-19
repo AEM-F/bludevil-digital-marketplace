@@ -1,5 +1,5 @@
 export class ProductPlatform{
-  public id: number=0;
+  public id: number = null;
   public name: string;
 
   constructor(name:string) {

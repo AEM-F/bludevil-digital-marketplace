@@ -45,6 +45,13 @@ body{
   font-family: Arial, sans-serif;
 }
 
+app-page-not-found{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 app-product-list{
   width: 100%;
 }
@@ -61,6 +68,17 @@ app-product-manage{
   width: 100%;
 }
 
+app-product-platform-manage{
+  width: 100%;
+}
+
+app-genre-manage{
+  width: 100%;
+}
+
+app-login{
+  width: 100%;
+}
 .component-holder{
   display: flex;
   flex-direction: column;
@@ -208,6 +226,30 @@ app-product-manage{
 .general-error-container .btn.btn-danger:hover{
   background-color: #920101;
   color: #e7e7e7;
+}
+
+/**
+Adding red border if the input is invalid
+ */
+.form-control.ng-touched.ng-invalid{
+  border: 2px solid crimson;
+  box-shadow: 0 1px 6px 0 #f73434;
+}
+
+/**
+Applying custom style for the validation alert
+ */
+.form-alert.alert.alert-danger,.form-error{
+  background: rgba(238, 37, 37, 0.849);
+  color: #e0e0e0;
+  box-shadow: 0 1px 6px 0 #f73434;
+  align-self: center;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: none;
 }
 
 /**End of general error**/

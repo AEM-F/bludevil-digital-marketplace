@@ -1,15 +1,15 @@
 <div class="component-holder">
-  <div class="alert alert-danger general-error-container animate-opacity" *ngIf="genreServerError">
+  <div class="alert alert-danger general-error-container" [@inOutAnimation] *ngIf="genreServerError">
     <h4><i class="fa fa-exclamation-triangle"></i> Ups... an error:</h4>
     <p>{{genreServerError}}</p>
     <button class="btn btn-danger" (click)="navigateToProductManage()"><i class="fa fa-arrow-left"></i> Manage products</button>
   </div>
-  <div class="alert alert-danger general-error-container animate-opacity" *ngIf="platformServerError">
+  <div class="alert alert-danger general-error-container" [@inOutAnimation] *ngIf="platformServerError">
     <h4><i class="fa fa-exclamation-triangle"></i> Ups... an error:</h4>
     <p>{{platformServerError}}</p>
     <button class="btn btn-danger" (click)="navigateToProductManage()"><i class="fa fa-arrow-left"></i> Manage products</button>
   </div>
-  <form class="product-form animate-opacity" [formGroup]="creationForm" (ngSubmit)="createProduct()">
+  <form class="product-form" [@inOutAnimation] [formGroup]="creationForm" (ngSubmit)="createProduct()">
     <div class="form-group group-type">
       <label for="formControlSelect1">Type</label>
       <select class="form-control"
@@ -26,7 +26,7 @@
              class="form-control"
              id="formControlInput1"
              formControlName="name">
-      <div class="alert alert-danger animate-opacity" *ngIf="name.touched && name.invalid">
+      <div class="alert alert-danger" [@inOutAnimation] *ngIf="name.touched && name.invalid">
         <div *ngIf="name.errors.required"><i class="fa fa-exclamation-triangle"></i> Name is not filled</div>
         <div *ngIf="name.errors.minlength"><i class="fa fa-exclamation-triangle"></i> Minimum length is {{name.errors.minlength.requiredLength}}</div>
         <div *ngIf="name.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{name.errors.maxlength.requiredLength}}</div>
@@ -46,7 +46,7 @@
              class="form-control"
              id="formControlInput2"
              formControlName="price">
-      <div class="alert alert-danger animate-opacity" *ngIf="price.touched && price.invalid">
+      <div class="alert alert-danger" [@inOutAnimation] *ngIf="price.touched && price.invalid">
         <div *ngIf="price.errors.required"><i class="fa fa-exclamation-triangle"></i> Price is not filled</div>
         <div *ngIf="price.errors.cannotContainSpace"><i class="fa fa-exclamation-triangle"></i> Price cannot contain spaces</div>
         <div *ngIf="price.errors.pattern"><i class="fa fa-exclamation-triangle"></i> Price must be a positive number</div>
@@ -58,7 +58,7 @@
                 id="formControlTextarea1"
                 rows="7"
                 formControlName="description"></textarea>
-      <div class="alert alert-danger animate-opacity" *ngIf="description.touched && description.invalid">
+      <div class="alert alert-danger" [@inOutAnimation] *ngIf="description.touched && description.invalid">
         <div *ngIf="description.errors.required"><i class="fa fa-exclamation-triangle"></i> Description is not filled</div>
         <div *ngIf="description.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{description.errors.maxlength.requiredLength}}</div>
       </div>
@@ -69,7 +69,7 @@
                 id="formControlTextarea2"
                 rows="7"
                 formControlName="systemRequirements"></textarea>
-      <div class="alert alert-danger animate-opacity" *ngIf="systemRequirements.touched && systemRequirements.invalid">
+      <div class="alert alert-danger" [@inOutAnimation] *ngIf="systemRequirements.touched && systemRequirements.invalid">
         <div *ngIf="systemRequirements.errors.required"><i class="fa fa-exclamation-triangle"></i> System Requirements is not filled</div>
         <div *ngIf="systemRequirements.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{systemRequirements.errors.maxlength.requiredLength}}</div>
       </div>
@@ -97,7 +97,7 @@
                        class="form-control"
                        id="formControlInput3"
                        formControlName="fileUrl">
-                <div class="alert alert-danger animate-opacity" *ngIf="fileUrl.touched && fileUrl.invalid">
+                <div class="alert alert-danger" [@inOutAnimation] *ngIf="fileUrl.touched && fileUrl.invalid">
                   <div *ngIf="fileUrl.errors.required"><i class="fa fa-exclamation-triangle"></i> Image url is not filled</div>
                   <div *ngIf="fileUrl.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{fileUrl.errors.maxlength.requiredLength}}</div>
                 </div>
@@ -106,26 +106,27 @@
           </div>
       </div>
     </div>
-    <div class="form-group group-genre animate-opacity" *ngIf="productType === 'videogame'">
+    <div class="form-group group-genre" [@inOutAnimation] *ngIf="productType === 'videogame'">
       <label>Genres</label>
       <div class="genre-holder">
         <button type="button"
                 class="btn-product-form"
                 *ngFor="let genre of genres"
                 (click)="toggleGenre(genre)"
-                [class.active]="checkIfGenreIsActive(genre)">{{genre.genreName | uppercase}}</button>
+                [class.active]="checkIfGenreIsActive(genre)"
+                [id]="'genre-'+genre.id">{{genre.genreName | uppercase}}</button>
       </div>
-      <div class="alert alert-danger animate-opacity" *ngIf="selectedGenres.length === 0">
+      <div class="alert alert-danger" [@inOutAnimation] *ngIf="selectedGenres.length === 0">
         <div><i class="fa fa-exclamation-triangle"></i> No genre selected. Minimum is one genre</div>
       </div>
     </div>
-    <div class="form-group group-releaseDate animate-opacity" *ngIf="productType === 'videogame'">
+    <div class="form-group group-releaseDate" [@inOutAnimation] *ngIf="productType === 'videogame'">
       <label for="formControlInput4">Release Date</label>
       <input type="text"
              class="form-control"
              id="formControlInput4"
              formControlName="releaseDate">
-      <div class="alert alert-danger animate-opacity" *ngIf="releaseDate.touched && releaseDate.invalid">
+      <div class="alert alert-danger" [@inOutAnimation] *ngIf="releaseDate.touched && releaseDate.invalid">
         <div *ngIf="releaseDate.errors.required"><i class="fa fa-exclamation-triangle"></i> Release date is not filled</div>
         <div *ngIf="releaseDate.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{releaseDate.errors.maxlength.requiredLength}}</div>
         <div *ngIf="releaseDate.errors.pattern"><i class="fa fa-exclamation-triangle"></i> Release date is not valid, try the fallowing pattern yyyy/mm/dd</div>
@@ -135,17 +136,17 @@
       <button type="button" class="btn-product-form">Cancel</button>
       <button type="submit" class="btn-product-form" [disabled]="creationForm.invalid || !validateSelectedGenres() || !validateFile()">Submit</button>
     </div>
-    <div class="alert alert-danger creationError animate-opacity" *ngIf="creationForm.errors">
+    <div class="alert alert-danger creationError" [@inOutAnimation] *ngIf="creationForm.errors">
       <div class="d-flex flex-column justify-content-center align-items-center" *ngIf="creationForm.errors.invalidCreationProduct">
         <p><i class="fa fa-exclamation-triangle">{{errorCreation}}</i></p>
         <button class="btn btn-outline-dark btn-error-creation" (click)="handleCreationError()">Okay</button>
       </div>
-      <div class="d-flex flex-column justify-content-center align-items-center animate-opacity" *ngIf="creationForm.errors.invalidImageUpload">
+      <div class="d-flex flex-column justify-content-center align-items-center" [@inOutAnimation] *ngIf="creationForm.errors.invalidImageUpload">
         <p><i class="fa fa-exclamation-triangle"></i> Error: Product was created but the image upload failed, try to edit the product and upload the image again</p>
         <p>Reason: {{errorUploadImage}}</p>
         <button class="btn btn-outline-dark btn-error-creation" (click)="navigateToProductEdit()"> <i class="fa fa-pencil-square-o"></i> To product edit</button>
       </div>
-      <div class="d-flex flex-column justify-content-center align-items-center animate-opacity" *ngIf="creationForm.errors.invalidUpdateProduct">
+      <div class="d-flex flex-column justify-content-center align-items-center" [@inOutAnimation] *ngIf="creationForm.errors.invalidUpdateProduct">
         <p><i class="fa fa-exclamation-triangle"></i> Error: Product was created but something went wrong with the image upload, try to edit the product and upload the image again</p>
         <p>Reason: {{errorUpdateProduct}}</p>
         <button class="btn btn-outline-dark btn-error-creation" (click)="navigateToProductEdit()"><i class="fa fa-pencil-square-o"></i> To product edit</button>

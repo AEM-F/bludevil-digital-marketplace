@@ -74,6 +74,10 @@
   margin-right: 5px;
 }
 
+.sidebar ul li{
+  cursor: pointer;
+}
+
 .sidebar ul ul a {
   background: #444;
   padding-left: 30px;
