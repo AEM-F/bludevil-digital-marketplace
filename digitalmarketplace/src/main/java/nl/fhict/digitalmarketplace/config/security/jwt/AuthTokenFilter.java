@@ -1,5 +1,10 @@
 package nl.fhict.digitalmarketplace.config.security.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.fhict.digitalmarketplace.customException.AccessTokenExpiredException;
+import nl.fhict.digitalmarketplace.customException.AccessTokenMalformedException;
+import nl.fhict.digitalmarketplace.customException.AccessTokenMissingException;
+import nl.fhict.digitalmarketplace.model.response.MessageDTO;
 import nl.fhict.digitalmarketplace.service.user.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,16 +29,27 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = parseJwt(request);
-        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        try {
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+                String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            filterChain.doFilter(request, response);
+        }catch (AccessTokenExpiredException | AccessTokenMissingException | AccessTokenMalformedException e){
+            ObjectMapper objectMapper = new ObjectMapper();
+            MessageDTO responseMsgObj = new MessageDTO(e.getMessage(),"ERROR", request.getRequestURI());
+            String responseMshObjJson = objectMapper.writeValueAsString(responseMsgObj);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(responseMshObjJson);
+            response.flushBuffer();
         }
-        filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request) {

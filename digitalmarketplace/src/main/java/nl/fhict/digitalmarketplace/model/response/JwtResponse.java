@@ -1,5 +1,8 @@
 package nl.fhict.digitalmarketplace.model.response;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class JwtResponse {
@@ -7,11 +10,13 @@ public class JwtResponse {
     private String type = "Bearer";
     private String refreshToken;
     private Integer id;
+    private LocalDateTime refreshTokenExp;
 
-    public JwtResponse(String token, String refreshToken, Integer id) {
+    public JwtResponse(String token, String refreshToken, Integer id, LocalDateTime refreshTokenExp) {
         this.token = token;
         this.refreshToken = refreshToken;
         this.id = id;
+        this.refreshTokenExp = refreshTokenExp;
     }
 
     public String getToken() {
@@ -44,5 +49,13 @@ public class JwtResponse {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public LocalDateTime getRefreshTokenExp() {
+        return refreshTokenExp;
+    }
+
+    public void setRefreshTokenExp(LocalDateTime refreshTokenExp) {
+        this.refreshTokenExp = refreshTokenExp;
     }
 }

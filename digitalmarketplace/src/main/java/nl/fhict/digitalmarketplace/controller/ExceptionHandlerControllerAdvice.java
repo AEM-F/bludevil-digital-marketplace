@@ -54,4 +54,21 @@ public class ExceptionHandlerControllerAdvice {
     public @ResponseBody MessageDTO handleTokenRefreshException(final TokenRefreshException exception, final HttpServletRequest request){
         return new MessageDTO(exception.getMessage(), MessageDTO.errorType, request.getRequestURI());
     }
+
+    @ExceptionHandler(AccessTokenMissingException.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public @ResponseBody MessageDTO handleTokenRefreshException(final AccessTokenMissingException exception, final HttpServletRequest request){
+        return new MessageDTO(exception.getMessage(), MessageDTO.errorType, request.getRequestURI());
+    }
+    @ExceptionHandler(AccessTokenExpiredException.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public @ResponseBody MessageDTO handleTokenRefreshException(final AccessTokenExpiredException exception, final HttpServletRequest request){
+        return new MessageDTO(exception.getMessage(), MessageDTO.errorType, request.getRequestURI());
+    }
+    @ExceptionHandler(AccessTokenMalformedException.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public @ResponseBody MessageDTO handleTokenRefreshException(final AccessTokenMalformedException exception, final HttpServletRequest request){
+        return new MessageDTO(exception.getMessage(), MessageDTO.errorType, request.getRequestURI());
+    }
+
 }

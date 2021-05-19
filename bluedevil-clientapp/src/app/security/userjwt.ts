@@ -2,7 +2,8 @@ export class UserJwt{
   public constructor(private token: string,
                      private type: string,
                      private refreshToken: string,
-                     private id: number) {
+                     private id: number,
+                     private refreshTokenExp: Date) {
   }
 
   get getToken(): string {
@@ -35,5 +36,13 @@ export class UserJwt{
 
   set setId(value: number) {
     this.id = value;
+  }
+
+  get getRefreshTokenExp(): Date {
+    return this.refreshTokenExp;
+  }
+
+  set setRefreshTokenExp(value: Date) {
+    this.refreshTokenExp = value;
   }
 }

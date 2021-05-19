@@ -9,6 +9,8 @@ import nl.fhict.digitalmarketplace.model.jwt.RefreshToken;
 import nl.fhict.digitalmarketplace.model.user.User;
 import nl.fhict.digitalmarketplace.repository.jwt.RefreshTokenRepository;
 import nl.fhict.digitalmarketplace.repository.user.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class RefreshTokenService implements IRefreshTokenService {
     private Long refreshTokenDurationMs;
     private RefreshTokenRepository refreshTokenRepository;
     private UserRepository userRepository;
+    private Logger log = LoggerFactory.getLogger(RefreshTokenService.class);
 
     @Autowired
     public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
@@ -34,6 +37,15 @@ public class RefreshTokenService implements IRefreshTokenService {
     @Override
     public Optional<RefreshToken> findByToken(String token){
         return refreshTokenRepository.findByToken(token);
+    }
+
+    @Override
+    public RefreshToken getByToken(String token) throws TokenRefreshException {
+        RefreshToken token1 = refreshTokenRepository.getByToken(token);
+        if (token1 != null){
+            return token1;
+        }
+        throw new TokenRefreshException(token, "No token was found in the DB");
     }
 
     @Override
@@ -52,8 +64,9 @@ public class RefreshTokenService implements IRefreshTokenService {
     }
 
     @Override
-    public RefreshToken verifyExpiration(RefreshToken token) {
+    public RefreshToken verifyExpiration(RefreshToken token) throws TokenRefreshException {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+            log.error("Token is expired, removing token and throwing exception");
             refreshTokenRepository.delete(token);
             throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signin request");
         }
@@ -73,7 +86,7 @@ public class RefreshTokenService implements IRefreshTokenService {
 
     @Override
     @Transactional
-    public User getUserInformationByToken(String refreshToken) throws InvalidInputException, InvalidUUIDPatternException, ResourceNotFoundException {
+    public User getUserInformationByToken(String refreshToken) throws InvalidInputException, InvalidUUIDPatternException, ResourceNotFoundException, TokenRefreshException {
         if(refreshToken != null && !refreshToken.isEmpty()){
             if(DigitalmarketplaceApplication.isUUID(refreshToken)){
                 RefreshToken foundToken = refreshTokenRepository.getByToken(refreshToken);

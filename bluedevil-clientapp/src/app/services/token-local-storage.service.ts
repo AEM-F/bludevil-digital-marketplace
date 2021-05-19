@@ -20,7 +20,7 @@ export class TokenLocalStorageService implements IUserTokenStorage{
     if (user !== null && user !== undefined && user !== 'undefined'){
       // console.log(user);
       const userObj = JSON.parse(user);
-      return new UserJwt(userObj.token, userObj.type, userObj.refreshToken, userObj.id);
+      return new UserJwt(userObj.token, userObj.type, userObj.refreshToken, userObj.id, userObj.refreshTokenExp);
     }
     else {
       return null;

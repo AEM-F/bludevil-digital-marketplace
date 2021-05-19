@@ -73,6 +73,7 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     ImageService,
     GenreService,
     TokenLocalStorageService,
+    { provide: APP_INITIALIZER, useFactory: appIntializer, multi: true, deps: [AuthenticationService, TokenLocalStorageService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

@@ -30,6 +30,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,7 +75,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(
                 jwt,
                 refreshToken.getToken(),
-                userDetails.getId()));
+                userDetails.getId(),
+                LocalDateTime.ofInstant(refreshToken.getExpiryDate(), ZoneOffset.UTC)));
     }
 
     @PostMapping(path = "/signup")
@@ -89,23 +92,18 @@ public class AuthController {
     }
 
     @PostMapping(path = "/refreshToken")
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
+    public ResponseEntity<Object> refreshToken(@Valid @RequestBody TokenRefreshRequest request) throws TokenRefreshException {
         String requestRefreshToken = request.getRefreshToken();
-
-        return refreshTokenService.findByToken(requestRefreshToken)
-                .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUser)
-                .map(user -> {
-                    String token = jwtUtils.generateTokenFromUser(user);
-                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
-                })
-                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
-                        "Refresh token is not in database!"));
+        RefreshToken refreshToken = refreshTokenService.getByToken(requestRefreshToken);
+        refreshTokenService.verifyExpiration(refreshToken);
+        User user = refreshToken.getUser();
+        String accessToken = jwtUtils.generateTokenFromUser(user);
+        return ResponseEntity.ok(new TokenRefreshResponse(accessToken, refreshToken.getToken(), LocalDateTime.ofInstant(refreshToken.getExpiryDate(), ZoneOffset.UTC)));
     }
 
     @GetMapping(path = "/userInfo/{token}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Object> getLoggedUserInformation(@PathVariable(name = "token") String refreshToken) throws InvalidInputException, InvalidUUIDPatternException, ResourceNotFoundException {
+    public ResponseEntity<Object> getLoggedUserInformation(@PathVariable(name = "token") String refreshToken) throws InvalidInputException, InvalidUUIDPatternException, ResourceNotFoundException, TokenRefreshException {
         User returnedUser = refreshTokenService.getUserInformationByToken(refreshToken);
         List<String> roles = returnedUser.getRoles().stream().map(role -> {
             if(role.getName() == ERole.ROLE_USER){

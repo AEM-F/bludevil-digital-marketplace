@@ -1,5 +1,7 @@
 package nl.fhict.digitalmarketplace.config.security.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.fhict.digitalmarketplace.model.response.MessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,13 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         logger.error("Unauthorized error: {}", authException.getMessage());
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(authException.getMessage());
+        ObjectMapper objectMapper = new ObjectMapper();
+        MessageDTO responseMsgObj = new MessageDTO(authException.getMessage(),"ERROR", request.getRequestURI());
+        String responseMshObjJson = objectMapper.writeValueAsString(responseMsgObj);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(responseMshObjJson);
         response.flushBuffer();
     }
 }

@@ -102,7 +102,7 @@ public class ProductManageTest {
 
     @Test
     public void inspectProductTest() throws Exception{
-        //arrange
+        // arrange
         String expectedUrl = "http://localhost:8080/#/products/1";
         loginPage = new BluDevilSeleniumLogin();
         adminProductListControls = new BluDevilAdminProductListControls(loginPage.getConfig());
@@ -111,12 +111,12 @@ public class ProductManageTest {
         Thread.sleep(loginPage.getWaitTime());
         loginPage.submitLoginForm();
         Thread.sleep(loginPage.getWaitTime());
-        //act
+        // act
         adminProductListControls.inspectProduct(1);
         Thread.sleep(2000);
         String returnedUrl = loginPage.getCurrentUrl();
         loginPage.closeBrowser();
-        //assert
+        // assert
         assertEquals(expectedUrl, returnedUrl);
     }
 

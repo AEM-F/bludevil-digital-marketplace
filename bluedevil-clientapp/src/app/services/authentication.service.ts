@@ -26,7 +26,6 @@ export class AuthenticationService {
     this.user = this.userSubject.asObservable();
     if (this.tokenStorage.getUser() != null){
       this.userSubject.next(this.tokenStorage.getUser());
-      this.startRefreshTokenTimer();
     }
   }
 
@@ -48,7 +47,7 @@ export class AuthenticationService {
     const endpoint = `${this.baseUrl}/signin`;
     const requestObj: LoginRequest = new LoginRequest(email, password);
     return this.http.post<any>(endpoint, requestObj, { withCredentials: true}).pipe(map(user => {
-      const userJwt: UserJwt = new UserJwt(user.token, user.type, user.refreshToken, user.id);
+      const userJwt: UserJwt = new UserJwt(user.token, user.type, user.refreshToken, user.id, new Date(user.refreshTokenExp + "Z"));
       this.tokenStorage.saveUser(userJwt);
       // console.log(userJwt);
       this.userSubject.next(userJwt);
@@ -78,7 +77,8 @@ export class AuthenticationService {
         const userJwt = new UserJwt(response.token,
           this.getUserValue.getType,
           response.refreshToken,
-          this.getUserValue.getId);
+          this.getUserValue.getId,
+          new Date(response.refreshTokenExp + "Z"));
         this.tokenStorage.saveUser(userJwt);
         this.userSubject.next(userJwt);
         this.startRefreshTokenTimer();
@@ -105,5 +105,48 @@ export class AuthenticationService {
 
   private stopRefreshTokenTimer(){
     clearTimeout(this.refreshTokenTimeout);
+  }
+
+  public checkRefreshToken(): boolean{
+    const user = this.getUserValue;
+    if (user !== null){
+      console.log(user);
+      const tokenExpDate: Date = user.getRefreshTokenExp;
+      const nowDate: Date = new Date(Date.now() - (60 * 1000));
+      if (tokenExpDate > this.convertLocalDateToUTCIgnoringTimezone(nowDate)){
+        return false;
+      }
+      else{
+        return true;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  private convertLocalDateToUTCIgnoringTimezone(date: Date): Date{
+    const timestamp = Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      date.getSeconds(),
+      date.getMilliseconds(),
+    );
+
+    return new Date(timestamp);
+  }
+
+  private convertUTCToLocalDateIgnoringTimezone(utcDate: Date): Date{
+    return new Date(
+      utcDate.getUTCFullYear(),
+      utcDate.getUTCMonth(),
+      utcDate.getUTCDate(),
+      utcDate.getUTCHours(),
+      utcDate.getUTCMinutes(),
+      utcDate.getUTCSeconds(),
+      utcDate.getUTCMilliseconds(),
+    );
   }
 }
