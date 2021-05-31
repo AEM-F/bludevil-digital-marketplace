@@ -15,7 +15,7 @@ export class LoginAuthGuard implements CanActivate {
       // user is logged in
       return true;
     }else{
-      console.log(userJwt);
+      // console.log(userJwt);
       this.router.navigate(['/']);
       return false;
     }

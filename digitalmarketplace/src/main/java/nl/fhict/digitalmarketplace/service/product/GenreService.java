@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,8 +55,8 @@ public class GenreService implements IGenreService {
     @Override
     public Page<Genre> getGenres(int page, int size) throws ResourceNotFoundException, InvalidInputException {
         log.info("Validating input");
-        if(page > 0){
-            if(size > 0){
+        if(page >= 1){
+            if(size >= 1){
                 Pageable requestedPage = PageRequest.of(page-1, size);
                 Page<Genre> genres = genreRepository.findAll(requestedPage);
                 if(!genres.getContent().isEmpty()){

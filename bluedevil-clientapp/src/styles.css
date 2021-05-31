@@ -79,6 +79,20 @@ app-genre-manage{
 app-login{
   width: 100%;
 }
+
+app-user-details{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+app-cart-status{
+}
+
+app-profile-image{
+  width: 100%;
+}
 .component-holder{
   display: flex;
   flex-direction: column;
@@ -180,6 +194,24 @@ app-login{
 }
 
 /**End of loader**/
+.form-success{
+  background: rgba(27, 27, 27, 0.3);
+  color: #4e9201;
+  text-shadow: -1px -1px 10px #4e9201,1px 1px 10px #5f9201;
+  box-shadow: 0 1px 6px 0 #4e9201;
+  align-self: center;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: .5rem 1.25rem;
+  border: 1px solid rgba(78,146,1,0.3);
+  min-height: 30px;
+}
+
+.form-success p{
+  margin: 0;
+}
 
 /** General error **/
 

@@ -10,7 +10,7 @@ export class UserJwt{
     return this.token;
   }
 
-  set setToken(value: string) {
+  setToken(value: string): void {
     this.token = value;
   }
 
@@ -18,7 +18,7 @@ export class UserJwt{
     return this.type;
   }
 
-  set setType(value: string) {
+  setType(value: string): void {
     this.type = value;
   }
 
@@ -26,7 +26,7 @@ export class UserJwt{
     return this.refreshToken;
   }
 
-  set setRefreshToken(value: string) {
+  setRefreshToken(value: string): void {
     this.refreshToken = value;
   }
 
@@ -34,7 +34,7 @@ export class UserJwt{
     return this.id;
   }
 
-  set setId(value: number) {
+  setId(value: number): void {
     this.id = value;
   }
 
@@ -42,7 +42,7 @@ export class UserJwt{
     return this.refreshTokenExp;
   }
 
-  set setRefreshTokenExp(value: Date) {
+  setRefreshTokenExp(value: Date): void {
     this.refreshTokenExp = value;
   }
 }

@@ -1,0 +1,43 @@
+<form class="image-group" [formGroup]="fileForm" (ngSubmit)="onFileFormSubmit()">
+  <label>Image:</label>
+  <div class="alert alert-success form-success mt-2" *ngIf="uploadMessage && !fileForm.invalid" [@inOutAnimation]>
+    <p><i class="fa fa-check"></i> {{uploadMessage}}</p>
+  </div>
+  <div class="image-group-content">
+    <div class="nav flex-column nav-pills" id="v-pills-tab-image" role="tablist" aria-orientation="vertical">
+      <a class="nav-link btn-product-form" id="v-pills-upload-tab" data-toggle="pill" href="#v-pills-upload" role="tab" aria-controls="v-pills-upload" aria-selected="false" (click)="updateFileUploadMode('uploadImage')">Upload</a>
+      <a class="nav-link btn-product-form active" id="v-pills-link-tab" data-toggle="pill" href="#v-pills-image" role="tab" aria-controls="v-pills-link" aria-selected="true" (click)="updateFileUploadMode('url')">Link</a>
+    </div>
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade" id="v-pills-upload" role="tabpanel" aria-labelledby="v-pills-upload-tab" *ngIf="fileUploadMode === 'uploadImage'">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="customFile" accept=".jpg, .jpeg, .png" (change)="handleFile($event.target.files)">
+          <label class="custom-file-label" for="customFile">Choose file</label>
+          <div class="alert alert-danger form-error" *ngIf="validateUploadFile()">
+            <div><i class="fa fa-exclamation-triangle"></i> File is missing or it's not an image</div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade show active" id="v-pills-image" role="tabpanel" aria-labelledby="v-pills-link-tab" *ngIf="fileUploadMode === 'url'">
+        <div class="form-group">
+          <input type="text"
+                 class="form-control"
+                 id="formControlInput3"
+                 formControlName="fileUrl">
+          <div class="alert alert-danger form-error" [@inOutAnimation] *ngIf="fileUrl.touched && fileUrl.invalid">
+            <div *ngIf="fileUrl.errors.required"><i class="fa fa-exclamation-triangle"></i> Image url is not filled</div>
+            <div *ngIf="fileUrl.errors.maxlength"><i class="fa fa-exclamation-triangle"></i> Maximum length is {{fileUrl.errors.maxlength.requiredLength}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn-image mt-3" [disabled]="validateFile()"><i class="fa fa-photo"></i> Update image</button>
+  <div class="alert alert-danger form-error d-flex flex-column justify-content-center align-items-center" [@inOutAnimation] *ngIf="fileForm.errors != null && fileForm.errors.invalidImageUpload ">
+    <p><i class="fa fa-exclamation-triangle"></i> Error: The image upload failed, select another image</p>
+    <p>Reason: {{uploadMessage}}</p>
+  </div>
+  <div class="alert alert-danger form-error d-flex flex-column justify-content-center align-items-center" [@inOutAnimation] *ngIf="errorUpdateImage ">
+    <p><i class="fa fa-exclamation-triangle"></i> {{errorUpdateImage}}</p>
+  </div>
+</form>

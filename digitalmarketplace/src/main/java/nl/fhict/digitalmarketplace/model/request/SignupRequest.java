@@ -1,8 +1,9 @@
 package nl.fhict.digitalmarketplace.model.request;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
+@Valid
 public class SignupRequest {
     @NotBlank
     @Email

@@ -18,6 +18,6 @@ sonar:
     stage: sonar
     script:
         - cd digitalmarketplace
-        - ./gradlew sonarqube
+        - ./gradlew sonarqube -D sonar.projectKey=bludevil-digitalmarketplace -D sonar.host.url=%SONAR_URL% -D sonar.login=%SONAR_LOGIN%
 after_script:
   - echo "End CI"

@@ -10,6 +10,7 @@ import nl.fhict.digitalmarketplace.model.jwt.RefreshToken;
 import nl.fhict.digitalmarketplace.model.request.LoginRequest;
 import nl.fhict.digitalmarketplace.model.request.SignupRequest;
 import nl.fhict.digitalmarketplace.model.request.TokenRefreshRequest;
+import nl.fhict.digitalmarketplace.model.request.UserDetailsRequest;
 import nl.fhict.digitalmarketplace.model.response.JwtResponse;
 import nl.fhict.digitalmarketplace.model.response.MessageDTO;
 import nl.fhict.digitalmarketplace.model.response.TokenRefreshResponse;
@@ -33,6 +34,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -116,5 +118,19 @@ public class AuthController {
         }).collect(Collectors.toList());
         UserDetailsResponse userinfo = new UserDetailsResponse(returnedUser.getFirstName(), returnedUser.getLastName(), returnedUser.getEmail(), roles, returnedUser.getImagePath());
         return ResponseEntity.ok(userinfo);
+    }
+
+    @PutMapping(path = "/updateInfo")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Object> updateUserDetails(@RequestBody @Valid UserDetailsRequest detailsRequest) throws InvalidUUIDPatternException, TokenRefreshException, ResourceNotFoundException, InvalidInputException {
+        User returnedUser = refreshTokenService.getUserInformationByToken(detailsRequest.getRefreshToken());
+        returnedUser.setEmail(detailsRequest.getEmail());
+        returnedUser.setFirstName(detailsRequest.getFirstName());
+        returnedUser.setLastName(detailsRequest.getLastName());
+        User updatedUser = userService.updateUser(returnedUser, returnedUser.getId());
+        String accessToken = jwtUtils.generateTokenFromUser(updatedUser);
+        HashMap<String, String> responseBody = new HashMap<>();
+        responseBody.put("accessToken", accessToken);
+        return ResponseEntity.ok(responseBody);
     }
 }

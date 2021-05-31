@@ -11,4 +11,5 @@ import javax.validation.Valid;
 public interface IUserService {
     User createUser(@Valid User user) throws InvalidInputException;
     User getById(Integer id) throws ResourceNotFoundException, InvalidInputException;
+    User updateUser(@Valid User user, Integer userId) throws InvalidInputException, ResourceNotFoundException;
 }

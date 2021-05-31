@@ -10,10 +10,13 @@ import {ProductManageComponent} from './components/admin/products/product-manage
 import {LoginComponent} from './components/login/login.component';
 import {AdminAuthGuard} from './security/adminauth.guard';
 import {LoginAuthGuard} from './security/loginauth.guard';
+import {UserDetailsComponent} from './components/user-details/user-details.component';
+import {AuthGuard} from './security/auth.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent, canActivate: [LoginAuthGuard]},
+  {path: 'account', component: UserDetailsComponent, canActivate: [AuthGuard]},
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'admin/products/create', component: ProductCreationComponent, canActivate: [AdminAuthGuard]},
