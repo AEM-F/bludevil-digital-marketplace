@@ -35,7 +35,7 @@
       <button type="button" (click)="setFormOption('update')"><i class="fa fa-pencil-square-o"></i> Update</button>
     </div>
     <div class="platform-list">
-      <div *ngIf="isLoadingPlatforms && !platformFetchError" class="loader-wrapper" [@inOutAnimation]>
+      <div *ngIf="isLoadingPlatforms && !platformFetchError" class="loader-wrapper animate-opacity">
         <div class="loader">
           <span></span>
           <span></span>
@@ -43,9 +43,13 @@
         </div>
         Loading...
       </div>
-      <button *ngFor="let platform of platforms"
-              [class.active]="checkIfPlatformIsSelected(platform.name)"
-              (click)="togglePlatform(platform)">{{platform.name | firstToUpper}}</button>
+      <ng-container *ngFor="let platform of platforms">
+        <button class="animate-opacity"
+                *ngIf="!isLoadingPlatforms"
+                [@inOutAnimation]
+                [class.active]="checkIfPlatformIsSelected(platform.name)"
+                (click)="togglePlatform(platform)">{{platform.name | firstToUpper}}</button>
+      </ng-container>
     </div>
     <div class="form-section">
       <form class="platform-creation-form"

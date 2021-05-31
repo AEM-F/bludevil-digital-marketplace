@@ -36,7 +36,7 @@
       <button type="button" (click)="setFormOption('update')"><i class="fa fa-pencil-square-o"></i> Update</button>
     </div>
     <div class="genre-list">
-      <div *ngIf="isLoadingGenres && !genreFetchError" class="loader-wrapper">
+      <div *ngIf="isLoadingGenres && !genreFetchError" class="loader-wrapper animate-opacity">
         <div class="loader">
           <span></span>
           <span></span>
@@ -44,10 +44,12 @@
         </div>
         Loading...
       </div>
-      <button *ngFor="let genre of genres"
-              [@inOutAnimation]
-              [class.active]="checkIfGenreIsSelected(genre.genreName)"
-              (click)="toggleGenre(genre)">{{genre.genreName | firstToUpper}}</button>
+      <ng-container *ngFor="let genre of genres">
+        <button class="animate-opacity"
+          *ngIf="!isLoadingGenres"
+          [class.active]="checkIfGenreIsSelected(genre.genreName)"
+          (click)="toggleGenre(genre)">{{genre.genreName | firstToUpper}}</button>
+      </ng-container>
     </div>
     <div class="form-section">
       <form class="genre-creation-form"

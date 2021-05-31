@@ -55,4 +55,35 @@ public class UserService implements IUserService{
         }
         throw new InvalidInputException("The given id is not valid");
     }
+
+    @Override
+    public User updateUser(@Valid User user, Integer userId) throws InvalidInputException, ResourceNotFoundException {
+        if(userId > 0){
+            log.info("Validating the email: "+user.getEmail());
+            User returnedUser = userRepository.getById(userId);
+            if(returnedUser != null){
+                if(returnedUser.getEmail().equals(user.getEmail())){
+                    user.setId(userId);
+                    return userRepository.save(user);
+                }
+                else{
+                    User checkUser = userRepository.findByEmail(user.getEmail());
+                    if(checkUser == null){
+                        log.info("Email is valid, no user with the given email was found");
+                        log.info("Saving user...");
+                        user.setId(userId);
+                        userRepository.save(user);
+                        return user;
+                    } else{
+                        throw new InvalidInputException("The given email is already in use");
+                    }
+                }
+            }else{
+                throw new ResourceNotFoundException("No user was found with the given id");
+            }
+        }
+        else {
+            throw new InvalidInputException("The given id is invalid");
+        }
+    }
 }

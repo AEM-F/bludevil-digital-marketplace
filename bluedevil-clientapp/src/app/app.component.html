@@ -31,7 +31,10 @@
         <a class="nav-link nav-item" id="nav-orders"><i class="fa fa-file"></i> Orders</a>
       </li>
       <li *ngIf="user">
-        <a class="nav-link nav-item" id="nav-account-settings"><i class="fa fa-cog"></i> Account Settings</a>
+        <a class="nav-link nav-item"
+           id="nav-account-settings"
+           routerLinkActive="active nav-item-active"
+           [routerLink]="['/account']"><i class="fa fa-user"></i> Profile</a>
       </li>
       <li *ngIf="checkAdmin()">
         <a href="#productSection" id="product-section-collapse" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
@@ -79,6 +82,17 @@
     <button type="button" class="btn-nav-custom" (click)="onSideNavOpen()" id="menu-btn">
       <i class="fa fa-align-left"></i>Menu
     </button>
+    <div class="cart-container">
+      <app-cart-status></app-cart-status>
+      <div class="container-sc">
+        <button id="btn-collapse-sc" class="btn-nav-shopping-cart" type="button" data-toggle="collapse" data-target="#collapse-sc" aria-expanded="false" aria-controls="collapse-sc">
+          <i class="fa fa-shopping-cart"></i>
+        </button>
+        <div id="collapse-sc" class="collapse shopping-cart-area">
+          <app-shopping-cart></app-shopping-cart>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- Content -->
   <div class="component-holder">

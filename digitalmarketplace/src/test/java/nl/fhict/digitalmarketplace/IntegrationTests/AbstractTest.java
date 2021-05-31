@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import nl.fhict.digitalmarketplace.DigitalmarketplaceApplication;
 import nl.fhict.digitalmarketplace.model.user.Role;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
@@ -40,6 +41,7 @@ public abstract class AbstractTest {
             throws JsonParseException, JsonMappingException, IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return objectMapper.readValue(json, clazz);
     }
 }

@@ -58,35 +58,35 @@
       </div>
       Loading...
     </div>
-    <div
-      class="property-card"
-      [@inOutAnimation]
-      *ngFor="let product of products">
-      <a routerLink="/products/{{product.id}}" [id]="'product-'+product.id">
-<!--        Optional may use later-->
-<!--        <div class="p-state-container state-available" *ngIf="product.active">-->
-<!--          <i class="fa fa-check"></i> Available-->
-<!--        </div>-->
-        <div class="p-state-container state-unavailable" *ngIf="!product.active">
-          <i class="fa fa-ban"></i> Unavailable
-        </div>
-        <div
-          class="property-image"
-          [style.background-image]="'url('+handleProductImage(product.imageUrl)+')'">
-          <div class="property-image-title">
+    <ng-container *ngFor="let product of products">
+      <div class="property-card animate-opacity"
+           *ngIf="!isLoadingProducts">
+        <a routerLink="/products/{{product.id}}" [id]="'product-'+product.id">
+          <!--        Optional may use later-->
+          <!--        <div class="p-state-container state-available" *ngIf="product.active">-->
+          <!--          <i class="fa fa-check"></i> Available-->
+          <!--        </div>-->
+          <div class="p-state-container state-unavailable" *ngIf="!product.active">
+            <i class="fa fa-ban"></i> Unavailable
+          </div>
+          <div
+            class="property-image"
+            [style.background-image]="'url('+handleProductImage(product.imageUrl)+')'">
+            <div class="property-image-title">
 
+            </div>
+          </div>
+        </a>
+        <div class="property-description">
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <p class="property-platform">{{product.productPlatform.name | firstToUpper}}</p>
+            <p class="property-price">{{product.price | currency: 'EUR'}}</p>
           </div>
         </div>
-      </a>
-      <div class="property-description">
-        <div class="d-flex flex-column justify-content-center align-items-center">
-          <p class="property-platform">{{product.productPlatform.name | firstToUpper}}</p>
-          <p class="property-price">{{product.price | currency: 'EUR'}}</p>
+        <div class="property-name">
+          {{product.name}}
         </div>
       </div>
-      <div class="property-name">
-        {{product.name}}
-      </div>
-    </div>
+    </ng-container>
   </div>
 </div>

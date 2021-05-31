@@ -1,20 +1,27 @@
 package nl.fhict.digitalmarketplace.controller.user;
 
+import nl.fhict.digitalmarketplace.config.security.jwt.JwtUtils;
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
 import nl.fhict.digitalmarketplace.model.user.User;
+import nl.fhict.digitalmarketplace.service.jwt.IRefreshTokenService;
 import nl.fhict.digitalmarketplace.service.user.IUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping(path = "api/users")
 public class UserController {
+    private JwtUtils jwtUtils;
     private IUserService userService;
+    private IRefreshTokenService refreshTokenService;
 
-    public UserController(IUserService userService) {
+    public UserController(JwtUtils jwtUtils, IUserService userService, IRefreshTokenService refreshTokenService) {
+        this.jwtUtils = jwtUtils;
         this.userService = userService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @GetMapping(path = "/{id}")
@@ -23,4 +30,5 @@ public class UserController {
         User returnedUser = userService.getById(id);
         return ResponseEntity.ok(returnedUser);
     }
+
 }

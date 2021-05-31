@@ -35,6 +35,13 @@ import {JwtInterceptor} from './security/jwt.interceptor';
 import {ErrorInterceptor} from './security/error.interceptor';
 import {TokenLocalStorageService} from './services/token-local-storage.service';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import {AuthGuard} from './security/auth.guard';
+import {AdminAuthGuard} from './security/adminauth.guard';
+import {LoginAuthGuard} from './security/loginauth.guard';
+import {ProfileImageComponent} from './components/profile-image/profile-image.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import {CartStatusComponent} from './components/cart-status/cart-status.component';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +63,10 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     ProductListAdminComponent,
     SearchProductAdminComponent,
     LoginComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    ProfileImageComponent,
+    ShoppingCartComponent,
+    CartStatusComponent
   ],
     imports: [
         BrowserModule,
@@ -73,6 +83,9 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     ImageService,
     GenreService,
     TokenLocalStorageService,
+    AuthGuard,
+    AdminAuthGuard,
+    LoginAuthGuard,
     { provide: APP_INITIALIZER, useFactory: appIntializer, multi: true, deps: [AuthenticationService, TokenLocalStorageService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

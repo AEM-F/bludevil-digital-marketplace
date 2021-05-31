@@ -16,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 @Validated
@@ -90,7 +93,7 @@ public class ProductService implements IProductService{
         throw new InvalidInputException("The given id is not valid");
     }
 
-    private boolean validateProductPlatform(Product product) throws InvalidInputException, ResourceNotFoundException {
+    public boolean validateProductPlatform(@NotNull Product product) throws InvalidInputException, ResourceNotFoundException {
         ProductPlatform productPlatform = productPlatformRepository.getById(product.getProductPlatform().getId());
         if(productPlatform != null){
             log.info("Validating product platform: "+product.getProductPlatform().toString());
@@ -102,7 +105,7 @@ public class ProductService implements IProductService{
         throw new ResourceNotFoundException("No platform was found the given id");
     }
 
-    private boolean validateProductGenres(Product product) throws InvalidInputException, ResourceNotFoundException {
+    public boolean validateProductGenres(@NotNull Product product) throws InvalidInputException, ResourceNotFoundException {
         if (product.getType().equals("videogame")){
             List<Genre> productGenres = ((VideoGame)product).getGenres();
             List<Genre> genres = genreRepository.findAll();

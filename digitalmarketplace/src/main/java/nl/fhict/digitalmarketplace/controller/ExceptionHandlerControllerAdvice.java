@@ -14,13 +14,13 @@ import java.io.IOException;
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice {
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public @ResponseBody MessageDTO handleResourceNotFound(final ResourceNotFoundException exception, final HttpServletRequest request){
         return new MessageDTO(exception.getMessage(), MessageDTO.errorType, request.getRequestURI());
     }
 
     @ExceptionHandler(InvalidInputException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
     public @ResponseBody MessageDTO handleInvalidInput(final InvalidInputException exception, final HttpServletRequest request){
         return new MessageDTO(exception.getMessage(), MessageDTO.errorType, request.getRequestURI());
     }

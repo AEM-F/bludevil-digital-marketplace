@@ -4,6 +4,7 @@ import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
 import nl.fhict.digitalmarketplace.model.product.Product;
 import nl.fhict.digitalmarketplace.model.response.PaginationResponse;
+import nl.fhict.digitalmarketplace.service.product.IGenreService;
 import nl.fhict.digitalmarketplace.service.product.IProductPlatformService;
 import nl.fhict.digitalmarketplace.service.product.IProductService;
 import nl.fhict.digitalmarketplace.service.product.filter.*;
@@ -24,15 +25,15 @@ public class ProductController {
     private IProductService productService;
     private IProductFilterService productFilterService;
     private IProductPlatformService platformService;
+    private IGenreService genreService;
     private Logger log = LoggerFactory.getLogger(ProductController.class);
 
-    @Autowired
-    public ProductController(IProductService productService, IProductFilterService productFilterService,IProductPlatformService platformService) {
+    public ProductController(IProductService productService, IProductFilterService productFilterService, IProductPlatformService platformService, IGenreService genreService) {
         this.productService = productService;
         this.productFilterService = productFilterService;
         this.platformService = platformService;
+        this.genreService = genreService;
     }
-
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
@@ -50,7 +51,8 @@ public class ProductController {
     @GetMapping()
     public ResponseEntity<Object> getProducts(@RequestParam(name = "page", defaultValue = "1") int page,
                                       @RequestParam(name = "size", defaultValue = "10") int size,
-                                      @RequestParam(name = "price", required = false) String price,@RequestParam(name = "state", defaultValue = "true") boolean state) throws ResourceNotFoundException, InvalidInputException {
+                                      @RequestParam(name = "price", required = false) String price,
+                                              @RequestParam(name = "state", defaultValue = "true") boolean state) throws ResourceNotFoundException, InvalidInputException {
         if(price != null){
             double priceConverted = Double.parseDouble(price);
             log.info("Attempting to get products by price: "+price);

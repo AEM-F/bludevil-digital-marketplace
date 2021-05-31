@@ -80,13 +80,12 @@
       </div>
       Loading...
     </div>
-
-    <div
-      class="product-card"
-      *ngFor="let product of products"
-      [class.selected]="checkIfProductIsSelected(product.id)"
-      (click)="handleProductSelect(product)"
-      [id]="'product-'+product.id">
+  <ng-container *ngFor="let product of products">
+    <div class="product-card animate-opacity"
+         *ngIf="!isLoadingProducts"
+         [class.selected]="checkIfProductIsSelected(product.id)"
+         (click)="handleProductSelect(product)"
+         [id]="'product-'+product.id" >
       <div class="product-state">
         <div class="product-state-content state-unavailable" *ngIf="!product.active"><i class="fa fa-times-circle"></i> Unavailable</div>
         <div class="product-state-content state-available" *ngIf="product.active"><i class="fa fa-check-circle"></i> Available</div>
@@ -114,5 +113,6 @@
         <button class="btn-product-control btn-product-inspect" type="button" (click)="handleProductView(product)"><i class="fa fa-eye"></i>Inspect</button>
       </div>
     </div>
+  </ng-container>
   </div>
 </div>

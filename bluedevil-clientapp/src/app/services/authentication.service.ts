@@ -10,6 +10,7 @@ import {RefreshTokenRequest} from '../security/refreshtokenrequest';
 import {UserDetailsResponse} from '../common/userdetailsresponse';
 import {TokenLocalStorageService} from './token-local-storage.service';
 import {SignupRequest} from '../security/signuprequest';
+import {UserDetailsRequest} from '../common/userdetailsrequest';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,20 @@ export class AuthenticationService {
   getUserInfo(): Observable<UserDetailsResponse>{
     const endpoint = `${this.baseUrl}/userInfo/${this.getUserValue.getRefreshToken}`;
     return this.http.get<any>(endpoint).pipe(map((response) => {
-      return new UserDetailsResponse(response.firstName, response.lastName, response.email, response.roles, response.imagePath);
+      return new UserDetailsResponse(response.firstName, response.lastName, response.email, response.roles, response.imageUrl);
+    }));
+  }
+
+  updateUserInfo(firstName: string, lastName: string, email: string): Observable<any>{
+    const endpoint = `${this.baseUrl}/updateInfo`;
+    const requestObj: UserDetailsRequest = new UserDetailsRequest(this.getUserValue.getRefreshToken, firstName, lastName, email);
+    return this.http.put<any>(endpoint, requestObj).pipe(map((response) => {
+      const userJwt = this.getUserValue;
+      userJwt.setToken(response.accessToken);
+      this.tokenStorage.saveUser(userJwt);
+      this.userSubject.next(userJwt);
+      this.startRefreshTokenTimer();
+      return response;
     }));
   }
 

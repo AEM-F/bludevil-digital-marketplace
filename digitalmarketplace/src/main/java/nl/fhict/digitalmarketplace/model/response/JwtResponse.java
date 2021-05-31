@@ -12,6 +12,9 @@ public class JwtResponse {
     private Integer id;
     private LocalDateTime refreshTokenExp;
 
+    public JwtResponse() {
+    }
+
     public JwtResponse(String token, String refreshToken, Integer id, LocalDateTime refreshTokenExp) {
         this.token = token;
         this.refreshToken = refreshToken;

@@ -136,32 +136,6 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
-  // highlightProductGenres(): void{
-  //   if (this.product.type === 'videogame'){
-  //     const genreContainer = document.getElementById('genre-list');
-  //     const genreBtns = genreContainer.querySelectorAll('button');
-  //     console.log(genreBtns);
-  //     for (let i = 0; i < genreBtns.length; i++) {
-  //       // access to individual element:
-  //       const elem = genreBtns[i];
-  //       const rawElemId = elem.id;
-  //       const elemId = rawElemId.slice(6);
-  //       for (const genre of this.productAsVideoGame.genres){
-  //         if (genre.id === +elemId){
-  //           elem.classList.add('active');
-  //         }
-  //       }
-  //       this.editForm.controls.releaseDate.setValidators([
-  //         Validators.required,
-  //         Validators.maxLength(10),
-  //         Validators.pattern(ProductValidators.datePattern)]);
-  //       this.selectedGenres = this.productAsVideoGame.genres;
-  //       console.log(this.selectedGenres);
-  //       this.editForm.controls.releaseDate.patchValue(this.productAsVideoGame.releaseDate);
-  //     }
-  //   }
-  // }
-
   handleVideoGameInfo(): void{
     if (this.product.type === 'videogame'){
       this.editForm.controls.releaseDate.setValidators([
