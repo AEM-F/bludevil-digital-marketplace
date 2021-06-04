@@ -7,6 +7,7 @@ import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "roles")
+@Embeddable
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

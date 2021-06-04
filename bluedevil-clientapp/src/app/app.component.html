@@ -36,7 +36,15 @@
            routerLinkActive="active nav-item-active"
            [routerLink]="['/account']"><i class="fa fa-user"></i> Profile</a>
       </li>
-      <li *ngIf="checkAdmin()">
+      <li class="support-chat-li " *ngIf="user">
+        <div class="new-messages-container" *ngIf="newMessageNumber > 0">{{newMessageNumber}}</div>
+        <a class="nav-link nav-item"
+           id="nav-support-chat"
+           routerLinkActive="active nav-item-active"
+           [routerLink]="['/supportChat']"><i class="fa fa-users"></i> Support Chat
+        </a>
+      </li>
+      <li *ngIf="checkRole('ADM')">
         <a href="#productSection" id="product-section-collapse" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item" role="button" aria-controls="productSection">
           <i class="fa fa-tasks"></i>Products
         </a>
@@ -82,7 +90,7 @@
     <button type="button" class="btn-nav-custom" (click)="onSideNavOpen()" id="menu-btn">
       <i class="fa fa-align-left"></i>Menu
     </button>
-    <div class="cart-container">
+    <div class="cart-container" *ngIf="user">
       <app-cart-status></app-cart-status>
       <div class="container-sc">
         <button id="btn-collapse-sc" class="btn-nav-shopping-cart" type="button" data-toggle="collapse" data-target="#collapse-sc" aria-expanded="false" aria-controls="collapse-sc">
@@ -100,4 +108,13 @@
   </div>
   <!-- End content -->
   <app-scroll-to-top></app-scroll-to-top>
+  <ngb-toast
+    aria-live="polite"
+    aria-atomic="true"
+    *ngFor="let toast of toastService.toasts"
+    [header]="toast.header" [autohide]="true"
+    [delay]="toast.delay || 5000"
+    (hidden)="toastService.remove(toast)"
+  >{{toast.body}}
+  </ngb-toast>
 </div>

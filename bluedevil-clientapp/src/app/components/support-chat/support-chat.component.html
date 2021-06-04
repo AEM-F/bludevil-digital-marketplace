@@ -1,0 +1,99 @@
+<div class="component-wrapper">
+  <div class="support-chat-container " [@inOutAnimation] *ngIf="(contacts.length > 0)">
+    <div class="support-chat-contacts-container">
+      <div class="pagination-container">
+        <ngb-pagination
+          [(page)]="pageNr"
+          [pageSize]="pageSize"
+          [collectionSize]="totalElements"
+          [maxSize]="3"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          [ellipses]="false"
+          (pageChange)="getContacts()">
+          <ng-template ngbPaginationFirst><i class="fa fa-angle-double-left"></i></ng-template>
+          <ng-template ngbPaginationLast><i class="fa fa-angle-double-right"></i></ng-template>
+          <ng-template ngbPaginationPrevious><i class="fa fa-angle-left"></i></ng-template>
+          <ng-template ngbPaginationNext><i class="fa fa-angle-right"></i></ng-template>
+        </ngb-pagination>
+      </div>
+      <div class="support-chat-contacts">
+        <div class="alert alert-danger general-error-container" [@inOutAnimation] *ngIf="contactError">
+          <h4>An error occurred:</h4>
+          <p>{{contactError}}</p>
+          <button class="btn btn-danger" (click)="handleRefresh()">Okay</button>
+        </div>
+        <div *ngIf="isLoadingContacts && !contactError" class="loader-wrapper animate-opacity">
+          <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          Loading...
+        </div>
+        <ng-container *ngFor="let contact of contacts">
+          <ng-container *ngIf="!isLoadingContacts">
+            <button class="contact-wrapper"
+                    *ngIf="contact.contactName"
+                    (click)="handleContactSelect(contact)"
+                    [id]="'contact-'+contact.id">
+              <div class="new-messages-container" *ngIf="contact.notificationNr > 0" [@inOutAnimation]>{{contact.notificationNr}}</div>
+              <div class="user-image-wrap">
+                <img class="user-image"
+                     [src]="checkProfileImage(contact.contactProfileImage)"
+                     [class.selected]="checkIfContactIsSelected(contact.id)">
+                <div class="user-name"
+                     [class.selected]="checkIfContactIsSelected(contact.id)">
+                  {{contact.contactName}}
+                </div>
+              </div>
+            </button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="support-chat-inner-container">
+      <div class="chat-box" *ngIf="selectedContact">
+        <div *ngIf="isLoadingMessages" class="loader-wrapper animate-opacity">
+          <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          Loading...
+        </div>
+        <div class="chat-window" id="chat-window" *ngIf="currentMessages !== null" [@inOutAnimation]>
+          <article class="msg-container msg-self"
+                   *ngFor="let message of currentMessages"
+                   [class.msg-self]="message.senderId === userId"
+                   [class.msg-remote]="message.senderId !== userId"
+                   [id]="'msg-'+message.messageId"
+                   [@inOutAnimation]>
+            <div class="msg-box">
+              <div class="flr">
+                <div class="messages">
+                  <p class="msg">
+                    {{message.content}}
+                  </p>
+                </div>
+                <span class="timestamp"><span class="username">{{message.senderName}}</span>&bull;<span class="posttime"></span>{{message.timestamp | date:'fullDate'}}</span>
+              </div>
+              <img class="user-img" [src]="getImagePathFromSender(message.senderId)" />
+            </div>
+          </article>
+        </div>
+        <form class="chat-input"
+              [formGroup]="chatForm"
+              (ngSubmit)="onMessageSubmit()"
+              *ngIf="currentMessages !== null"
+              [@inOutAnimation]>
+          <textarea class="form-control chat-form-control"
+                    id="formControlTextarea"
+                    formControlName="inputMessage">
+          </textarea>
+          <button class="btn-chat-form" type="submit" [disabled]="selectedContact === null || chatForm.invalid"><i class="fa fa-send"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

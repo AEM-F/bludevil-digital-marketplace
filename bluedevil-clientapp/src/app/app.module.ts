@@ -41,6 +41,8 @@ import {LoginAuthGuard} from './security/loginauth.guard';
 import {ProfileImageComponent} from './components/profile-image/profile-image.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import {CartStatusComponent} from './components/cart-status/cart-status.component';
+import { SupportChatComponent } from './components/support-chat/support-chat.component';
+import {SupportChatService} from './services/support-chat.service';
 
 
 @NgModule({
@@ -66,7 +68,8 @@ import {CartStatusComponent} from './components/cart-status/cart-status.componen
     UserDetailsComponent,
     ProfileImageComponent,
     ShoppingCartComponent,
-    CartStatusComponent
+    CartStatusComponent,
+    SupportChatComponent
   ],
     imports: [
         BrowserModule,
@@ -86,6 +89,7 @@ import {CartStatusComponent} from './components/cart-status/cart-status.componen
     AuthGuard,
     AdminAuthGuard,
     LoginAuthGuard,
+    SupportChatService,
     { provide: APP_INITIALIZER, useFactory: appIntializer, multi: true, deps: [AuthenticationService, TokenLocalStorageService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

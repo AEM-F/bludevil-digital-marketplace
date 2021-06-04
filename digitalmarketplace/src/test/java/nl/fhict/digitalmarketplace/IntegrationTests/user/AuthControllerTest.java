@@ -19,6 +19,9 @@ import nl.fhict.digitalmarketplace.service.jwt.RefreshTokenService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,12 +33,12 @@ import org.springframework.web.util.NestedServletException;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AuthControllerTest extends AbstractTest {
@@ -63,7 +66,7 @@ public class AuthControllerTest extends AbstractTest {
         // prepare test user
         User testUser = new User();
         testUser.setActive(true);
-        testUser.setCreationDate(LocalDate.now());
+        testUser.setCreationDate(LocalDateTime.now());
         testUser.setEmail("test@gmail.com");
         testUser.setFirstName("Testy");
         testUser.setLastName("Tester");
@@ -74,7 +77,7 @@ public class AuthControllerTest extends AbstractTest {
         // prepare inactive test user
         User testUser2 = new User();
         testUser2.setActive(false);
-        testUser2.setCreationDate(LocalDate.now());
+        testUser2.setCreationDate(LocalDateTime.now());
         testUser2.setEmail("test2@gmail.com");
         testUser2.setFirstName("Testy");
         testUser2.setLastName("Tester");
@@ -83,6 +86,23 @@ public class AuthControllerTest extends AbstractTest {
         testUser2.setRoles(roleList);
         userRepository.save(testUser2);
         this.testUser = testUser;
+    }
+
+//    @Test
+//    public void testRep() throws Exception{
+//        List<User> users = this.userRepository.findByRolesName(ERole.ROLE_USER);
+//        boolean result = false;
+//        if(users.size() > 0){
+//            result = true;
+//        }
+//        assertTrue(result);
+//    }
+
+    @Test
+    public void testRepo2() throws Exception{
+        Pageable requestedPage = PageRequest.of(0, 5);
+        Page<User> userPage = this.userRepository.findByActiveEqualsAndRolesName(true,ERole.ROLE_USER, requestedPage);
+        assertNotNull(userPage);
     }
 
     @Test

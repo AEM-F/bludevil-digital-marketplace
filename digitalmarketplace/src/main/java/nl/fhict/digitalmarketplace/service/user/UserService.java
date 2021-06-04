@@ -2,16 +2,25 @@ package nl.fhict.digitalmarketplace.service.user;
 
 import nl.fhict.digitalmarketplace.customException.InvalidInputException;
 import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
+import nl.fhict.digitalmarketplace.model.product.Product;
+import nl.fhict.digitalmarketplace.model.response.ContactResponse;
+import nl.fhict.digitalmarketplace.model.response.PaginationResponse;
+import nl.fhict.digitalmarketplace.model.user.ERole;
 import nl.fhict.digitalmarketplace.model.user.User;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
 import nl.fhict.digitalmarketplace.repository.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @Service
@@ -84,6 +93,34 @@ public class UserService implements IUserService{
         }
         else {
             throw new InvalidInputException("The given id is invalid");
+        }
+    }
+
+    @Override
+    public PaginationResponse<ContactResponse> findContacts(int page, int size, ERole role, boolean ignoreRole) throws InvalidInputException {
+        if(page > 0){
+            if(size >0){
+                Pageable requestedPage = PageRequest.of(page-1, size);
+                if(ignoreRole){
+                    Page<User> usersPage = userRepository.findAllByActiveEquals(true, requestedPage);
+                    List<ContactResponse> contacts = usersPage.getContent().stream().map(user -> new ContactResponse(user.getId(), user.getFirstName(), user.getImagePath())).collect(Collectors.toList());
+                    return new PaginationResponse<>(contacts,
+                            usersPage.getTotalElements(),
+                            usersPage.getNumber() + 1,
+                            usersPage.getSize());
+                }else{
+                    Page<User> usersPage = userRepository.findByActiveEqualsAndRolesName( true , role, requestedPage);
+                    List<ContactResponse> contacts = usersPage.getContent().stream().map(user -> new ContactResponse(user.getId(), user.getFirstName(), user.getImagePath())).collect(Collectors.toList());
+                    return new PaginationResponse<>(contacts,
+                            usersPage.getTotalElements(),
+                            usersPage.getNumber() + 1,
+                            usersPage.getSize());
+                }
+            }else{
+                throw new InvalidInputException("The given size is not valid");
+            }
+        }else{
+            throw new InvalidInputException("The given page number is not valid");
         }
     }
 }
