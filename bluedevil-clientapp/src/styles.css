@@ -28,9 +28,11 @@
 html{
   height: 100%;
   background-color: #212529;
+  padding: 0;
 }
 body{
   margin: 0;
+  padding: 0;
   height: 100%;
   background: url("assets/images/waves2.png") no-repeat center center fixed,linear-gradient(
     180deg,
@@ -101,6 +103,38 @@ app-profile-image{
   justify-content: center;
   align-items: center;
   transition: all 0.3s;
+}
+
+app-support-chat{
+  width: 100%;
+}
+
+ngb-toast{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 0.5em;
+  z-index: 1200;
+}
+
+.toast-header{
+  max-width: 300px;
+  background: linear-gradient(308deg, rgba(1,57,146,1) 0%, rgba(37,37,37,1) 100%);
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+  color: #e7e7e7;
+  border-bottom:2px solid #0037a5;
+}
+
+.toast-header .close span{
+  color: #ffffff;
+  text-shadow: -1px -1px 10px #1d1e24,1px 1px 10px #1d1e24;
+}
+
+.toast-body{
+  background: #1d1e24;
+  color: #e7e7e7;
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 
 /**Start of loader**/

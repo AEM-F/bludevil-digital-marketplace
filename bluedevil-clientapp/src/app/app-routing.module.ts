@@ -12,11 +12,13 @@ import {AdminAuthGuard} from './security/adminauth.guard';
 import {LoginAuthGuard} from './security/loginauth.guard';
 import {UserDetailsComponent} from './components/user-details/user-details.component';
 import {AuthGuard} from './security/auth.guard';
+import {SupportChatComponent} from './components/support-chat/support-chat.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent, canActivate: [LoginAuthGuard]},
   {path: 'account', component: UserDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'supportChat', component: SupportChatComponent, canActivate: [AuthGuard]},
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'admin/products/create', component: ProductCreationComponent, canActivate: [AdminAuthGuard]},

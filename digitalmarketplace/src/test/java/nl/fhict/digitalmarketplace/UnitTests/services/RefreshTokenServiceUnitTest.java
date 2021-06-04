@@ -23,6 +23,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class RefreshTokenServiceUnitTest {
         User testUser = new User();
         testUser.setId(1);
         testUser.setActive(true);
-        testUser.setCreationDate(LocalDate.now());
+        testUser.setCreationDate(LocalDateTime.now());
         testUser.setEmail("test@gmail.com");
         testUser.setFirstName("Testy");
         testUser.setLastName("Tester");

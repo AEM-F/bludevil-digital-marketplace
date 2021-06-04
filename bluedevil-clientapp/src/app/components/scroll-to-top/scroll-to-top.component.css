@@ -2,12 +2,12 @@
   position: fixed;
   bottom: 15px;
   right: 15px;
-  opacity: 0;
+  display: none;
   transition: all .2s ease-in-out;
   z-index: 3;
 }
 .show-scrollTop {
-  opacity: 1;
+  display: block;
   transition: all .2s ease-in-out;
 }
 

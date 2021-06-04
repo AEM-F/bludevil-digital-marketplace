@@ -11,6 +11,7 @@ import {UserDetailsResponse} from '../common/userdetailsresponse';
 import {TokenLocalStorageService} from './token-local-storage.service';
 import {SignupRequest} from '../security/signuprequest';
 import {UserDetailsRequest} from '../common/userdetailsrequest';
+import {SupportChatService} from './support-chat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,15 @@ export class AuthenticationService {
   public user: Observable<UserJwt>;
   private refreshTokenTimeout;
 
-  constructor(private router: Router, private http: HttpClient, private tokenStorage: TokenLocalStorageService) {
+  constructor(private router: Router,
+              private http: HttpClient,
+              private tokenStorage: TokenLocalStorageService,
+              private sChatService: SupportChatService) {
     this.userSubject = new BehaviorSubject<UserJwt>(null);
     this.user = this.userSubject.asObservable();
     if (this.tokenStorage.getUser() != null){
       this.userSubject.next(this.tokenStorage.getUser());
+      this.sChatService.connect(this.getUserValue.getId);
     }
   }
 
@@ -53,6 +58,7 @@ export class AuthenticationService {
       // console.log(userJwt);
       this.userSubject.next(userJwt);
       this.startRefreshTokenTimer();
+      this.sChatService.connect(userJwt.getId);
       return userJwt;
     }));
   }
@@ -67,6 +73,7 @@ export class AuthenticationService {
     this.stopRefreshTokenTimer();
     this.tokenStorage.clearUser();
     this.userSubject.next(null);
+    this.sChatService.disconnect();
     this.router.navigate(['/login']);
   }
 
@@ -124,7 +131,7 @@ export class AuthenticationService {
   public checkRefreshToken(): boolean{
     const user = this.getUserValue;
     if (user !== null){
-      console.log(user);
+      // console.log(user);
       const tokenExpDate: Date = user.getRefreshTokenExp;
       const nowDate: Date = new Date(Date.now() - (60 * 1000));
       if (tokenExpDate > this.convertLocalDateToUTCIgnoringTimezone(nowDate)){

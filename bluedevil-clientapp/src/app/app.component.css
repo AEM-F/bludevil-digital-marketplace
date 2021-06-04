@@ -127,6 +127,24 @@
   border-radius: 0;
 }
 
+.support-chat-li{
+  position: relative;
+}
+
+.new-messages-container{
+  padding: 2px 4px;
+  position: absolute;
+  left: 190px;
+  top:6px;
+  border-radius: .25rem;
+  background: #1d1e24;
+  border: 1px solid rgba(78,146,1,0.3);
+  color: #4e9201;
+  text-shadow: -1px -1px 10px #4e9201,1px 1px 10px #5f9201;
+  text-align: center;
+  font-size: 1rem;
+}
+
 
 /*Start of dismiss btn*/
 .dismiss {

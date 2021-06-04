@@ -21,6 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class UserServiceUnitTest {
         User testUser = new User();
         testUser.setId(1);
         testUser.setActive(true);
-        testUser.setCreationDate(LocalDate.now());
+        testUser.setCreationDate(LocalDateTime.now());
         testUser.setEmail("test@gmail.com");
         testUser.setFirstName("Testy");
         testUser.setLastName("Tester");

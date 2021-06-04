@@ -2,8 +2,12 @@ package nl.fhict.digitalmarketplace;
 
 import com.zaxxer.hikari.HikariDataSource;
 import nl.fhict.digitalmarketplace.config.DatabaseConfig;
+import nl.fhict.digitalmarketplace.model.product.Genre;
+import nl.fhict.digitalmarketplace.model.product.ProductPlatform;
 import nl.fhict.digitalmarketplace.model.user.ERole;
 import nl.fhict.digitalmarketplace.model.user.Role;
+import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
+import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +17,31 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @SpringBootApplication
 public class DigitalmarketplaceApplication implements CommandLineRunner {
 
     protected RoleRepository roleRepository;
+    protected GenreRepository genreRepository;
+    protected ProductPlatformRepository platformRepository;
     private static Logger log = LoggerFactory.getLogger(DigitalmarketplaceApplication.class);
 
     @Autowired
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
+    }
+
+    @Autowired
+    public void setGenreRepository(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
+
+    @Autowired
+    public void setPlatformRepository(ProductPlatformRepository platformRepository) {
+        this.platformRepository = platformRepository;
     }
 
     public static void main(String[] args) {
@@ -63,8 +81,26 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
         }
     }
 
+    private void insertDataTest(){
+        String[] platformNames = {"origin","steam","battle.net", "ncsoft", "uplay", "xbox", "playstation", "android", "gog", "nintendo", "epic", "microsoft"};
+        List<ProductPlatform> productPlatforms = new ArrayList<>();
+        for (String name : platformNames){
+            ProductPlatform platform = new ProductPlatform(name);
+            productPlatforms.add(platform);
+        }
+        platformRepository.saveAll(productPlatforms);
+        String[] genreNames = {"action", "shooter","survival","battle_royal","adventure","horror","rpg","racing", "sports","strategy","sandbox","open_world"};
+        List<Genre> genres = new ArrayList<>();
+        for (String name : genreNames){
+            Genre genre = new Genre(name);
+            genres.add(genre);
+        }
+        genreRepository.saveAll(genres);
+    }
+
     @Override
     public void run(String... args) throws Exception {
         checkStoredRoles();
+      //  insertDataTest();
     }
 }

@@ -1,5 +1,6 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
+import {SupportChatService} from '../../services/support-chat.service';
 
 @Component({
   selector: 'app-scroll-to-top',
@@ -9,14 +10,16 @@ import {DOCUMENT} from "@angular/common";
 export class ScrollToTopComponent implements OnInit {
 
   windowScrolled: boolean;
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(@Inject(DOCUMENT) private document: Document, private sChatService: SupportChatService) {}
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
-      this.windowScrolled = true;
-    }
-    else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
-      this.windowScrolled = false;
+    if(this.sChatService.isSupportChatOpen === false){
+      if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
+        this.windowScrolled = true;
+      }
+      else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {
+        this.windowScrolled = false;
+      }
     }
   }
   scrollToTop() {
