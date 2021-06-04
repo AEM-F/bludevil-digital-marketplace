@@ -68,8 +68,10 @@ public class BluDevilProductCreate {
         }
     }
 
-    public void submitCreateForm(){
+    public void submitCreateForm() throws InterruptedException {
         JavascriptExecutor jse = ((JavascriptExecutor)this.config.getDriver());
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(1000);
         String jsScript = "let btnFormSubmit = document.querySelector(\"div.btn-main-group button[type='submit']\");" +
                 "btnFormSubmit.click();";
         jse.executeScript(jsScript);
