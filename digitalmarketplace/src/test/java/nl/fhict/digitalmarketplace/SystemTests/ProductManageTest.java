@@ -150,7 +150,7 @@ public class ProductManageTest {
                 "http://localhost:8080/api/images/getImage/picture-not-available.jpg",
                 genres,
                 "1999/05/04");
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         productCreate.submitCreateForm();
         Thread.sleep(2000);
         //assert
