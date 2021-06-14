@@ -1,14 +1,21 @@
 package nl.fhict.digitalmarketplace.model.product;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 public class VideoGame extends Product{
     @Column(name = "product_releaseDate")
-    private String releaseDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+//    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private Date releaseDate;
     @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.DETACH, fetch= FetchType.EAGER)
     @JoinTable(name = "Product_Genres", joinColumns = {@JoinColumn(name = "product_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
     private List<Genre> genres;
@@ -16,11 +23,11 @@ public class VideoGame extends Product{
     public VideoGame() {
     }
 
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(@NotBlank String releaseDate) {
+    public void setReleaseDate(@NotBlank Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

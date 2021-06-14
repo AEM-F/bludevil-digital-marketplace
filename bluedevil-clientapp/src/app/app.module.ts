@@ -43,6 +43,10 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import {CartStatusComponent} from './components/cart-status/cart-status.component';
 import { SupportChatComponent } from './components/support-chat/support-chat.component';
 import {SupportChatService} from './services/support-chat.service';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {CookieService} from 'ngx-cookie-service';
+import {WebViewsService} from './services/web-views.service';
 
 
 @NgModule({
@@ -69,7 +73,8 @@ import {SupportChatService} from './services/support-chat.service';
     ProfileImageComponent,
     ShoppingCartComponent,
     CartStatusComponent,
-    SupportChatComponent
+    SupportChatComponent,
+    DashboardComponent
   ],
     imports: [
         BrowserModule,
@@ -77,7 +82,8 @@ import {SupportChatService} from './services/support-chat.service';
         HttpClientModule,
         NgbModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgxChartsModule
     ],
   providers: [
     AuthenticationService,
@@ -90,7 +96,9 @@ import {SupportChatService} from './services/support-chat.service';
     AdminAuthGuard,
     LoginAuthGuard,
     SupportChatService,
-    { provide: APP_INITIALIZER, useFactory: appIntializer, multi: true, deps: [AuthenticationService, TokenLocalStorageService] },
+    CookieService,
+    WebViewsService,
+    { provide: APP_INITIALIZER, useFactory: appIntializer, multi: true, deps: [AuthenticationService, TokenLocalStorageService, WebViewsService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

@@ -10,7 +10,9 @@ import nl.fhict.digitalmarketplace.model.user.Role;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,6 +25,8 @@ import java.io.IOException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DigitalmarketplaceApplication.class)
 @WebAppConfiguration
+@ActiveProfiles("test")
+//@EnableConfigurationProperties
 @TestPropertySource(locations = "classpath:application-test.properties")
 public abstract class AbstractTest {
 

@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -81,10 +82,10 @@ public class ProductManageTest {
         Genre testGenre = new Genre(1, "action");
         List<Genre> testGenres = new ArrayList<>();
         testGenres.add(testGenre);
-
-        LocalDate testLocalDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String testDate = formatter.format(testLocalDate);
+        Date testLocalDate = new Date();
+//        LocalDate testLocalDate = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        String testDate = formatter.format(testLocalDate);
 
         VideoGame product1 = new VideoGame();
         product1.setName("Antem");
@@ -94,7 +95,7 @@ public class ProductManageTest {
         product1.setDescription("Cool game");
         product1.setSystemRequirements("On windows");
         product1.setActive(true);
-        product1.setReleaseDate(testDate);
+        product1.setReleaseDate(testLocalDate);
         product1.setGenres(testGenres);
 
         productRepository.save(product1);
@@ -106,12 +107,19 @@ public class ProductManageTest {
         String expectedUrl = "http://localhost:8080/#/products/1";
         loginPage = new BluDevilSeleniumLogin();
         adminProductListControls = new BluDevilAdminProductListControls(loginPage.getConfig());
+        navMenu = new BluDevilSeleniumNavMenu(loginPage.getConfig());
         Thread.sleep(loginPage.getWaitTime());
         loginPage.typeUserCredentialsLogin("testAdmin@gmail.com", "1234");
         Thread.sleep(loginPage.getWaitTime());
         loginPage.submitLoginForm();
         Thread.sleep(loginPage.getWaitTime());
         // act
+        navMenu.openNavMenu();
+        Thread.sleep(1000);
+        navMenu.navigateTo(ENavOption.PRODUCT_MANAGE);
+        Thread.sleep(1000);
+        navMenu.closeNavMenu();
+        Thread.sleep(1000);
         adminProductListControls.inspectProduct(1);
         Thread.sleep(2000);
         String returnedUrl = loginPage.getCurrentUrl();
@@ -120,49 +128,50 @@ public class ProductManageTest {
         assertEquals(expectedUrl, returnedUrl);
     }
 
-//    @Test
-//    public void createProductTest() throws Exception{
-//        //arrange
-//        loginPage = new BluDevilSeleniumLogin();
-//        navMenu = new BluDevilSeleniumNavMenu(loginPage.getConfig());
-//        adminProductListControls = new BluDevilAdminProductListControls(loginPage.getConfig());
-//        productCreate = new BluDevilProductCreate(loginPage.getConfig());
-//        Thread.sleep(loginPage.getWaitTime());
-//        loginPage.typeUserCredentialsLogin("testAdmin@gmail.com", "1234");
-//        Thread.sleep(loginPage.getWaitTime());
-//        loginPage.submitLoginForm();
-//        Thread.sleep(loginPage.getWaitTime());
-//        //act
-//        navMenu.openNavMenu();
-//        Thread.sleep(1000);
-//        navMenu.navigateTo(ENavOption.PRODUCT_CREATION);
-//        Thread.sleep(1000);
-//        navMenu.closeNavMenu();
-//        Thread.sleep(1000);
-//        List<Integer> genres = new ArrayList<>();
-//        genres.add(1);
-//        genres.add(2);
-//        productCreate.enterProductData(
-//                "TestName",
-//                "12",
-//                "testDesc",
-//                "testSystemReq",
-//                "http://localhost:8080/api/images/getImage/picture-not-available.jpg",
-//                genres,
-//                "1999/05/04");
-//        Thread.sleep(2000);
-//        productCreate.submitCreateForm();
-//        Thread.sleep(2000);
-//        //assert
-//        boolean checkResult = adminProductListControls.checkIfProductExists(2);
-//        navMenu.closeBrowser();
-//        assertTrue(checkResult);
-//    }
+    @Test
+    public void createProductTest() throws Exception{
+        //arrange
+        loginPage = new BluDevilSeleniumLogin();
+        navMenu = new BluDevilSeleniumNavMenu(loginPage.getConfig());
+        adminProductListControls = new BluDevilAdminProductListControls(loginPage.getConfig());
+        productCreate = new BluDevilProductCreate(loginPage.getConfig());
+        Thread.sleep(loginPage.getWaitTime());
+        loginPage.typeUserCredentialsLogin("testAdmin@gmail.com", "1234");
+        Thread.sleep(loginPage.getWaitTime());
+        loginPage.submitLoginForm();
+        Thread.sleep(loginPage.getWaitTime());
+        //act
+        navMenu.openNavMenu();
+        Thread.sleep(1000);
+        navMenu.navigateTo(ENavOption.PRODUCT_CREATION);
+        Thread.sleep(1000);
+        navMenu.closeNavMenu();
+        Thread.sleep(1000);
+        List<Integer> genres = new ArrayList<>();
+        genres.add(1);
+        genres.add(2);
+        productCreate.enterProductData(
+                "TestName",
+                "12",
+                "testDesc",
+                "testSystemReq",
+                "http://localhost:8080/api/images/getImage/picture-not-available.jpg",
+                genres,
+                "1999/05/04");
+        Thread.sleep(2000);
+        productCreate.submitCreateForm();
+        Thread.sleep(2000);
+        //assert
+        boolean checkResult = adminProductListControls.checkIfProductExists(2);
+        navMenu.closeBrowser();
+        assertTrue(checkResult);
+    }
 
     @Test
     public void deactivateProductTest() throws Exception{
         //arrange
         loginPage = new BluDevilSeleniumLogin();
+        navMenu = new BluDevilSeleniumNavMenu(loginPage.getConfig());
         adminProductListControls = new BluDevilAdminProductListControls(loginPage.getConfig());
         Thread.sleep(loginPage.getWaitTime());
         loginPage.typeUserCredentialsLogin("testAdmin@gmail.com", "1234");
@@ -170,6 +179,12 @@ public class ProductManageTest {
         loginPage.submitLoginForm();
         Thread.sleep(loginPage.getWaitTime());
         //act
+        navMenu.openNavMenu();
+        Thread.sleep(1000);
+        navMenu.navigateTo(ENavOption.PRODUCT_MANAGE);
+        Thread.sleep(1000);
+        navMenu.closeNavMenu();
+        Thread.sleep(1000);
         adminProductListControls.deactivateProduct(1);
         Thread.sleep(1000);
         adminProductListControls.viewProductsByState(false);

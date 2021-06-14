@@ -25,6 +25,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -58,9 +59,10 @@ public class ProductControllerUnitTest2 {
         List<Genre> testGenres = new ArrayList<>();
         testGenres.add(testGenre);
 
-        LocalDate testLocalDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String testDate = formatter.format(testLocalDate);
+//        LocalDate testLocalDate = LocalDate.now();
+        Date testLocalDate = new Date();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        String testDate = formatter.format(testLocalDate);
 
         VideoGame product1 = new VideoGame();
         product1.setName("Antem");
@@ -70,7 +72,7 @@ public class ProductControllerUnitTest2 {
         product1.setDescription("Cool game");
         product1.setSystemRequirements("On windows");
         product1.setActive(true);
-        product1.setReleaseDate(testDate);
+        product1.setReleaseDate(testLocalDate);
         product1.setGenres(testGenres);
         this.testProduct = product1;
         Mockito.when(productService.getProductById(1)).thenReturn(product1);

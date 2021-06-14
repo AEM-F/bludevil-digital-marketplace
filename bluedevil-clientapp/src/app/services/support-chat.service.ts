@@ -6,11 +6,9 @@ import * as SockJS from 'sockjs-client';
 import {ChatNotification} from '../common/chatnotification';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {AuthenticationService} from './authentication.service';
 import {first, map} from 'rxjs/operators';
 import {ChatMessage} from '../common/chatmessage';
 import {AppToastService} from './app-toast.service';
-import {RxStomp} from '@stomp/rx-stomp';
 import {PaginationResponse} from '../common/paginationresponse';
 import {Contact} from '../common/contact';
 
@@ -69,9 +67,7 @@ export class SupportChatService {
     notificationsList.push(notification);
     this.notificationsSubject.next(notificationsList);
     if (this.isSupportChatOpen === false){
-      this.getMessageById(notification.messageId).subscribe(message => {
-        this.toastService.show(message.senderName, message.content);
-      });
+      this.toastService.show(notification.senderName, 'Has just send you a message');
     }
     this.countAllNewMessages().pipe(first()).subscribe();
   }

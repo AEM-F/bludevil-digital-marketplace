@@ -69,4 +69,19 @@ export class ProductService {
     const endpoint = `${this.baseUrl}/${id}`;
     return this.http.delete(endpoint);
   }
+
+  countAllProducts(): Observable<any>{
+    const endpoint = `${this.baseUrl}/statistics/countAll`;
+    return this.http.get(endpoint);
+  }
+
+  countAllProductsByPlatform(): Observable<any>{
+    const endpoint = `${this.baseUrl}/statistics/countPlatforms`;
+    return this.http.get(endpoint);
+  }
+
+  countAllProductsByGenre(): Observable<any>{
+    const endpoint = `${this.baseUrl}/statistics/countGenres`;
+    return this.http.get(endpoint);
+  }
 }

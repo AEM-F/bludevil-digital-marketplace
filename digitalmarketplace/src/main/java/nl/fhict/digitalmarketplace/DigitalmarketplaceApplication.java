@@ -9,6 +9,7 @@ import nl.fhict.digitalmarketplace.model.user.Role;
 import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
 import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
+import nl.fhict.digitalmarketplace.service.user.AdminAccountGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
     protected RoleRepository roleRepository;
     protected GenreRepository genreRepository;
     protected ProductPlatformRepository platformRepository;
+    protected AdminAccountGenerator adminAccountGenerator;
     private static Logger log = LoggerFactory.getLogger(DigitalmarketplaceApplication.class);
 
     @Autowired
@@ -42,6 +44,11 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
     @Autowired
     public void setPlatformRepository(ProductPlatformRepository platformRepository) {
         this.platformRepository = platformRepository;
+    }
+
+    @Autowired
+    public void setAdminAccountGenerator(AdminAccountGenerator adminAccountGenerator) {
+        this.adminAccountGenerator = adminAccountGenerator;
     }
 
     public static void main(String[] args) {
@@ -81,7 +88,7 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
         }
     }
 
-    private void insertDataTest(){
+    public void insertDataTest(){
         String[] platformNames = {"origin","steam","battle.net", "ncsoft", "uplay", "xbox", "playstation", "android", "gog", "nintendo", "epic", "microsoft"};
         List<ProductPlatform> productPlatforms = new ArrayList<>();
         for (String name : platformNames){
@@ -101,6 +108,7 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         checkStoredRoles();
-      //  insertDataTest();
+        this.adminAccountGenerator.buildAdminAccount();
+//        insertDataTest();
     }
 }

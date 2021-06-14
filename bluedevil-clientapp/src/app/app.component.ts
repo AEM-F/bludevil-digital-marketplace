@@ -3,6 +3,7 @@ import {AuthenticationService} from './services/authentication.service';
 import {SupportChatService} from './services/support-chat.service';
 import {AppToastService} from './services/app-toast.service';
 import {first} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
   isSideNavOpen = false;
   user;
   newMessageNumber = 0;
+  countNewMessagesSubscription: Subscription;
 
 
   constructor(private authenticationService: AuthenticationService,
@@ -23,13 +25,18 @@ export class AppComponent {
       this.user = res;
     });
     this.sChatService.newMessagesNr.subscribe((newMessagesNr) => {
-      this.newMessageNumber = newMessagesNr;
+      if (this.sChatService.isSupportChatOpen === false){
+        this.newMessageNumber = newMessagesNr;
+      }
       });
   }
 
   checkForNewMessages(): void{
     if (this.sChatService.disabled === false){
-      this.sChatService.countAllNewMessages().pipe(first()).subscribe();
+      this.countNewMessagesSubscription= this.sChatService.countAllNewMessages().pipe(first()).subscribe(next =>{},error => {
+        this.countNewMessagesSubscription.unsubscribe();
+        this.checkForNewMessages();
+      });
     }else{
       console.log('Connection not established to socket -> no new messages');
     }

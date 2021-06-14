@@ -1,5 +1,6 @@
 package nl.fhict.digitalmarketplace.SystemTests;
 
+import nl.fhict.digitalmarketplace.DigitalmarketplaceApplication;
 import nl.fhict.digitalmarketplace.config.selenium.BluDevilSeleniumLogin;
 import nl.fhict.digitalmarketplace.model.user.ERole;
 import nl.fhict.digitalmarketplace.model.user.Role;
@@ -26,6 +27,8 @@ import static org.junit.Assert.assertEquals;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class LoginPageTest {
     @Autowired
+    DigitalmarketplaceApplication digitalmarketplaceApplication;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -33,6 +36,7 @@ public class LoginPageTest {
 
     @Before
     public void setUp(){
+        digitalmarketplaceApplication.insertDataTest();
         //Creating member for tests
         Role memberRole = new Role();
         memberRole.setId(1);
@@ -65,7 +69,7 @@ public class LoginPageTest {
         //arrange
         loginPage = new BluDevilSeleniumLogin();
         Thread.sleep(loginPage.getWaitTime());
-        String expectedUrl = "http://localhost:8080/#/products";
+        String expectedUrl = "http://localhost:8080/#/account";
         //act
         loginPage.typeUserCredentialsLogin("test@gmail.com", "1234");
         Thread.sleep(loginPage.getWaitTime());
@@ -82,7 +86,7 @@ public class LoginPageTest {
         //arrange
         loginPage = new BluDevilSeleniumLogin();
         Thread.sleep(loginPage.getWaitTime());
-        String expectedUrl = "http://localhost:8080/#/admin/products";
+        String expectedUrl = "http://localhost:8080/#/admin/dashboard";
         //act
         loginPage.typeUserCredentialsLogin("testAdmin@gmail.com", "1234");
         Thread.sleep(loginPage.getWaitTime());
@@ -133,7 +137,7 @@ public class LoginPageTest {
         //arrange
         loginPage = new BluDevilSeleniumLogin();
         Thread.sleep(loginPage.getWaitTime());
-        String expectedUrl = "http://localhost:8080/#/products";
+        String expectedUrl = "http://localhost:8080/#/account";
         //act
         loginPage.navigateToSignup();
         Thread.sleep(loginPage.getWaitTime());

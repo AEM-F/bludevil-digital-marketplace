@@ -2,8 +2,10 @@ stages:
     - build
     - test
     - sonar
+    - jar
+    - deploy-docker
 before_script:
-    - echo "Start CI"
+    - echo "Start CI/CD"
 build:
     stage: build
     script:
@@ -19,5 +21,21 @@ sonar:
     script:
         - cd digitalmarketplace
         - ./gradlew sonarqube -D sonar.projectKey=bludevil-digitalmarketplace -D sonar.host.url=%SONAR_URL% -D sonar.login=%SONAR_LOGIN%
+package-backend-application:
+    stage: jar
+    only:
+        - master
+    script:
+        - cd digitalmarketplace
+        - ./gradlew bootJar
+deploy-docker:
+    stage: deploy-docker
+    only:
+        - master
+    before_script:
+        - docker login -u "$DOCKER_REGISTRY_USER" -p "DOCKER_REGISTRY_PASS"
+    script:
+        - docker-compose build
+        - docker-compose push
 after_script:
-  - echo "End CI"
+  - echo "End CI/CD"

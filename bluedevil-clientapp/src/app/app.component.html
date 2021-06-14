@@ -27,7 +27,7 @@
            [routerLink]="['products']"
            id="nav-catalog"><i class="fa fa-tags"></i> Catalog</a>
       </li>
-      <li *ngIf="user">
+      <li *ngIf="checkRole('MEM')">
         <a class="nav-link nav-item" id="nav-orders"><i class="fa fa-file"></i> Orders</a>
       </li>
       <li *ngIf="user">
@@ -35,6 +35,12 @@
            id="nav-account-settings"
            routerLinkActive="active nav-item-active"
            [routerLink]="['/account']"><i class="fa fa-user"></i> Profile</a>
+      </li>
+      <li *ngIf="checkRole('ADM')">
+        <a class="nav-link nav-item"
+           id="nav-admin-dashboard"
+           routerLinkActive="active nav-item-active"
+           [routerLink]="['admin/dashboard']"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
       </li>
       <li class="support-chat-li " *ngIf="user">
         <div class="new-messages-container" *ngIf="newMessageNumber > 0">{{newMessageNumber}}</div>
@@ -90,7 +96,7 @@
     <button type="button" class="btn-nav-custom" (click)="onSideNavOpen()" id="menu-btn">
       <i class="fa fa-align-left"></i>Menu
     </button>
-    <div class="cart-container" *ngIf="user">
+    <div class="cart-container" *ngIf="checkRole('MEM')">
       <app-cart-status></app-cart-status>
       <div class="container-sc">
         <button id="btn-collapse-sc" class="btn-nav-shopping-cart" type="button" data-toggle="collapse" data-target="#collapse-sc" aria-expanded="false" aria-controls="collapse-sc">

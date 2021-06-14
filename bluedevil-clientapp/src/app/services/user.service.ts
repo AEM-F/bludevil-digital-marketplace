@@ -15,4 +15,20 @@ export class UserService {
     const endpoint = `${this.baseUrl}/${id}`;
     return this.http.get<any>(endpoint);
   }
+
+  public countAllUsers(): Observable<any>{
+    const endpoint = `${this.baseUrl}/statistics/countAll`;
+    return this.http.get(endpoint);
+  }
+
+  public getUserRoleRatioData(): Observable<any>{
+    const endpoint = `${this.baseUrl}/statistics/userRoleRatio`;
+    return this.http.get(endpoint);
+  }
+
+  public getDailyRegisteredUsers(): Observable<any>{
+    const endpoint = `${this.baseUrl}/statistics/dailyRegistered`;
+    return this.http.get(endpoint);
+  }
+
 }

@@ -1,0 +1,40 @@
+version: '3.7'
+ 
+# Define services
+services:
+  # App backend service
+  app-server:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: digitalmarketplace # Use an image built from the specified dockerfile in the `digitalmarketplace` directory.
+      dockerfile: Dockerfile
+    image: hemjy/digital-marketplace-bludevil:app-server
+    ports:
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    environment: # Pass environment variables to the service
+      SPRING_PROFILES_ACTIVE: prod
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+      - frontend
+ 
+  # Frontend Service 
+  app-client:
+    build:
+      context: bluedevil-clientapp # Use an image built from the specified dockerfile in the `bluedevil-clientapp` directory.
+      dockerfile: Dockerfile
+      args:
+        API_BASE_URL: http://127.0.0.1:8080/
+    image: hemjy/digital-marketplace-bludevil:app-client
+    ports:
+      - "4200:80" # Map the exposed port 80 on the container to port 8081 on the host machine
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend  
+ 
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+  frontend: 

@@ -8,17 +8,24 @@ import nl.fhict.digitalmarketplace.model.product.VideoGame;
 import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
 import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import nl.fhict.digitalmarketplace.repository.product.ProductRepository;
+import nl.fhict.digitalmarketplace.repository.product.VideoGameRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -34,6 +41,8 @@ public class ProductControllerTest extends AbstractTest {
     ProductPlatformRepository platformRepository;
     @Autowired
     GenreRepository genreRepository;
+    @Autowired
+    VideoGameRepository videoGameRepository;
     private Product testProduct;
 
     @Override
@@ -61,9 +70,10 @@ public class ProductControllerTest extends AbstractTest {
         List<Genre> testGenres = new ArrayList<>();
         testGenres.add(testGenre);
 
-        LocalDate testLocalDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String testDate = formatter.format(testLocalDate);
+        LocalDateTime testLocalDate = LocalDateTime.now();
+        Date testDate = new Date();
+       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+       // String testDate = formatter.format(testLocalDate);
 
         VideoGame product1 = new VideoGame();
         product1.setName("Antem");
@@ -78,6 +88,18 @@ public class ProductControllerTest extends AbstractTest {
 
         productRepository.save(product1);
         testProduct = product1;
+    }
+
+    @Test
+    public void testVideoGameRepository() throws Exception{
+        Pageable pageable = PageRequest.of(0, 5);
+        Instant now = Instant.now();
+        Instant yesterday = now.minus(1, ChronoUnit.DAYS);
+        Instant tomorrow = now.plus(1, ChronoUnit.DAYS);
+        Date yesterdayDate = Date.from(yesterday);
+        Date tomorrowDate = Date.from(tomorrow);
+        Page<VideoGame> videoGamePage = videoGameRepository.findAllByReleaseDateBetween(yesterdayDate,tomorrowDate, pageable);
+        assertNotNull(videoGamePage);
     }
 
     @Test

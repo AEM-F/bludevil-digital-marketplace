@@ -1,4 +1,9 @@
 <div class="component-wrapper">
+  <div class="alert alert-danger general-error-container" [@inOutAnimation] *ngIf="detailsError">
+    <h4><i class="fa fa-exclamation-triangle"></i> Chat error:</h4>
+    <p>{{detailsError}}</p>
+    <button class="btn btn-outline-light" (click)="onErrorNavBtn()"><i class="fa fa-user"></i> Travel to profile</button>
+  </div>
   <div class="support-chat-container " [@inOutAnimation] *ngIf="(contacts.length > 0)">
     <div class="support-chat-contacts-container">
       <div class="pagination-container">
@@ -34,7 +39,6 @@
         <ng-container *ngFor="let contact of contacts">
           <ng-container *ngIf="!isLoadingContacts">
             <button class="contact-wrapper"
-                    *ngIf="contact.contactName"
                     (click)="handleContactSelect(contact)"
                     [id]="'contact-'+contact.id">
               <div class="new-messages-container" *ngIf="contact.notificationNr > 0" [@inOutAnimation]>{{contact.notificationNr}}</div>
@@ -63,7 +67,7 @@
           Loading...
         </div>
         <div class="chat-window" id="chat-window" *ngIf="currentMessages !== null" [@inOutAnimation]>
-          <article class="msg-container msg-self"
+          <article class="msg-container"
                    *ngFor="let message of currentMessages"
                    [class.msg-self]="message.senderId === userId"
                    [class.msg-remote]="message.senderId !== userId"
@@ -76,7 +80,7 @@
                     {{message.content}}
                   </p>
                 </div>
-                <span class="timestamp"><span class="username">{{message.senderName}}</span>&bull;<span class="posttime"></span>{{message.timestamp | date:'fullDate'}}</span>
+                <span class="timestamp"><span class="username">{{message.senderName}}</span>&bull;<span class="posttime"></span>{{message.timestamp | date:'MMM d, y, h:mm a'}}</span>
               </div>
               <img class="user-img" [src]="getImagePathFromSender(message.senderId)" />
             </div>

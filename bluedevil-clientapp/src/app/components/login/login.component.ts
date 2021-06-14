@@ -100,10 +100,10 @@ export class LoginComponent implements OnInit {
   private handleLoginRedirect(): void {
     const roles: string[] = this.authenticationService.getUserRoles;
     if (roles.indexOf('ADM') > -1){
-      this.router.navigate(['/admin/products']);
+      this.router.navigate(['/admin/dashboard']);
     }
     else if (roles.indexOf('MEM') > -1){
-      this.router.navigate(['/products']);
+      this.router.navigate(['/account']);
     }
   }
 

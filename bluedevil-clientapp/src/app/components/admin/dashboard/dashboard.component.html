@@ -1,0 +1,85 @@
+<div class="all-stats-wrapper">
+  <div class="general-total-stats" id="total-stats-wrapper" [@inOutAnimation]>
+<!--    User total-->
+    <div class="total-container">
+      <i class="fa fa-user"></i>
+      <div class="total-details">
+        <p class="total-title">Total Users:</p>
+        <p class="total-value">{{totalUsers}}</p>
+      </div>
+    </div>
+<!--    Product total-->
+    <div class="total-container">
+      <i class="fa fa-product-hunt"></i>
+      <div class="total-details">
+        <p class="total-title">Total Products:</p>
+        <p class="total-value">{{totalProducts}}</p>
+      </div>
+    </div>
+<!--    Views total-->
+    <div class="total-container">
+      <i class="fa fa-eye"></i>
+      <div class="total-details">
+        <p class="total-title">Total Views:</p>
+        <p class="total-value">{{totalViews}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="stats-container" id="user-stat-container">
+    <div class="stats-header">
+      <i class="fa fa-users"></i>
+      <p class="stats-title">User statistics</p>
+    </div>
+    <div class="stats-body" [@inOutAnimation]>
+      <div class="daily-stats">
+        <p class="daily-title">Daily</p>
+        <div class="daily-container-list" [@inOutAnimation]>
+          <div class="daily-container">
+            <p class="daily-container-value">{{dailyRegisteredUsers}}</p>
+            <p class="daily-container-title" id="daily-users-title">Registered</p>
+          </div>
+          <div class="daily-container">
+            <p class="daily-container-value">{{dailyViews}}</p>
+            <p class="daily-container-title" id="daily-views-title">Views</p>
+          </div>
+        </div>
+      </div>
+      <div class="general-stats">
+        <p class="general-title">Roles</p>
+        <ngx-charts-pie-chart
+          [results]="userRatioData"
+          [legend]="false"
+          [view]="[300, 200]"
+          [labels]="true"
+          [customColors]="userRatioDataColors">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+  </div>
+  <div class="stats-container" id="product-stat-container">
+    <div class="stats-header">
+      <i class="fa fa-users"></i>
+      <p class="stats-title">Product statistics</p>
+    </div>
+    <div class="stats-body" [@inOutAnimation]>
+      <div class="general-stats">
+        <p class="general-title">Product Platforms</p>
+        <ngx-charts-advanced-pie-chart
+          [results]="productPlatformData"
+          [gradient]="true" >
+        </ngx-charts-advanced-pie-chart>
+      </div>
+      <div class="general-stats">
+        <p class="general-title">VideoGame Genres</p>
+        <ngx-charts-pie-chart
+          [results]="productVideoGameData"
+          [legend]="false"
+          [view]="[300, 200]"
+          [labels]="true"
+          [doughnut]="true"
+          [gradient]="true">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+  </div>
+</div>

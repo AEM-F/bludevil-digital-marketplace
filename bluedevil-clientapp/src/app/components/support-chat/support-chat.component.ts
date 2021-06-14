@@ -9,6 +9,7 @@ import {AppToastService} from '../../services/app-toast.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DOCUMENT} from '@angular/common';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-support-chat',
@@ -52,6 +53,8 @@ export class SupportChatComponent implements OnInit, OnDestroy {
   userName: string = null;
   userImagePath: string = '';
   isLoadingMessages = false;
+  notificationSubscription: Subscription;
+  detailsError = null;
   constructor(private sChatService: SupportChatService,
               private authService: AuthenticationService,
               private toastService: AppToastService,
@@ -73,8 +76,8 @@ export class SupportChatComponent implements OnInit, OnDestroy {
           this.userId = userJwt.getId;
           this.sChatService.isSupportChatOpen = true;
           this.getContacts();
-          this.sChatService.notifications.subscribe((notifications) => {
-            if(notifications !== null && notifications !== undefined && notifications.length > 0){
+          this.notificationSubscription = this.sChatService.notifications.subscribe((notifications) => {
+            if (notifications !== null && notifications !== undefined && notifications.length > 0){
               const lastNotification = notifications[notifications.length - 1];
               if (lastNotification !== undefined){
                 this.handleNewNotification(lastNotification.senderId, lastNotification);
@@ -83,13 +86,17 @@ export class SupportChatComponent implements OnInit, OnDestroy {
           });
         }
         else{
-          alert('First-name and last-name not set please go to your profile and fill them out(temporary-error)');
-          console.log('First-name and last-name not set');
+          this.detailsError = 'First-name and last-name not provided, please go to your profile and fill them out!';
         }
       });
     } else{
       this.router.navigate(['/login']);
     }
+  }
+
+  onErrorNavBtn(){
+    this.detailsError = null;
+    this.router.navigate(['/account']);
   }
 
   getImagePathFromSender(senderId: number): string{
@@ -121,7 +128,9 @@ export class SupportChatComponent implements OnInit, OnDestroy {
         }
       }else{
         const itemIndex = this.contacts.findIndex(item => item.id === contact.id);
-        this.contacts[itemIndex].notificationNr += 1;
+        if (this.contacts[itemIndex] !== undefined){
+          this.contacts[itemIndex].notificationNr += 1;
+        }
       }
     }else{
       this.sChatService.getMessageById(notification.messageId).subscribe(returnedMessage => {
@@ -143,10 +152,15 @@ export class SupportChatComponent implements OnInit, OnDestroy {
 
   processContacts(){
     return responseBody => {
+      let contactList: Contact[] = [];
       for (const contact of responseBody.objectsList){
         const contactApp = new Contact(contact.id, contact.contactName, contact.contactProfileImage, 0);
-        this.contacts.push(contactApp);
+        contactList.push(contactApp);
       }
+      this.contacts = contactList;
+      // this.contacts.push(new Contact(3, 'fake1', '', 0));
+      // this.contacts.push(new Contact(4, 'fake2', '', 0));
+      // this.contacts.push(new Contact(5, 'fake3', '', 0));
       this.pageNr = responseBody.pageNumber;
       this.pageSize = responseBody.pageSize;
       this.totalElements = responseBody.totalElements;
@@ -177,6 +191,9 @@ export class SupportChatComponent implements OnInit, OnDestroy {
     this.isLoadingMessages = true;
     this.sChatService.getAllMessagesForContact(contactId).subscribe(chatMessages => {
       this.isLoadingMessages = false;
+      for (let message of chatMessages){
+        message.timestamp = this.convertUTCToLocalDateIgnoringTimezone(new Date(message.timestamp + "Z"));
+      }
       this.currentMessages = chatMessages;
       setTimeout(() => {
         this.scrollToTheBottomOfTheChat();
@@ -226,20 +243,46 @@ export class SupportChatComponent implements OnInit, OnDestroy {
   onMessageSubmit(): void{
     if (this.userName !== null && this.selectedContact !== null && this.chatForm.controls.inputMessage.value !== ''){
       this.sChatService.sendMessage(this.userName, this.chatForm.controls.inputMessage.value, this.selectedContact);
-      this.sChatService.getAllMessagesForContact(this.selectedContact.id).subscribe( response => {
-        if (this.currentMessages === null){
-          this.currentMessages = [];
-        }
-        this.currentMessages.push(response[response.length - 1]);
-        this.chatForm.reset();
-        setTimeout(() => {this.scrollToMessage(response[response.length - 1].messageId); }, 500);
-      });
+      const chatMessage = new ChatMessage(
+        null,
+        null,
+        this.userId,
+        this.selectedContact.id,
+        this.userName,
+        this.selectedContact.contactName,
+        this.chatForm.controls.inputMessage.value,
+        new Date(),
+        null);
+      if (this.currentMessages === null){
+        this.currentMessages = [];
+      }
+     // chatMessage.timestamp = this.convertUTCToLocalDateIgnoringTimezone(new Date(chatMessage.timestamp + "Z"));
+      this.currentMessages.push(chatMessage);
+      this.chatForm.reset();
+      setTimeout(() => {this.scrollToLastElementOfTheChat(); }, 500);
+      // this.sChatService.getAllMessagesForContact(this.selectedContact.id).subscribe( response => {
+      //   if (this.currentMessages === null){
+      //     this.currentMessages = [];
+      //   }
+      //   let message = response[response.length - 1];
+      //   message.timestamp = this.convertUTCToLocalDateIgnoringTimezone(new Date(message.timestamp + "Z"));
+      //   this.currentMessages.push(message);
+      //   this.chatForm.reset();
+      //   setTimeout(() => {this.scrollToMessage(message.messageId); }, 500);
+      // });
     }
   }
 
   scrollToTheBottomOfTheChat(){
     let chatWindow: HTMLElement = this.document.getElementById('chat-window');
     chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  scrollToLastElementOfTheChat(){
+    let chatWindow: HTMLElement = this.document.getElementById('chat-window');
+    let lastMessage = chatWindow.lastElementChild;
+    let messagePos = (lastMessage as HTMLElement).offsetTop;
+    chatWindow.scrollTop = messagePos;
   }
 
   scrollToMessage(messageId: number){
@@ -252,6 +295,21 @@ export class SupportChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sChatService.isSupportChatOpen = false;
+    if (this.notificationSubscription !== undefined){
+      this.notificationSubscription.unsubscribe();
+    }
+  }
+
+   convertUTCToLocalDateIgnoringTimezone(utcDate: Date): Date{
+    return new Date(
+      utcDate.getUTCFullYear(),
+      utcDate.getUTCMonth(),
+      utcDate.getUTCDate(),
+      utcDate.getUTCHours(),
+      utcDate.getUTCMinutes(),
+      utcDate.getUTCSeconds(),
+      utcDate.getUTCMilliseconds(),
+    );
   }
 
 }

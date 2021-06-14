@@ -72,8 +72,11 @@ public class BluDevilProductCreate {
         JavascriptExecutor jse = ((JavascriptExecutor)this.config.getDriver());
         jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         Thread.sleep(1000);
-        String jsScript = "let btnFormSubmit = document.querySelector(\"div.btn-main-group button[type='submit']\");" +
-                "btnFormSubmit.click();";
-        jse.executeScript(jsScript);
+//        String jsScript = "let btnFormSubmit = document.querySelector(\"div.btn-main-group button[type='submit']\");" +
+//                "btnFormSubmit.click();";
+//        jse.executeScript(jsScript);
+        WebElement submitBtn = config.getDriver().findElement(By.id("btn-product-submit"));
+        Thread.sleep(1000);
+        submitBtn.click();
     }
 }

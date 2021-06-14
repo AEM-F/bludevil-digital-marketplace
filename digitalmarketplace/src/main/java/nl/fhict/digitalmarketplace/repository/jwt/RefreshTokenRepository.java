@@ -5,6 +5,7 @@ import nl.fhict.digitalmarketplace.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken , Integer> {
@@ -13,4 +14,6 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken , Int
     Optional<RefreshToken> findByToken(String token);
     Integer deleteByUser(User user);
     RefreshToken getByToken(String token);
+    long countAllByUser_Id(Integer userId);
+    Integer deleteAllByUser_Id(Integer userId);
 }

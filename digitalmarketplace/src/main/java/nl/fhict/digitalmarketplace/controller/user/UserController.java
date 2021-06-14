@@ -31,4 +31,22 @@ public class UserController {
         return ResponseEntity.ok(returnedUser);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(path = "/statistics/userRoleRatio")
+    public ResponseEntity<Object> getUserRoleRatio(){
+        return ResponseEntity.ok(userService.getUserRoleRatio());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(path = "/statistics/countAll")
+    public ResponseEntity<Object> countAllUsers(){
+        return ResponseEntity.ok(userService.countAllUsers());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(path = "/statistics/dailyRegistered")
+    public ResponseEntity<Object> getDailyRegisteredUsers(){
+        return ResponseEntity.ok(userService.getDailyRegisteredUsers());
+    }
+
 }

@@ -50,7 +50,7 @@ public class ChatController {
         }
     }
 
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("api/messages/{senderId}/{recipientId}/count")
     public ResponseEntity<Object> countNewMessages(@PathVariable(name ="senderId") Integer senderId,
                                                    @PathVariable(name ="recipientId") Integer recipientId) throws ResourceNotFoundException {
@@ -59,7 +59,7 @@ public class ChatController {
         return ResponseEntity.ok(responseBody);
     }
 
-    //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("api/messages/{recipientId}/count")
     public ResponseEntity<Object> countAllNewMessages(@PathVariable(name = "recipientId") int recipientId) throws ResourceNotFoundException {
         HashMap<String, Long> responseBody = new HashMap<>();
@@ -67,25 +67,27 @@ public class ChatController {
         return ResponseEntity.ok(responseBody);
     }
 
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("api/messages/{senderId}/{recipientId}")
     public ResponseEntity<Object> findChatMessages (@PathVariable Integer senderId,
                                                 @PathVariable Integer recipientId) {
         return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
     }
 
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("api/messages/{id}")
     public ResponseEntity<Object> findMessage(@PathVariable(name = "id") int id) throws ResourceNotFoundException {
         return ResponseEntity.ok(chatMessageService.findById(id));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("api/contacts/members")
     public ResponseEntity<Object> getMemberContacts(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) throws InvalidInputException {
         PaginationResponse<ContactResponse> responseBody = userService.findContacts(page, size, ERole.ROLE_ADMIN, false);
         return ResponseEntity.ok(responseBody);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("api/contacts/admins")
     public ResponseEntity<Object> getAdminContacts(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) throws InvalidInputException {
         PaginationResponse<ContactResponse> responseBody = userService.findContacts(page, size, ERole.ROLE_USER, false);

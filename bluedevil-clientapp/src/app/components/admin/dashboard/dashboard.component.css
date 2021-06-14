@@ -1,0 +1,245 @@
+.all-stats-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap:10px;
+}
+
+/**Start of total stats**/
+
+.general-total-stats{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.total-container{
+  width: 90%;
+  padding: 10px;
+  border-radius: .25rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #1c1e21;
+  color: #e7e7e7;
+}
+
+.total-container i {
+  width: 68px;
+  height: 68px;
+  font-size: 3rem;
+  padding: 10px;
+  background-color: #0030a7;
+  border-radius: .25rem;
+  text-align: center;
+}
+
+.total-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 10px;
+  border-left: 1px solid #0030a7;
+  padding: 10px;
+}
+
+.total-details p{
+  margin: 0;
+}
+
+.total-details .total-title{
+  font-size: 1.2rem;
+}
+
+/**End of total stats**/
+
+/**Start of general stats**/
+
+.stats-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.stats-header{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  color: #e7e7e7;
+  border-bottom: 3px solid #0030a7;
+  background-color: #17191c;
+  border-radius: .25rem .25rem 0 0;
+  padding: 5px;
+}
+
+.stats-header i{
+  font-size: 1.3rem;
+  padding: 5px;
+  background-color: #0030a7;
+  border-radius: .25rem;
+  text-align: center;
+}
+
+.stats-header p{
+  margin-bottom: 0;
+}
+
+.stats-title{
+  border-left: 1px solid #0030a7;
+  padding-left: 5px;
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+.stats-body{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e7e7e7;
+  background-color: #1c1e21;
+  border-radius: 0 0 .25rem .25rem;
+  padding: 5px;
+  gap: 10px;
+}
+
+/**Start of daily stats**/
+
+.daily-stats{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 95%;
+  border:1px solid #0030a7;
+  border-radius: .25rem;
+}
+
+.daily-title{
+  margin: 0;
+  text-align: center;
+  font-size: 1rem;
+  padding: 5px;
+  border-bottom:1px solid #0030a7;
+  width: 100%;
+  background-color: #17191c;
+}
+
+.daily-container-list{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.daily-container{
+  width: 90px;
+  height: 90px;
+  border: 5px solid #0030a7;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.daily-container-title{
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.daily-container-value{
+  margin: 0;
+  font-size: 1rem;
+}
+
+
+/**End of daily stats*/
+
+.general-title{
+  margin: 0;
+  text-align: center;
+  font-size: 1rem;
+  padding: 5px;
+  border-bottom:1px solid #0030a7;
+  width: 100%;
+  background-color: #17191c;
+}
+
+.general-stats{
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border:1px solid #0030a7;
+  border-radius: .25rem;
+}
+
+ngx-charts-pie-chart{
+  fill: #e7e7e7 !important;
+}
+
+/**End of general stats**/
+
+@media only screen and (min-width : 768px){
+  .stats-container{
+    width: 740px;
+  }
+
+  .general-total-stats{
+    flex-direction: row;
+  }
+
+  .stats-body{
+    height: 100%;
+  }
+
+  .total-container{
+    width: 30%;
+  }
+
+  .general-stats{
+    max-height: 400px;
+  }
+}
+
+@media only screen and (min-width : 1200px){
+  .all-stats-wrapper{
+    display: grid;
+    grid-template-columns: 45% 45%;
+    grid-template-rows: auto auto;
+    grid-template-areas: "totalArea totalArea"
+                          "userArea productArea";
+    align-items: flex-start;
+    justify-items: center;
+  }
+
+  #total-stats-wrapper{
+    grid-area: totalArea;
+  }
+
+  #product-stat-container{
+    width: 500px;
+    grid-area: productArea;
+  }
+
+  #user-stat-container{
+    width: 500px;
+    grid-area: userArea;
+  }
+}

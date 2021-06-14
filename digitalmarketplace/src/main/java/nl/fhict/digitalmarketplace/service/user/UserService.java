@@ -5,6 +5,7 @@ import nl.fhict.digitalmarketplace.customException.ResourceNotFoundException;
 import nl.fhict.digitalmarketplace.model.product.Product;
 import nl.fhict.digitalmarketplace.model.response.ContactResponse;
 import nl.fhict.digitalmarketplace.model.response.PaginationResponse;
+import nl.fhict.digitalmarketplace.model.response.StatisticsItemResponse;
 import nl.fhict.digitalmarketplace.model.user.ERole;
 import nl.fhict.digitalmarketplace.model.user.User;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
@@ -19,6 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,14 +108,14 @@ public class UserService implements IUserService{
             if(size >0){
                 Pageable requestedPage = PageRequest.of(page-1, size);
                 if(ignoreRole){
-                    Page<User> usersPage = userRepository.findAllByActiveEquals(true, requestedPage);
+                    Page<User> usersPage = userRepository.findAllByActiveEqualsAndFirstNameIsNotNullAndLastNameIsNotNull(true, requestedPage);
                     List<ContactResponse> contacts = usersPage.getContent().stream().map(user -> new ContactResponse(user.getId(), user.getFirstName(), user.getImagePath())).collect(Collectors.toList());
                     return new PaginationResponse<>(contacts,
                             usersPage.getTotalElements(),
                             usersPage.getNumber() + 1,
                             usersPage.getSize());
                 }else{
-                    Page<User> usersPage = userRepository.findByActiveEqualsAndRolesName( true , role, requestedPage);
+                    Page<User> usersPage = userRepository.findByFirstNameIsNotNullAndLastNameIsNotNullAndActiveEqualsAndRolesName( true , role, requestedPage);
                     List<ContactResponse> contacts = usersPage.getContent().stream().map(user -> new ContactResponse(user.getId(), user.getFirstName(), user.getImagePath())).collect(Collectors.toList());
                     return new PaginationResponse<>(contacts,
                             usersPage.getTotalElements(),
@@ -122,5 +128,30 @@ public class UserService implements IUserService{
         }else{
             throw new InvalidInputException("The given page number is not valid");
         }
+    }
+
+    @Override
+    public List<StatisticsItemResponse> getUserRoleRatio(){
+        List<StatisticsItemResponse> itemResponses = new ArrayList<>();
+        itemResponses.add(new StatisticsItemResponse("Admins",
+                userRepository.countAllByActiveEqualsAndRolesName(true, ERole.ROLE_ADMIN)));
+        itemResponses.add(new StatisticsItemResponse("Members",
+                userRepository.countAllByActiveEqualsAndRolesName(true, ERole.ROLE_USER)));
+        return itemResponses;
+    }
+
+    @Override
+    public StatisticsItemResponse countAllUsers(){
+        return new StatisticsItemResponse("users", userRepository.count());
+    }
+
+    @Override
+    public StatisticsItemResponse getDailyRegisteredUsers(){
+        LocalDateTime todayStart = LocalDate.now().atTime(0, 1);
+        LocalDateTime todayEnd = LocalDate.now().atTime(23,59);
+        LocalDateTime utcTimeTodayStart = todayStart.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+        LocalDateTime utcTimeTodayEnd = todayEnd.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+        StatisticsItemResponse response = new StatisticsItemResponse("dailyRegistered", userRepository.countAllByActiveEqualsAndCreationDateBetween(true,utcTimeTodayStart, utcTimeTodayEnd));
+        return response;
     }
 }

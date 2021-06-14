@@ -92,6 +92,10 @@ app-user-details{
 app-cart-status{
 }
 
+app-dashboard{
+  width: 100%;
+}
+
 app-profile-image{
   width: 100%;
 }
