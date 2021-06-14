@@ -3,6 +3,7 @@ package nl.fhict.digitalmarketplace.config.selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
@@ -71,12 +72,15 @@ public class BluDevilProductCreate {
     public void submitCreateForm() throws InterruptedException {
         JavascriptExecutor jse = ((JavascriptExecutor)this.config.getDriver());
         jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        Thread.sleep(1000);
-//        String jsScript = "let btnFormSubmit = document.querySelector(\"div.btn-main-group button[type='submit']\");" +
-//                "btnFormSubmit.click();";
-//        jse.executeScript(jsScript);
-        WebElement submitBtn = config.getDriver().findElement(By.id("btn-product-submit"));
-        Thread.sleep(1000);
-        submitBtn.click();
+        Thread.sleep(2000);
+////        String jsScript = "let btnFormSubmit = document.querySelector(\"div.btn-main-group button[type='submit']\");" +
+////                "btnFormSubmit.click();";
+////        jse.executeScript(jsScript);
+//        WebElement submitBtn = config.getDriver().findElement(By.id("btn-product-submit"));
+//        Thread.sleep(1000);
+//        submitBtn.click();
+        Actions act =  new Actions(this.config.getDriver());
+        act.moveToElement(config.getDriver().findElement(By.id("btn-product-submit"))).click().perform();
+        Thread.sleep(2000);
     }
 }
