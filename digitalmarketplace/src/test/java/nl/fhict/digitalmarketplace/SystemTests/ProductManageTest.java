@@ -159,11 +159,7 @@ public class ProductManageTest {
                 genres,
                 "1999/05/04");
         Thread.sleep(2000);
-        try {
-            productCreate.submitCreateForm();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        productCreate.submitCreateForm();
         Thread.sleep(1000);
         //assert
         boolean checkResult = adminProductListControls.checkIfProductExists(2);
