@@ -21,7 +21,7 @@ sonar:
     script:
         - cd digitalmarketplace
         - ./gradlew sonarqube -D sonar.projectKey=bludevil-digitalmarketplace -D sonar.host.url="$SONAR_URL" -D sonar.login="$SONAR_LOGIN"
-package-backend-application:"
+package-backend-application:
     stage: jar
     only:
         - master
