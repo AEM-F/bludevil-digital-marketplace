@@ -61,6 +61,8 @@ public class BluDevilProductCreate {
         imgUrlInput.sendKeys(imgUrl);
         Thread.sleep(500);
 
+        JavascriptExecutor jse = ((JavascriptExecutor)this.config.getDriver());
+        jse.executeScript("document.querySelector('#formControlInput2').scrollIntoView()");
         for (Integer genreId:genreIds) {
             String genreFullId = "genre-"+genreId;
             WebElement genre = config.getDriver().findElement(By.id(genreFullId));
