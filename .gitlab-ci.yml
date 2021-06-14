@@ -33,7 +33,7 @@ deploy-docker:
     only:
         - master
     before_script:
-        - docker login -u "$DOCKER_REGISTRY_USER" -p "DOCKER_REGISTRY_PASS"
+        - docker login -u %DOCKER_REGISTRY_USER% -p %DOCKER_REGISTRY_PASS%
     script:
         - docker-compose build
         - docker-compose push
