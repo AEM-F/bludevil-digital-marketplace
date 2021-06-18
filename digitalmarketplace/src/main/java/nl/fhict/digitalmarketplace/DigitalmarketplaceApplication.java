@@ -9,6 +9,8 @@ import nl.fhict.digitalmarketplace.model.user.Role;
 import nl.fhict.digitalmarketplace.repository.product.GenreRepository;
 import nl.fhict.digitalmarketplace.repository.product.ProductPlatformRepository;
 import nl.fhict.digitalmarketplace.repository.user.RoleRepository;
+import nl.fhict.digitalmarketplace.service.img.IImageService;
+import nl.fhict.digitalmarketplace.service.img.ImageService;
 import nl.fhict.digitalmarketplace.service.user.AdminAccountGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,7 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
     protected GenreRepository genreRepository;
     protected ProductPlatformRepository platformRepository;
     protected AdminAccountGenerator adminAccountGenerator;
+    protected IImageService imageService;
     private static Logger log = LoggerFactory.getLogger(DigitalmarketplaceApplication.class);
 
     @Autowired
@@ -44,6 +47,11 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
     @Autowired
     public void setPlatformRepository(ProductPlatformRepository platformRepository) {
         this.platformRepository = platformRepository;
+    }
+
+    @Autowired
+    public void setImageService(IImageService imageService) {
+        this.imageService = imageService;
     }
 
     @Autowired
@@ -109,6 +117,7 @@ public class DigitalmarketplaceApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         checkStoredRoles();
         this.adminAccountGenerator.buildAdminAccount();
+        this.imageService.addImageNotAvailableFile();
 //        insertDataTest();
     }
 }

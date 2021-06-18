@@ -19,6 +19,7 @@ export class SupportChatService {
   private baseSocketUrl = environment.apiBaseUrl + '/ws';
   private messageBaseUrl = environment.apiBaseUrl + '/api/messages';
   private contactBaseUrl = environment.apiBaseUrl + '/api/contacts';
+  private chatBaseUrl = environment.apiBaseUrl + '/api/chat';
   private notificationsSubject: BehaviorSubject<ChatNotification[]>;
   public notifications: Observable<ChatNotification[]>;
   private newMessagesNrSubject: BehaviorSubject<number>;
@@ -118,13 +119,27 @@ export class SupportChatService {
   public sendMessage(senderName: string, content: string, contact: Contact): void{
     let endpoint = `/app/chat`;
     if (content.trim() !== ''){
-      const chatMessage = new ChatMessage(null, null, this.userId, contact.id, senderName, contact.contactName, content, null, null);
+      const chatMessage = new ChatMessage(null,
+        null,
+        this.userId,
+        contact.id,
+        senderName,
+        contact.contactName,
+        content,
+        null,
+        null);
       this.stompClient.send('/app/chat', {}, JSON.stringify(chatMessage));
     }
   }
 
+  public deleteChat(contact: Contact): Observable<any>{
+    let endpoint = `${this.chatBaseUrl}/${this.userId}_${contact.id}`;
+    return this.http.delete(endpoint);
+  }
+
   public disconnect(): void{
     if (this.stompClient != null){
+      this.setConnected(false);
       this.stompClient.disconnect();
       console.log('Disconnected');
     }

@@ -12,4 +12,5 @@ public interface IImageService {
     byte[] getFileWithMediaType(String fileName) throws InvalidInputException, IOException, FileException, ResourceNotFoundException;
     String uploadFileForProduct(MultipartFile multipartFile, Integer productId) throws FileException, InvalidInputException;
     void uploadImageForUser(byte[] bs, Integer userId, String fileExt) throws FileException, InvalidInputException;
+    void addImageNotAvailableFile() throws FileException;
 }

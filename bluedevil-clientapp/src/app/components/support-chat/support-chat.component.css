@@ -51,6 +51,29 @@
   outline: none;
 }
 
+.delete-chat-btn{
+  border-radius: .25rem;
+  /*border: 1px solid rgba(146, 1, 1, 0.3);*/
+  /*color: #ffa6a6;*/
+  /*text-shadow: -1px -1px 10px #920101,1px 1px 10px #920101;*/
+  outline: 0;
+  padding: 5px;
+  background-color: transparent;
+  border: 1px solid rgba(120, 120, 120, 1);
+  color: #868686;
+  transition: 0.3s;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.delete-chat-btn:hover,
+.delete-chat-btn:active{
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  text-shadow: -1px -1px 10px #920101,1px 1px 10px #920101;
+  box-shadow: 0 1px 6px 0 #920101;
+}
+
 .new-messages-container{
   padding: 2px 4px;
   position: absolute;
@@ -89,7 +112,7 @@
 .user-name{
   position: absolute;
   padding: 0 10px;
-  inline-size: 100px;
+  width: 100px;
   left: -5px;
   bottom: -10px;
   border-radius: .25rem;
@@ -275,7 +298,7 @@
     display: grid;
     width: 740px;
     min-height: 490px;
-    max-height: 585px;
+    /*max-height: 585px;*/
     grid-template-columns: 240px 500px;
     grid-template-rows: auto;
     grid-template-areas: "contactsArea chatArea";
@@ -293,7 +316,7 @@
   }
 
   .user-name{
-    inline-size: 120px;
+    width: 120px;
     left: -17px;
   }
 
@@ -306,7 +329,9 @@
   }
 
   .chat-box{
-    height: 485px;
+    min-height: 485px;
+    max-height: 612px;
+    height: unset;
   }
 
   .chat-input{
@@ -314,4 +339,23 @@
     height: 70px;
   }
 
+}
+
+@media only screen and (min-width : 1200px){
+  .user-image{
+    width: 70px;
+    height: 70px;
+  }
+
+  .user-name{
+    font-size: 0.8rem;
+    width: 140px;
+    left: -35px;
+  }
+
+  .chat-box{
+    min-height: 485px;
+    max-height: 541px;
+    height: unset;
+  }
 }

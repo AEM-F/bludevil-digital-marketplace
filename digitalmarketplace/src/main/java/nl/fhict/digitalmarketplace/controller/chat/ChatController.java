@@ -16,6 +16,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,5 +93,12 @@ public class ChatController {
     public ResponseEntity<Object> getAdminContacts(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) throws InvalidInputException {
         PaginationResponse<ContactResponse> responseBody = userService.findContacts(page, size, ERole.ROLE_USER, false);
         return ResponseEntity.ok(responseBody);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("api/chat/{chatId}")
+    public ResponseEntity<Object> deleteChat(@PathVariable String chatId) throws ResourceNotFoundException {
+        chatRoomService.deleteChat(chatId);
+        return ResponseEntity.ok().build();
     }
 }

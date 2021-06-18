@@ -20,7 +20,7 @@ export class ProductService {
     if (imagePath != null && imagePath.length > 0 && imagePath !== '') {
       return imagePath;
     } else {
-      return environment.apiBaseUrl + '/api/images/getImage/picture-not-available.jpg';
+      return '../../assets/images/picture-not-available.jpg';
     }
   }
 

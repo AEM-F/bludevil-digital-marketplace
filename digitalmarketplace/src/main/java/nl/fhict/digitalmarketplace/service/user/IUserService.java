@@ -22,4 +22,5 @@ public interface IUserService {
     List<StatisticsItemResponse> getUserRoleRatio();
     StatisticsItemResponse countAllUsers();
     StatisticsItemResponse getDailyRegisteredUsers();
+    ContactResponse findContactById(Integer id) throws ResourceNotFoundException, InvalidInputException;
 }

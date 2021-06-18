@@ -46,7 +46,6 @@
       <ng-container *ngFor="let platform of platforms">
         <button class="animate-opacity"
                 *ngIf="!isLoadingPlatforms"
-                [@inOutAnimation]
                 [class.active]="checkIfPlatformIsSelected(platform.name)"
                 (click)="togglePlatform(platform)">{{platform.name | firstToUpper}}</button>
       </ng-container>
@@ -63,7 +62,7 @@
           <input type="text" class="form-control" placeholder="Enter platform name" formControlName="name">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary btn-submit-platform"
-                    type="button" id="button-submit-platform"
+                    type="submit" id="button-submit-platform"
                     [disabled]="createPlatformForm.invalid">Submit</button>
           </div>
           <div *ngIf="createFormPlatformName.touched && createFormPlatformName.invalid" class="alert alert-danger form-error" [@inOutAnimation]>

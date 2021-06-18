@@ -11,8 +11,8 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     // will get the user jwt from authenticationService
-    const userJwt = this.authenticationService.user;
-    if (userJwt){
+    const userJwt = this.authenticationService.getUserValue;
+    if (userJwt !== null){
       // user is logged in
       return true;
     }else{
