@@ -55,6 +55,14 @@
           </ng-container>
         </ng-container>
       </div>
+      <ng-container *ngIf="checkRole('ADM')">
+        <button class="delete-chat-btn"
+                *ngIf="selectedContact"
+                (click)="deleteChatForSelectedUser()">
+          <i class="fa fa-trash" *ngIf="!isDeletingChat"></i>
+          <span *ngIf="isDeletingChat" class="spinner-border spinner-border-sm mr-1"></span> Delete chat
+        </button>
+      </ng-container>
     </div>
     <div class="support-chat-inner-container">
       <div class="chat-box" *ngIf="selectedContact">

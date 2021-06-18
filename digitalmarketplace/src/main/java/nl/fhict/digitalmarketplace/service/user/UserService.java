@@ -130,6 +130,21 @@ public class UserService implements IUserService{
         }
     }
 
+    public ContactResponse findContactById(Integer id) throws ResourceNotFoundException, InvalidInputException {
+        if (id < 1) {
+            User user = userRepository.getById(id);
+            if (user != null) {
+                return new ContactResponse(id,
+                        user.getFirstName() + " " + user.getLastName(),
+                        user.getImagePath());
+            } else {
+                throw new ResourceNotFoundException("Could not find the contact");
+            }
+        } else {
+            throw new InvalidInputException("The given id is not valid");
+        }
+    }
+
     @Override
     public List<StatisticsItemResponse> getUserRoleRatio(){
         List<StatisticsItemResponse> itemResponses = new ArrayList<>();

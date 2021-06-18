@@ -55,6 +55,7 @@ export class SupportChatComponent implements OnInit, OnDestroy {
   isLoadingMessages = false;
   notificationSubscription: Subscription;
   detailsError = null;
+  isDeletingChat = false;
   constructor(private sChatService: SupportChatService,
               private authService: AuthenticationService,
               private toastService: AppToastService,
@@ -94,6 +95,34 @@ export class SupportChatComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkRole(roleName: string): boolean{
+      const roles: string[] = this.authService.getUserRoles;
+      for (const role of roles){
+        if (role === roleName){
+          return true;
+        }
+      }
+      return false;
+  }
+
+  deleteChatForSelectedUser(){
+    if (this.selectedContact && this.currentMessages.length > 0){
+      this.isDeletingChat = true;
+      const contactName = this.selectedContact.contactName;
+      this.sChatService.deleteChat(this.selectedContact).subscribe(next => {
+        this.isDeletingChat = false;
+        this.currentMessages = [];
+        const successMsg = `Successfully deleted the chat with member ${contactName}`;
+        this.toastService.show('System:', successMsg);
+      }, error => {
+        this.isDeletingChat = false;
+        const errorMsg = error.error.message || error.message;
+        const failMsg = `Failed to delete the chat with ${contactName}, reason: ${errorMsg}`;
+        this.toastService.show('System:', failMsg);
+      });
+    }
+  }
+
   onErrorNavBtn(){
     this.detailsError = null;
     this.router.navigate(['/account']);
@@ -122,6 +151,7 @@ export class SupportChatComponent implements OnInit, OnDestroy {
             if (this.currentMessages === null){
               this.currentMessages = [];
             }
+            message.timestamp = this.convertUTCToLocalDateIgnoringTimezone(new Date(message.timestamp + "Z"))
             this.currentMessages.push(message);
             setTimeout(() => {this.scrollToMessage(message.messageId); }, 500);
           });
@@ -158,9 +188,6 @@ export class SupportChatComponent implements OnInit, OnDestroy {
         contactList.push(contactApp);
       }
       this.contacts = contactList;
-      // this.contacts.push(new Contact(3, 'fake1', '', 0));
-      // this.contacts.push(new Contact(4, 'fake2', '', 0));
-      // this.contacts.push(new Contact(5, 'fake3', '', 0));
       this.pageNr = responseBody.pageNumber;
       this.pageSize = responseBody.pageSize;
       this.totalElements = responseBody.totalElements;

@@ -46,6 +46,19 @@
       </div>
       <div class="general-stats">
         <p class="general-title">Roles</p>
+        <button class="btn-total-drop"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseRolesPieTotal"
+                aria-expanded="false"
+                aria-controls="collapseRolesPieTotal"><i class="fa fa-pie-chart"></i> Total</button>
+        <div class="collapse" id="collapseRolesPieTotal">
+          <div class="pie-total-holder">
+            <div class="pie-total-item" *ngFor="let data of userRatioData">
+              {{data.name}}: {{data.value}}
+            </div>
+          </div>
+        </div>
         <ngx-charts-pie-chart
           [results]="userRatioData"
           [legend]="false"
@@ -64,13 +77,43 @@
     <div class="stats-body" [@inOutAnimation]>
       <div class="general-stats">
         <p class="general-title">Product Platforms</p>
-        <ngx-charts-advanced-pie-chart
+        <button class="btn-total-drop"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapsePlatformsPieTotal"
+                aria-expanded="false"
+                aria-controls="collapsePlatformsPieTotal"><i class="fa fa-pie-chart"></i> Total</button>
+        <div class="collapse" id="collapsePlatformsPieTotal">
+          <div class="pie-total-holder">
+            <div class="pie-total-item" *ngFor="let data of productPlatformData">
+              {{data.name}}: {{data.value}}
+            </div>
+          </div>
+        </div>
+        <ngx-charts-pie-chart
           [results]="productPlatformData"
-          [gradient]="true" >
-        </ngx-charts-advanced-pie-chart>
+          [legend]="false"
+          [view]="[300, 200]"
+          [labels]="true"
+          [doughnut]="true"
+          [gradient]="true">
+        </ngx-charts-pie-chart>
       </div>
       <div class="general-stats">
         <p class="general-title">VideoGame Genres</p>
+        <button class="btn-total-drop"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseGenresPieTotal"
+                aria-expanded="false"
+                aria-controls="collapseGenresPieTotal"><i class="fa fa-pie-chart"></i> Total</button>
+        <div class="collapse" id="collapseGenresPieTotal">
+          <div class="pie-total-holder">
+            <div class="pie-total-item" *ngFor="let data of productVideoGameData">
+              {{data.name}}: {{data.value}}
+            </div>
+          </div>
+        </div>
         <ngx-charts-pie-chart
           [results]="productVideoGameData"
           [legend]="false"

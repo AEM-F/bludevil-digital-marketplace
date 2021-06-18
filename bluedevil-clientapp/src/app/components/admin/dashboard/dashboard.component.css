@@ -194,6 +194,48 @@ ngx-charts-pie-chart{
   fill: #e7e7e7 !important;
 }
 
+.pie-total-holder{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 5px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pie-total-item{
+  padding: 5px;
+  border-radius: .25rem;
+  border: 1px solid #0030a7;
+  color: #e7e7e7;
+  background-color: #17191c;
+}
+
+.btn-total-drop{
+  width: 100%;
+  padding: 5px;
+  border-radius: .25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #17191c;
+  color: #e7e7e7;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.btn-total-drop:hover,
+.btn-total-drop:active{
+  outline: 0;
+  border: 1px solid #0037a5;
+  color: #0066ff;
+  text-shadow: -1px -1px 10px #013992,1px 1px 10px #013992;
+}
+
+
 /**End of general stats**/
 
 @media only screen and (min-width : 768px){

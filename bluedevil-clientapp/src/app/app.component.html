@@ -27,9 +27,9 @@
            [routerLink]="['products']"
            id="nav-catalog"><i class="fa fa-tags"></i> Catalog</a>
       </li>
-      <li *ngIf="checkRole('MEM')">
-        <a class="nav-link nav-item" id="nav-orders"><i class="fa fa-file"></i> Orders</a>
-      </li>
+<!--      <li *ngIf="checkRole('MEM')">-->
+<!--        <a class="nav-link nav-item" id="nav-orders"><i class="fa fa-file"></i> Orders</a>-->
+<!--      </li>-->
       <li *ngIf="user">
         <a class="nav-link nav-item"
            id="nav-account-settings"
@@ -118,9 +118,10 @@
     aria-live="polite"
     aria-atomic="true"
     *ngFor="let toast of toastService.toasts"
-    [header]="toast.header" [autohide]="true"
+    [header]="toast.header"
+    [autohide]="true"
     [delay]="toast.delay || 5000"
-    (hidden)="toastService.remove(toast)"
-  >{{toast.body}}
+    (hidden)="toastService.remove(toast)">
+    {{toast.body}}
   </ngb-toast>
 </div>

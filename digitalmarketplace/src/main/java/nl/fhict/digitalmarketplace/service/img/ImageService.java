@@ -8,13 +8,18 @@ import nl.fhict.digitalmarketplace.model.user.User;
 import nl.fhict.digitalmarketplace.repository.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.transaction.Transactional;
+import javax.servlet.ServletContext;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,12 +28,51 @@ import java.nio.file.Paths;
 @Service
 public class ImageService implements IImageService{
 
-    private final String rootPath = System.getProperty("user.dir");
+    private String rootPath;
     private Logger log = LoggerFactory.getLogger(ImageService.class);
     private UserRepository userRepository;
+    private ServletContext context;
+    private ResourceLoader resourceLoader;
 
-    public ImageService(UserRepository userRepository) {
+    @Autowired
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
+
+    public ImageService(UserRepository userRepository, ServletContext context) {
         this.userRepository = userRepository;
+        this.context = context;
+        this.rootPath = context.getRealPath("resources");
+    }
+
+    @Override
+    public void addImageNotAvailableFile() throws FileException {
+        BufferedOutputStream stream = null;
+        try {
+            ClassPathResource resource = new ClassPathResource("/images/picture-not-available.jpg");
+            byte[] dataArr = FileCopyUtils.copyToByteArray(resource.getInputStream());
+            File dir = new File(this.rootPath+File.separator+"images");
+            if(!dir.exists()){
+                log.info("Directory does not exists, creating one");
+                dir.mkdirs();
+            }
+            log.info("Creating the file on the server");
+            File serverFile = new File(dir.getAbsolutePath()+File.separator+"picture-not-available.jpg");
+            stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(dataArr);
+            log.info("Server file location: "+serverFile.getAbsolutePath());
+        } catch (Exception e){
+            log.error(e.toString());
+        }
+        finally {
+            try {
+                if(stream != null){
+                    stream.close();
+                }
+            }catch (Exception e){
+                log.error(e.toString());
+            }
+        }
     }
 
     @Override
@@ -59,7 +103,8 @@ public class ImageService implements IImageService{
     @Override
     public byte[] getFileWithMediaType(String fileName) throws InvalidInputException, ResourceNotFoundException, IOException {
         if(!DigitalmarketplaceApplication.isNullOrEmpty(fileName)){
-                String storageDirPath = this.rootPath+"\\"+"images"+"\\"+fileName;
+                String storageDirPath = this.rootPath+File.separator+"images"+File.separator+fileName;
+                log.info("Trying to get the image at "+ storageDirPath);
                 Path destination = Paths.get(storageDirPath);
                 if(Files.exists(destination)){
                     return Files.readAllBytes(destination);
@@ -118,11 +163,6 @@ public class ImageService implements IImageService{
                 throw new FileException(e.getMessage());
             }
             log.info("Server file location: "+serverFile.getAbsolutePath());
-//            String userImageUrl = ServletUriComponentsBuilder
-//            .fromCurrentContextPath()
-//            .path("api/images/getImage/")
-//            .path(fileToSaveFullName)
-//            .toUriString();
             String userImageUrl = "http://localhost:8080"+"/api/images/getImage/"+fileToSaveFullName;
             User u1 = userRepository.getById(userId);
             u1.setImagePath(userImageUrl);

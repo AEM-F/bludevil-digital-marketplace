@@ -133,7 +133,7 @@
       </div>
     </div>
     <div class="form-group btn-main-group">
-      <button type="button" class="btn-product-form">Cancel</button>
+      <button type="button" class="btn-product-form" (click)="navigateToProductManage()">Cancel</button>
       <button type="submit" id="btn-product-submit" class="btn-product-form" [disabled]="creationForm.invalid || !validateSelectedGenres() || !validateFile()">Submit</button>
     </div>
     <div class="alert alert-danger creationError" [@inOutAnimation] *ngIf="creationForm.errors">
