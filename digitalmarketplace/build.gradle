@@ -36,15 +36,15 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
 }
 // for quick test coverage
-sonarqube {
-    properties{
-        property 'sonar.projectKey', 'bludevil-digitalmarketplace'
-        property 'sonar.host.url', 'http://localhost:9000'
-        property 'sonar.login', 'bb2cdf3556aed60341fa2b75a04fae9598b14207'
-    }
-}
+//sonarqube {
+//    properties{
+//        property 'sonar.projectKey', 'bludevil-digitalmarketplace'
+//        property 'sonar.host.url', 'http://localhost:9000'
+//        property 'sonar.login', 'bb2cdf3556aed60341fa2b75a04fae9598b14207'
+//    }
+//}
 
-// tasks['sonarqube'].dependsOn test
+ tasks['sonarqube'].dependsOn test
 
 test {
     //useJunitPlatform()

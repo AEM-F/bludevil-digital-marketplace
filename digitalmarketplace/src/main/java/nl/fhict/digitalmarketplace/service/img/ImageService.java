@@ -47,6 +47,7 @@ public class ImageService implements IImageService{
 
     @Override
     public void addImageNotAvailableFile() throws FileException {
+        BufferedOutputStream stream = null;
         try {
             ClassPathResource resource = new ClassPathResource("/images/picture-not-available.jpg");
             byte[] dataArr = FileCopyUtils.copyToByteArray(resource.getInputStream());
@@ -57,11 +58,20 @@ public class ImageService implements IImageService{
             }
             log.info("Creating the file on the server");
             File serverFile = new File(dir.getAbsolutePath()+File.separator+"picture-not-available.jpg");
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream = new BufferedOutputStream(new FileOutputStream(serverFile));
             stream.write(dataArr);
             log.info("Server file location: "+serverFile.getAbsolutePath());
         } catch (Exception e){
             log.error(e.toString());
+        }
+        finally {
+            try {
+                if(stream != null){
+                    stream.close();
+                }
+            }catch (Exception e){
+                log.error(e.toString());
+            }
         }
     }
 
