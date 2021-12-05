@@ -27,22 +27,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.4.6'
-//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
-    //testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
 }
-// for quick test coverage
-//sonarqube {
-//    properties{
-//        property 'sonar.projectKey', 'bludevil-digitalmarketplace'
-//        property 'sonar.host.url', 'http://localhost:9000'
-//        property 'sonar.login', 'bb2cdf3556aed60341fa2b75a04fae9598b14207'
-//    }
-//}
 
  tasks['sonarqube'].dependsOn test
 
